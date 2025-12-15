@@ -73,7 +73,7 @@ nav a {
   box-shadow: 0 0 15px rgba(255,255,255,0.2);
   position: relative;
   cursor: pointer;
-  animation: girar 18s linear infinite;
+  animation: girar 12s linear infinite;
   background-image: repeating-radial-gradient(
     circle,
     #111 0px,
@@ -85,16 +85,21 @@ nav a {
 
 /* Galleta central */
 .vinilo::after {
-  content: "";
-  width: 40px;
-  height: 40px;
-  background-color: #C88713;
+  content: attr(data-text);
+  width: 60px;
+  height: 60px;
+  color: #C88713;
+  font-weight: bold;
+  font-size: 14px;
+  text-align: center;
+  line-height: 60px;
+  background-color: #222;
   border-radius: 50%;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  box-shadow: inset 0 0 5px rgba(0,0,0,0.5);
+  box-shadow: 0 0 8px rgba(255,255,255,0.5);
 }
 
 /* Texto debajo del vinilo */
@@ -127,8 +132,15 @@ nav a {
   }
 
   .vinilo {
-    width: 180px;
-    height: 180px;
+    width: 160px;
+    height: 160px;
+  }
+
+  .vinilo::after {
+    width: 45px;
+    height: 45px;
+    font-size: 12px;
+    line-height: 45px;
   }
 }
 </style>
@@ -149,22 +161,22 @@ nav a {
   <section class="carrusel">
 
     <div class="vinilo-wrapper">
-      <div class="vinilo" onclick="alert('Volumen I')"></div>
+      <div class="vinilo" data-text="VOL I" onclick="alert('Volumen I')"></div>
       <p>Volumen I</p>
     </div>
 
     <div class="vinilo-wrapper">
-      <div class="vinilo" onclick="alert('Volumen II')"></div>
+      <div class="vinilo" data-text="VOL II" onclick="alert('Volumen II')"></div>
       <p>Volumen II</p>
     </div>
 
     <div class="vinilo-wrapper">
-      <div class="vinilo" onclick="alert('Volumen III')"></div>
+      <div class="vinilo" data-text="VOL III" onclick="alert('Volumen III')"></div>
       <p>Volumen III</p>
     </div>
 
     <div class="vinilo-wrapper">
-      <div class="vinilo" onclick="alert('Volumen IV')"></div>
+      <div class="vinilo" data-text="VOL IV" onclick="alert('Volumen IV')"></div>
       <p>Volumen IV</p>
     </div>
 
@@ -173,4 +185,3 @@ nav a {
 
 </body>
 </html>
-
