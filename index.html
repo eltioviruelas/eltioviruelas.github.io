@@ -1,61 +1,167 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>El Tío Viruelas</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>El Tío Viruelas</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    body {
-      margin: 0;
-      background-color: #000;
-      color: #fff;
-      font-family: Arial, Helvetica, sans-serif;
-    }
+<style>
+/* ====== BASE ====== */
+body {
+  margin: 0;
+  background-color: #000;
+  color: #fff;
+  font-family: Arial, Helvetica, sans-serif;
+  overflow-x: hidden;
+}
 
-    header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 20px;
-      border-bottom: 1px solid #222;
-    }
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  border-bottom: 1px solid #222;
+}
 
-    h1 {
-      color: #C88713;
-      margin: 0;
-      font-size: 28px;
-    }
+h1 {
+  color: #C88713;
+  margin: 0;
+  font-size: 26px;
+  letter-spacing: 2px;
+}
 
-    nav a {
-      color: #C88713;
-      text-decoration: none;
-      margin-left: 20px;
-      font-size: 14px;
-    }
+nav a {
+  color: #C88713;
+  text-decoration: none;
+  margin-left: 20px;
+  font-size: 14px;
+}
 
-    main {
-      padding: 40px;
-      text-align: center;
-    }
-  </style>
+/* ====== CARRUSEL ====== */
+.carrusel {
+  margin-top: 60px;
+  padding: 20px;
+  display: flex;
+  gap: 40px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+.carrusel::-webkit-scrollbar {
+  height: 6px;
+}
+
+.carrusel::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 10px;
+}
+
+/* ====== VINILO ====== */
+.vinilo-wrapper {
+  flex: 0 0 auto;
+  scroll-snap-align: center;
+  text-align: center;
+}
+
+.vinilo {
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: radial-gradient(circle at center, #111 0%, #000 70%);
+  border: 4px solid #111;
+  animation: girar 18s linear infinite;
+  cursor: pointer;
+  position: relative;
+}
+
+/* Galleta central */
+.vinilo::after {
+  content: "";
+  width: 40px;
+  height: 40px;
+  background-color: #C88713;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.vinilo-wrapper p {
+  margin-top: 15px;
+  font-size: 14px;
+  color: #C88713;
+}
+
+/* Pausa al pasar el ratón */
+.vinilo:hover {
+  animation-play-state: paused;
+}
+
+/* ====== ANIMACIÓN ====== */
+@keyframes girar {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* ====== RESPONSIVE ====== */
+@media (max-width: 600px) {
+  h1 {
+    font-size: 20px;
+  }
+
+  nav a {
+    margin-left: 10px;
+    font-size: 12px;
+  }
+
+  .vinilo {
+    width: 180px;
+    height: 180px;
+  }
+}
+</style>
 </head>
 
 <body>
 
-  <header>
-    <h1>EL TÍO VIRUELAS</h1>
-    <nav>
-      <a href="#">Inicio</a>
-      <a href="#">Volúmenes</a>
-      <a href="#">Sobre</a>
-    </nav>
-  </header>
+<header>
+  <h1>EL TÍO VIRUELAS</h1>
+  <nav>
+    <a href="#">Inicio</a>
+    <a href="#">Volúmenes</a>
+    <a href="#">Sobre</a>
+  </nav>
+</header>
 
-  <main>
-    <p>Web oficial de El Tío Viruelas.</p>
-    <p>Próximamente: vinilos, canciones y letras.</p>
-  </main>
+<main>
+
+  <section class="carrusel">
+
+    <div class="vinilo-wrapper">
+      <div class="vinilo" onclick="alert('Volumen I')"></div>
+      <p>Volumen I</p>
+    </div>
+
+    <div class="vinilo-wrapper">
+      <div class="vinilo" onclick="alert('Volumen II')"></div>
+      <p>Volumen II</p>
+    </div>
+
+    <div class="vinilo-wrapper">
+      <div class="vinilo" onclick="alert('Volumen III')"></div>
+      <p>Volumen III</p>
+    </div>
+
+    <div class="vinilo-wrapper">
+      <div class="vinilo" onclick="alert('Volumen IV')"></div>
+      <p>Volumen IV</p>
+    </div>
+
+  </section>
+
+</main>
 
 </body>
 </html>
