@@ -68,11 +68,19 @@ nav a {
   width: 220px;
   height: 220px;
   border-radius: 50%;
-  background: radial-gradient(circle at center, #111 0%, #000 70%);
+  background: radial-gradient(circle at center, #222 0%, #000 70%);
   border: 4px solid #111;
-  animation: girar 18s linear infinite;
-  cursor: pointer;
+  box-shadow: 0 0 15px rgba(255,255,255,0.2);
   position: relative;
+  cursor: pointer;
+  animation: girar 18s linear infinite;
+  background-image: repeating-radial-gradient(
+    circle,
+    #111 0px,
+    #111 2px,
+    #000 2px,
+    #000 4px
+  ); /* surcos del vinilo */
 }
 
 /* Galleta central */
@@ -86,8 +94,10 @@ nav a {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  box-shadow: inset 0 0 5px rgba(0,0,0,0.5);
 }
 
+/* Texto debajo del vinilo */
 .vinilo-wrapper p {
   margin-top: 15px;
   font-size: 14px;
@@ -136,7 +146,6 @@ nav a {
 </header>
 
 <main>
-
   <section class="carrusel">
 
     <div class="vinilo-wrapper">
@@ -160,8 +169,8 @@ nav a {
     </div>
 
   </section>
-
 </main>
 
 </body>
 </html>
+
