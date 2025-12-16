@@ -5,62 +5,63 @@
 <title>El Tío Viruelas</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- Google Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Rock+Salt&family=Bangers&family=Luckiest+Guy&family=Zeyada&display=swap" rel="stylesheet">
-
-<!-- Fontshare -->
-<link href="https://api.fontshare.com/v2/css?f[]=kalam@400&f[]=comico@400&display=swap" rel="stylesheet">
+<!-- Rock Salt -->
+<link href="https://fonts.googleapis.com/css2?family=Rock+Salt&display=swap" rel="stylesheet">
 
 <style>
-/* ================= BASE ================= */
+/* ========== BASE ========== */
 body {
   margin: 0;
-  background-color: #000;
+  background: #000;
   color: #fff;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Rock Salt', cursive;
 }
 
-/* ================= HEADER ================= */
+/* ========== HEADER ========== */
 header {
   height: 180px;
-  display: grid;
-  grid-template-columns: 140px 1fr;
+  display: flex;
   align-items: center;
+  gap: 30px;
   padding: 20px 40px;
   border-bottom: 1px solid #222;
 }
 
 .logo {
-  width: 110px;
-  height: 110px;
-  border-radius: 24px;
+  width: 120px;
+  height: 120px;
+  border-radius: 28px;
   object-fit: cover;
   border: 3px solid #C88713;
 }
 
 header h1 {
-  text-align: center;
   color: #C88713;
-  font-size: 52px;
+  font-size: 72px; /* +40% aprox */
+  font-weight: bold;
   margin: 0;
 }
 
-/* ================= ZONA CENTRAL ================= */
+/* ========== ZONA CENTRAL ========== */
 .zona-central {
+  max-width: 1200px;
+  margin: 50px auto;
   position: relative;
-  max-width: 1100px;
-  margin: 60px auto;
 }
 
 .fondo-wrapper {
+  width: 100%;
+  height: 600px;
+  border-radius: 50%;
   overflow: hidden;
-  border-radius: 14px;
+  position: relative;
 }
 
 .fondo {
   width: 100%;
-  display: block;
-  animation: fondo-movimiento 35s ease-in-out infinite alternate;
+  height: 100%;
+  object-fit: cover;
+  animation: fondo-movimiento 40s ease-in-out infinite alternate;
   transition: filter 0.6s ease, opacity 0.6s ease;
 }
 
@@ -69,34 +70,36 @@ header h1 {
   opacity: 0.35;
 }
 
-/* Movimiento sutil tipo Ken Burns */
 @keyframes fondo-movimiento {
   from {
     transform: scale(1) translate(0, 0);
   }
   to {
-    transform: scale(1.05) translate(-10px, -10px);
+    transform: scale(1.06) translate(-12px, -12px);
   }
 }
 
-/* ================= VINILOS ================= */
-.carrusel {
+/* ========== GALERÍA DE VINILOS ========== */
+.galeria {
   position: absolute;
-  inset: 0;
+  bottom: 60px;
+  left: 0;
+  right: 0;
   display: flex;
+  gap: 60px;
+  padding: 0 40px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
   justify-content: center;
-  align-items: center;
-  gap: 50px;
-  pointer-events: auto;
 }
 
-.vinilo-wrapper {
-  text-align: center;
+.galeria::-webkit-scrollbar {
+  display: none;
 }
 
 .vinilo {
-  width: 180px;
-  height: 180px;
+  min-width: 200px;
+  height: 200px;
   border-radius: 50%;
   background-image: repeating-radial-gradient(
     circle,
@@ -106,25 +109,26 @@ header h1 {
     #000 4px
   );
   border: 4px solid #111;
-  box-shadow: 0 0 22px rgba(255,255,255,0.3);
+  box-shadow: 0 0 24px rgba(255,255,255,0.35);
   animation: girar 14s linear infinite;
   position: relative;
+  scroll-snap-align: center;
 }
 
 .vinilo::after {
   content: attr(data-text);
-  width: 56px;
-  height: 56px;
-  background-color: #222;
+  width: 60px;
+  height: 60px;
+  background: #222;
   color: #C88713;
   border-radius: 50%;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  line-height: 56px;
-  font-weight: bold;
+  line-height: 60px;
   text-align: center;
+  font-size: 14px;
 }
 
 @keyframes girar {
@@ -132,56 +136,39 @@ header h1 {
   to { transform: rotate(360deg); }
 }
 
-/* ================= FOOTER ================= */
+/* ========== FOOTER ========== */
 footer {
   border-top: 1px solid #222;
   padding: 40px;
-}
-
-.fuente {
+  text-align: center;
   color: #C88713;
-  font-size: 32px;
-  margin: 14px 0;
 }
 
-/* Fuentes en orden pedido */
-.rock { font-family: 'Rock Salt', cursive; }
-.bangers { font-family: 'Bangers', cursive; }
-.luckiest { font-family: 'Luckiest Guy', cursive; }
-.zeyada { font-family: 'Zeyada', cursive; }
-.kalam { font-family: 'Kalam', cursive; }
-.comico { font-family: 'Comico', cursive; }
-
-/* ================= RESPONSIVE ================= */
+/* ========== RESPONSIVE ========== */
 @media (max-width: 768px) {
   header {
-    grid-template-columns: 1fr;
-    text-align: center;
-    height: auto;
-  }
-
-  .logo {
-    margin: 0 auto 10px;
+    flex-direction: column;
+    gap: 10px;
   }
 
   header h1 {
-    font-size: 36px;
+    font-size: 48px;
+    text-align: center;
   }
 
-  .carrusel {
-    flex-wrap: wrap;
-    gap: 30px;
+  .fondo-wrapper {
+    height: 420px;
   }
 
   .vinilo {
-    width: 150px;
-    height: 150px;
+    min-width: 160px;
+    height: 160px;
   }
 
   .vinilo::after {
-    width: 46px;
-    height: 46px;
-    line-height: 46px;
+    width: 48px;
+    height: 48px;
+    line-height: 48px;
   }
 }
 </style>
@@ -198,32 +185,19 @@ footer {
 
   <div class="fondo-wrapper">
     <img src="img/fondo.jpg" alt="Imagen central" class="fondo">
-  </div>
 
-  <section class="carrusel">
-    <div class="vinilo-wrapper">
+    <div class="galeria">
       <div class="vinilo" data-text="VOL I"></div>
-    </div>
-    <div class="vinilo-wrapper">
       <div class="vinilo" data-text="VOL II"></div>
-    </div>
-    <div class="vinilo-wrapper">
       <div class="vinilo" data-text="VOL III"></div>
-    </div>
-    <div class="vinilo-wrapper">
       <div class="vinilo" data-text="VOL IV"></div>
     </div>
-  </section>
+  </div>
 
 </main>
 
 <footer>
-  <div class="fuente rock">El Tío Viruelas – Rock Salt</div>
-  <div class="fuente bangers">El Tío Viruelas – Bangers</div>
-  <div class="fuente luckiest">El Tío Viruelas – Luckiest Guy</div>
-  <div class="fuente zeyada">El Tío Viruelas – Zeyada</div>
-  <div class="fuente kalam">El Tío Viruelas – Kalam</div>
-  <div class="fuente comico">El Tío Viruelas – Comico</div>
+  © El Tío Viruelas · Contacto: eltioviruelas@gmail.com
 </footer>
 
 </body>
