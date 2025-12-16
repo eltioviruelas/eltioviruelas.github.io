@@ -8,7 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Rock+Salt&display=swap" rel="stylesheet">
 
 <style>
-/* ======= BASE ======= */
+/* ===== BASE ===== */
 body {
   margin: 0;
   background: #000;
@@ -16,13 +16,13 @@ body {
   font-family: 'Rock Salt', cursive;
 }
 
-/* Bloqueo básico */
+/* Bloqueo básico de imágenes */
 img {
   pointer-events: none;
   user-select: none;
 }
 
-/* ======= HEADER ======= */
+/* ===== HEADER ===== */
 header {
   display: flex;
   justify-content: space-between;
@@ -52,7 +52,7 @@ header h1 {
   margin: 0;
 }
 
-/* ======= MENU ======= */
+/* ===== MENU ===== */
 nav {
   display: flex;
   gap: 20px;
@@ -62,13 +62,14 @@ nav a {
   color: #C88713;
   text-decoration: none;
   font-size: 18px;
+  transition: color 0.3s;
 }
 
 nav a:hover {
   color: #fff;
 }
 
-/* ======= ZONA CENTRAL ======= */
+/* ===== ZONA CENTRAL ===== */
 .zona-central {
   max-width: 1200px;
   margin: 40px auto;
@@ -99,7 +100,7 @@ nav a:hover {
   to { transform: scale(1.06) translate(-10px,-10px); }
 }
 
-/* ======= GALERÍA ======= */
+/* ===== GALERÍA ===== */
 .galeria-wrapper {
   position: absolute;
   bottom: 40px;
@@ -125,14 +126,16 @@ nav a:hover {
 .galeria {
   width: 200px;
   height: 200px;
-  overflow: hidden;
   position: relative;
+  overflow: hidden;
 }
 
+/* ===== VINILO ===== */
 .vinilo {
   width: 200px;
   height: 200px;
   border-radius: 50%;
+  overflow: hidden;
   background-image: repeating-radial-gradient(
     circle,
     #111 0px,
@@ -140,8 +143,8 @@ nav a:hover {
     #000 2px,
     #000 4px
   );
-  border: 4px solid #111;
-  box-shadow: 0 0 20px rgba(255,255,255,0.35);
+  border: 3px solid #111;
+  box-shadow: 0 0 16px rgba(255,255,255,0.3);
   animation: girar 14s linear infinite;
   position: absolute;
   top: 0;
@@ -149,29 +152,26 @@ nav a:hover {
   display: none;
 }
 
-/* vinilo activo */
 .vinilo.activo {
   display: block;
 }
 
-/* galleta central */
-.vinilo .galleta {
-  width: 52px;
-  height: 52px;
+/* Galleta central */
+.galleta {
+  width: 54px;
+  height: 54px;
   border-radius: 50%;
   background: #222;
-  color: #C88713;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  text-align: center;
-  line-height: 52px;
-  font-size: 12px;
   overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* cuando haya imagen */
 .galleta img {
   width: 100%;
   height: 100%;
@@ -179,12 +179,19 @@ nav a:hover {
   border-radius: 50%;
 }
 
+.galleta span {
+  position: absolute;
+  bottom: -18px;
+  font-size: 11px;
+  color: #C88713;
+}
+
 @keyframes girar {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
 
-/* ======= FOOTER ======= */
+/* ===== FOOTER ===== */
 footer {
   border-top: 1px solid #222;
   padding: 40px;
@@ -222,7 +229,7 @@ footer button:hover {
   color: #000;
 }
 
-/* ======= RESPONSIVE ======= */
+/* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
   header {
     flex-direction: column;
@@ -240,6 +247,12 @@ footer button:hover {
   .fondo-wrapper {
     height: 420px;
   }
+
+  .vinilo,
+  .galeria {
+    width: 140px;
+    height: 140px;
+  }
 }
 </style>
 </head>
@@ -248,7 +261,7 @@ footer button:hover {
 
 <header>
   <div class="header-left">
-    <img src="img/logo.jpg" alt="Logo" class="logo">
+    <img src="img/logo.jpeg" alt="Logo" class="logo">
     <h1>El Tío Viruelas</h1>
   </div>
 
@@ -269,23 +282,21 @@ footer button:hover {
       <div class="galeria">
         <div class="vinilo activo">
           <div class="galleta">
-            VOL I
-            <!-- cuando tengas la imagen:
-            <img src="img/vinilo1.jpeg">
-            -->
+            <img src="img/vinilo1.jpeg" alt="Volumen I">
+            <span>VOL I</span>
           </div>
         </div>
 
         <div class="vinilo">
-          <div class="galleta">VOL II</div>
+          <div class="galleta"><span>VOL II</span></div>
         </div>
 
         <div class="vinilo">
-          <div class="galleta">VOL III</div>
+          <div class="galleta"><span>VOL III</span></div>
         </div>
 
         <div class="vinilo">
-          <div class="galleta">VOL IV</div>
+          <div class="galleta"><span>VOL IV</span></div>
         </div>
       </div>
 
@@ -325,6 +336,22 @@ function prev() {
   index = (index - 1 + vinilos.length) % vinilos.length;
   mostrar(index);
 }
+
+/* Swipe táctil */
+let startX = 0;
+const galeria = document.querySelector('.galeria');
+
+galeria.addEventListener('touchstart', e => {
+  startX = e.touches[0].clientX;
+});
+
+galeria.addEventListener('touchend', e => {
+  const endX = e.changedTouches[0].clientX;
+  const diff = startX - endX;
+
+  if (diff > 40) next();
+  if (diff < -40) prev();
+});
 
 /* Bloqueo botón derecho */
 document.addEventListener('contextmenu', e => e.preventDefault());
