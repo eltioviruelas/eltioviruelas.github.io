@@ -5,11 +5,10 @@
 <title>El Tío Viruelas</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- Rock Salt -->
 <link href="https://fonts.googleapis.com/css2?family=Rock+Salt&display=swap" rel="stylesheet">
 
 <style>
-/* ========== BASE ========== */
+/* ========= BASE ========= */
 body {
   margin: 0;
   background: #000;
@@ -17,32 +16,51 @@ body {
   font-family: 'Rock Salt', cursive;
 }
 
-/* ========== HEADER ========== */
+/* ========= HEADER ========= */
 header {
   height: 180px;
   display: flex;
   align-items: center;
-  gap: 30px;
+  justify-content: space-between;
   padding: 20px 40px;
   border-bottom: 1px solid #222;
 }
 
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
 .logo {
-  width: 120px;
-  height: 120px;
-  border-radius: 28px;
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
   object-fit: cover;
   border: 3px solid #C88713;
 }
 
 header h1 {
   color: #C88713;
-  font-size: 72px; /* +40% aprox */
+  font-size: 72px;
   font-weight: bold;
   margin: 0;
 }
 
-/* ========== ZONA CENTRAL ========== */
+/* ========= MENU ========= */
+nav a {
+  color: #C88713;
+  text-decoration: none;
+  margin-left: 20px;
+  font-size: 18px;
+  transition: color 0.3s ease;
+}
+
+nav a:hover {
+  color: #fff;
+}
+
+/* ========= ZONA CENTRAL ========= */
 .zona-central {
   max-width: 1200px;
   margin: 50px auto;
@@ -51,8 +69,7 @@ header h1 {
 
 .fondo-wrapper {
   width: 100%;
-  height: 600px;
-  border-radius: 50%;
+  height: 620px;
   overflow: hidden;
   position: relative;
 }
@@ -71,26 +88,21 @@ header h1 {
 }
 
 @keyframes fondo-movimiento {
-  from {
-    transform: scale(1) translate(0, 0);
-  }
-  to {
-    transform: scale(1.06) translate(-12px, -12px);
-  }
+  from { transform: scale(1) translate(0,0); }
+  to { transform: scale(1.06) translate(-12px,-12px); }
 }
 
-/* ========== GALERÍA DE VINILOS ========== */
+/* ========= GALERÍA VINILOS ========= */
 .galeria {
   position: absolute;
-  bottom: 60px;
+  bottom: 50px;
   left: 0;
   right: 0;
   display: flex;
-  gap: 60px;
-  padding: 0 40px;
+  gap: 80px;
+  padding: 0 40%;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
-  justify-content: center;
 }
 
 .galeria::-webkit-scrollbar {
@@ -98,8 +110,8 @@ header h1 {
 }
 
 .vinilo {
-  min-width: 200px;
-  height: 200px;
+  min-width: 160px;
+  height: 160px;
   border-radius: 50%;
   background-image: repeating-radial-gradient(
     circle,
@@ -109,7 +121,7 @@ header h1 {
     #000 4px
   );
   border: 4px solid #111;
-  box-shadow: 0 0 24px rgba(255,255,255,0.35);
+  box-shadow: 0 0 20px rgba(255,255,255,0.35);
   animation: girar 14s linear infinite;
   position: relative;
   scroll-snap-align: center;
@@ -117,8 +129,8 @@ header h1 {
 
 .vinilo::after {
   content: attr(data-text);
-  width: 60px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
   background: #222;
   color: #C88713;
   border-radius: 50%;
@@ -126,9 +138,9 @@ header h1 {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  line-height: 60px;
+  line-height: 50px;
   text-align: center;
-  font-size: 14px;
+  font-size: 13px;
 }
 
 @keyframes girar {
@@ -136,18 +148,48 @@ header h1 {
   to { transform: rotate(360deg); }
 }
 
-/* ========== FOOTER ========== */
+/* ========= FOOTER ========= */
 footer {
   border-top: 1px solid #222;
   padding: 40px;
-  text-align: center;
   color: #C88713;
 }
 
-/* ========== RESPONSIVE ========== */
+footer form {
+  max-width: 400px;
+  margin: 20px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+footer input,
+footer textarea {
+  font-family: 'Rock Salt', cursive;
+  padding: 10px;
+  background: #111;
+  border: 1px solid #444;
+  color: #fff;
+}
+
+footer button {
+  background: #C88713;
+  border: none;
+  padding: 12px;
+  cursor: pointer;
+  font-family: 'Rock Salt', cursive;
+}
+
+footer button:hover {
+  background: #fff;
+  color: #000;
+}
+
+/* ========= RESPONSIVE ========= */
 @media (max-width: 768px) {
   header {
     flex-direction: column;
+    height: auto;
     gap: 10px;
   }
 
@@ -159,17 +201,6 @@ footer {
   .fondo-wrapper {
     height: 420px;
   }
-
-  .vinilo {
-    min-width: 160px;
-    height: 160px;
-  }
-
-  .vinilo::after {
-    width: 48px;
-    height: 48px;
-    line-height: 48px;
-  }
 }
 </style>
 </head>
@@ -177,12 +208,19 @@ footer {
 <body>
 
 <header>
-  <img src="img/logo.jpeg" alt="Logo El Tío Viruelas" class="logo">
-  <h1>El Tío Viruelas</h1>
+  <div class="header-left">
+    <img src="img/logo.jpeg" alt="Logo El Tío Viruelas" class="logo">
+    <h1>El Tío Viruelas</h1>
+  </div>
+
+  <nav>
+    <a href="#">Inicio</a>
+    <a href="#">Volúmenes</a>
+    <a href="#contacto">Contacto</a>
+  </nav>
 </header>
 
 <main class="zona-central">
-
   <div class="fondo-wrapper">
     <img src="img/fondo.jpg" alt="Imagen central" class="fondo">
 
@@ -193,13 +231,19 @@ footer {
       <div class="vinilo" data-text="VOL IV"></div>
     </div>
   </div>
-
 </main>
 
-<footer>
-  © El Tío Viruelas · Contacto: eltioviruelas@gmail.com
+<footer id="contacto">
+  <p>Contacto · eltioviruelas@gmail.com</p>
+
+  <form action="mailto:eltioviruelas@gmail.com" method="POST" enctype="text/plain">
+    <input type="text" name="nombre" placeholder="Tu nombre">
+    <input type="email" name="email" placeholder="Tu email">
+    <textarea name="mensaje" rows="4" placeholder="Mensaje"></textarea>
+    <input type="hidden" name="subject" value="Contacto desde El Tío Viruelas Web">
+    <button type="submit">Enviar</button>
+  </form>
 </footer>
 
 </body>
 </html>
-
