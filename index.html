@@ -5,11 +5,14 @@
 <title>El Tío Viruelas</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- Fuente tipo Reklame Script -->
-<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Rock+Salt&family=Bangers&family=Luckiest+Guy&family=Zeyada&display=swap" rel="stylesheet">
+
+<!-- Fontshare -->
+<link href="https://api.fontshare.com/v2/css?f[]=kalam@400&f[]=comico@400&display=swap" rel="stylesheet">
 
 <style>
-/* ====== BASE ====== */
+/* ================= BASE ================= */
 body {
   margin: 0;
   background-color: #000;
@@ -17,58 +20,74 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-/* ====== HEADER ====== */
+/* ================= HEADER ================= */
 header {
-  height: 160px;
+  height: 180px;
   display: grid;
-  grid-template-columns: 120px 1fr;
+  grid-template-columns: 140px 1fr;
   align-items: center;
   padding: 20px 40px;
   border-bottom: 1px solid #222;
 }
 
 .logo {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
+  width: 110px;
+  height: 110px;
+  border-radius: 24px;
   object-fit: cover;
   border: 3px solid #C88713;
 }
 
 header h1 {
   text-align: center;
-  font-family: 'Pacifico', cursive;
   color: #C88713;
-  font-size: 48px;
+  font-size: 52px;
   margin: 0;
 }
 
-/* ====== ZONA CENTRAL ====== */
+/* ================= ZONA CENTRAL ================= */
 .zona-central {
   position: relative;
   max-width: 1100px;
   margin: 60px auto;
-  padding: 20px;
+}
+
+.fondo-wrapper {
+  overflow: hidden;
+  border-radius: 14px;
 }
 
 .fondo {
   width: 100%;
-  border-radius: 12px;
+  display: block;
+  animation: fondo-movimiento 35s ease-in-out infinite alternate;
   transition: filter 0.6s ease, opacity 0.6s ease;
 }
 
 .zona-central:hover .fondo {
   filter: grayscale(100%);
-  opacity: 0.4;
+  opacity: 0.35;
 }
 
-/* ====== CARRUSEL VINILOS ====== */
+/* Movimiento sutil tipo Ken Burns */
+@keyframes fondo-movimiento {
+  from {
+    transform: scale(1) translate(0, 0);
+  }
+  to {
+    transform: scale(1.05) translate(-10px, -10px);
+  }
+}
+
+/* ================= VINILOS ================= */
 .carrusel {
-  margin-top: 40px;
+  position: absolute;
+  inset: 0;
   display: flex;
   justify-content: center;
+  align-items: center;
   gap: 50px;
-  flex-wrap: wrap;
+  pointer-events: auto;
 }
 
 .vinilo-wrapper {
@@ -76,8 +95,8 @@ header h1 {
 }
 
 .vinilo {
-  width: 200px;
-  height: 200px;
+  width: 180px;
+  height: 180px;
   border-radius: 50%;
   background-image: repeating-radial-gradient(
     circle,
@@ -87,15 +106,15 @@ header h1 {
     #000 4px
   );
   border: 4px solid #111;
-  box-shadow: 0 0 20px rgba(255,255,255,0.2);
+  box-shadow: 0 0 22px rgba(255,255,255,0.3);
   animation: girar 14s linear infinite;
   position: relative;
 }
 
 .vinilo::after {
   content: attr(data-text);
-  width: 60px;
-  height: 60px;
+  width: 56px;
+  height: 56px;
   background-color: #222;
   color: #C88713;
   border-radius: 50%;
@@ -103,7 +122,7 @@ header h1 {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  line-height: 60px;
+  line-height: 56px;
   font-weight: bold;
   text-align: center;
 }
@@ -113,45 +132,27 @@ header h1 {
   to { transform: rotate(360deg); }
 }
 
-.vinilo-wrapper p {
-  margin-top: 12px;
-  color: #C88713;
-}
-
-/* ====== FOOTER ====== */
+/* ================= FOOTER ================= */
 footer {
-  height: 160px;
   border-top: 1px solid #222;
-  padding: 30px 40px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 30px;
+  padding: 40px;
 }
 
-footer h3 {
+.fuente {
   color: #C88713;
-  margin-top: 0;
+  font-size: 32px;
+  margin: 14px 0;
 }
 
-footer input,
-footer textarea {
-  width: 100%;
-  background: #111;
-  border: 1px solid #333;
-  color: #fff;
-  padding: 8px;
-  margin-bottom: 10px;
-}
+/* Fuentes en orden pedido */
+.rock { font-family: 'Rock Salt', cursive; }
+.bangers { font-family: 'Bangers', cursive; }
+.luckiest { font-family: 'Luckiest Guy', cursive; }
+.zeyada { font-family: 'Zeyada', cursive; }
+.kalam { font-family: 'Kalam', cursive; }
+.comico { font-family: 'Comico', cursive; }
 
-footer button {
-  background: #C88713;
-  color: #000;
-  border: none;
-  padding: 10px;
-  cursor: pointer;
-}
-
-/* ====== RESPONSIVE ====== */
+/* ================= RESPONSIVE ================= */
 @media (max-width: 768px) {
   header {
     grid-template-columns: 1fr;
@@ -167,9 +168,20 @@ footer button {
     font-size: 36px;
   }
 
-  footer {
-    grid-template-columns: 1fr;
-    height: auto;
+  .carrusel {
+    flex-wrap: wrap;
+    gap: 30px;
+  }
+
+  .vinilo {
+    width: 150px;
+    height: 150px;
+  }
+
+  .vinilo::after {
+    width: 46px;
+    height: 46px;
+    line-height: 46px;
   }
 }
 </style>
@@ -178,47 +190,42 @@ footer button {
 <body>
 
 <header>
-  <img src="img/logo.png" alt="Logo El Tío Viruelas" class="logo">
+  <img src="img/logo.jpeg" alt="Logo El Tío Viruelas" class="logo">
   <h1>El Tío Viruelas</h1>
 </header>
 
 <main class="zona-central">
-  <img src="img/fondo.jpg" alt="Imagen central" class="fondo">
+
+  <div class="fondo-wrapper">
+    <img src="img/fondo.jpg" alt="Imagen central" class="fondo">
+  </div>
 
   <section class="carrusel">
     <div class="vinilo-wrapper">
       <div class="vinilo" data-text="VOL I"></div>
-      <p>Volumen I</p>
     </div>
     <div class="vinilo-wrapper">
       <div class="vinilo" data-text="VOL II"></div>
-      <p>Volumen II</p>
     </div>
     <div class="vinilo-wrapper">
       <div class="vinilo" data-text="VOL III"></div>
-      <p>Volumen III</p>
     </div>
     <div class="vinilo-wrapper">
       <div class="vinilo" data-text="VOL IV"></div>
-      <p>Volumen IV</p>
     </div>
   </section>
+
 </main>
 
 <footer>
-  <div>
-    <h3>Contacto</h3>
-    <p>El Tío Viruelas</p>
-    <p>Proyecto musical independiente</p>
-  </div>
-
-  <form action="mailto:eltioviruelas@gmail.com" method="post" enctype="text/plain">
-    <input type="email" name="email" placeholder="Tu email">
-    <textarea name="mensaje" placeholder="Escribe tu mensaje"></textarea>
-    <input type="hidden" name="subject" value="Contacto desde El Tío Viruelas Web">
-    <button type="submit">Enviar</button>
-  </form>
+  <div class="fuente rock">El Tío Viruelas – Rock Salt</div>
+  <div class="fuente bangers">El Tío Viruelas – Bangers</div>
+  <div class="fuente luckiest">El Tío Viruelas – Luckiest Guy</div>
+  <div class="fuente zeyada">El Tío Viruelas – Zeyada</div>
+  <div class="fuente kalam">El Tío Viruelas – Kalam</div>
+  <div class="fuente comico">El Tío Viruelas – Comico</div>
 </footer>
 
 </body>
 </html>
+
