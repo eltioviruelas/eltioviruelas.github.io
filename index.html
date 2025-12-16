@@ -5,6 +5,9 @@
 <title>El Tío Viruelas</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<!-- Fuente tipo Reklame Script -->
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+
 <style>
 /* ====== BASE ====== */
 body {
@@ -12,135 +15,161 @@ body {
   background-color: #000;
   color: #fff;
   font-family: Arial, Helvetica, sans-serif;
-  overflow-x: hidden;
 }
 
+/* ====== HEADER ====== */
 header {
-  display: flex;
+  height: 160px;
+  display: grid;
+  grid-template-columns: 120px 1fr;
   align-items: center;
-  justify-content: space-between;
-  padding: 20px;
+  padding: 20px 40px;
   border-bottom: 1px solid #222;
 }
 
-h1 {
+.logo {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #C88713;
+}
+
+header h1 {
+  text-align: center;
+  font-family: 'Pacifico', cursive;
   color: #C88713;
+  font-size: 48px;
   margin: 0;
-  font-size: 26px;
-  letter-spacing: 2px;
 }
 
-nav a {
-  color: #C88713;
-  text-decoration: none;
-  margin-left: 20px;
-  font-size: 14px;
-}
-
-/* ====== CARRUSEL ====== */
-.carrusel {
-  margin-top: 60px;
+/* ====== ZONA CENTRAL ====== */
+.zona-central {
+  position: relative;
+  max-width: 1100px;
+  margin: 60px auto;
   padding: 20px;
+}
+
+.fondo {
+  width: 100%;
+  border-radius: 12px;
+  transition: filter 0.6s ease, opacity 0.6s ease;
+}
+
+.zona-central:hover .fondo {
+  filter: grayscale(100%);
+  opacity: 0.4;
+}
+
+/* ====== CARRUSEL VINILOS ====== */
+.carrusel {
+  margin-top: 40px;
   display: flex;
-  gap: 40px;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
+  justify-content: center;
+  gap: 50px;
+  flex-wrap: wrap;
 }
 
-.carrusel::-webkit-scrollbar {
-  height: 6px;
-}
-
-.carrusel::-webkit-scrollbar-thumb {
-  background: #333;
-  border-radius: 10px;
-}
-
-/* ====== VINILO ====== */
 .vinilo-wrapper {
-  flex: 0 0 auto;
-  scroll-snap-align: center;
   text-align: center;
 }
 
 .vinilo {
-  width: 220px;
-  height: 220px;
+  width: 200px;
+  height: 200px;
   border-radius: 50%;
-  background: radial-gradient(circle at center, #222 0%, #000 70%);
-  border: 4px solid #111;
-  box-shadow: 0 0 15px rgba(255,255,255,0.2);
-  position: relative;
-  cursor: pointer;
-  animation: girar 12s linear infinite;
   background-image: repeating-radial-gradient(
     circle,
     #111 0px,
     #111 2px,
     #000 2px,
     #000 4px
-  ); /* surcos del vinilo */
+  );
+  border: 4px solid #111;
+  box-shadow: 0 0 20px rgba(255,255,255,0.2);
+  animation: girar 14s linear infinite;
+  position: relative;
 }
 
-/* Galleta central */
 .vinilo::after {
   content: attr(data-text);
   width: 60px;
   height: 60px;
-  color: #C88713;
-  font-weight: bold;
-  font-size: 14px;
-  text-align: center;
-  line-height: 60px;
   background-color: #222;
+  color: #C88713;
   border-radius: 50%;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  box-shadow: 0 0 8px rgba(255,255,255,0.5);
+  line-height: 60px;
+  font-weight: bold;
+  text-align: center;
 }
 
-/* Texto debajo del vinilo */
+@keyframes girar {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
 .vinilo-wrapper p {
-  margin-top: 15px;
-  font-size: 14px;
+  margin-top: 12px;
   color: #C88713;
 }
 
-/* Pausa al pasar el ratón */
-.vinilo:hover {
-  animation-play-state: paused;
+/* ====== FOOTER ====== */
+footer {
+  height: 160px;
+  border-top: 1px solid #222;
+  padding: 30px 40px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
 }
 
-/* ====== ANIMACIÓN ====== */
-@keyframes girar {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
+footer h3 {
+  color: #C88713;
+  margin-top: 0;
+}
+
+footer input,
+footer textarea {
+  width: 100%;
+  background: #111;
+  border: 1px solid #333;
+  color: #fff;
+  padding: 8px;
+  margin-bottom: 10px;
+}
+
+footer button {
+  background: #C88713;
+  color: #000;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
 }
 
 /* ====== RESPONSIVE ====== */
-@media (max-width: 600px) {
-  h1 {
-    font-size: 20px;
+@media (max-width: 768px) {
+  header {
+    grid-template-columns: 1fr;
+    text-align: center;
+    height: auto;
   }
 
-  nav a {
-    margin-left: 10px;
-    font-size: 12px;
+  .logo {
+    margin: 0 auto 10px;
   }
 
-  .vinilo {
-    width: 160px;
-    height: 160px;
+  header h1 {
+    font-size: 36px;
   }
 
-  .vinilo::after {
-    width: 45px;
-    height: 45px;
-    font-size: 12px;
-    line-height: 45px;
+  footer {
+    grid-template-columns: 1fr;
+    height: auto;
   }
 }
 </style>
@@ -149,39 +178,47 @@ nav a {
 <body>
 
 <header>
-  <h1>EL TÍO VIRUELAS</h1>
-  <nav>
-    <a href="#">Inicio</a>
-    <a href="#">Volúmenes</a>
-    <a href="#">Sobre</a>
-  </nav>
+  <img src="img/logo.png" alt="Logo El Tío Viruelas" class="logo">
+  <h1>El Tío Viruelas</h1>
 </header>
 
-<main>
-  <section class="carrusel">
+<main class="zona-central">
+  <img src="img/fondo.jpg" alt="Imagen central" class="fondo">
 
+  <section class="carrusel">
     <div class="vinilo-wrapper">
-      <div class="vinilo" data-text="VOL I" onclick="alert('Volumen I')"></div>
+      <div class="vinilo" data-text="VOL I"></div>
       <p>Volumen I</p>
     </div>
-
     <div class="vinilo-wrapper">
-      <div class="vinilo" data-text="VOL II" onclick="alert('Volumen II')"></div>
+      <div class="vinilo" data-text="VOL II"></div>
       <p>Volumen II</p>
     </div>
-
     <div class="vinilo-wrapper">
-      <div class="vinilo" data-text="VOL III" onclick="alert('Volumen III')"></div>
+      <div class="vinilo" data-text="VOL III"></div>
       <p>Volumen III</p>
     </div>
-
     <div class="vinilo-wrapper">
-      <div class="vinilo" data-text="VOL IV" onclick="alert('Volumen IV')"></div>
+      <div class="vinilo" data-text="VOL IV"></div>
       <p>Volumen IV</p>
     </div>
-
   </section>
 </main>
+
+<footer>
+  <div>
+    <h3>Contacto</h3>
+    <p>El Tío Viruelas</p>
+    <p>Proyecto musical independiente</p>
+  </div>
+
+  <form action="mailto:eltioviruelas@gmail.com" method="post" enctype="text/plain">
+    <input type="email" name="email" placeholder="Tu email">
+    <textarea name="mensaje" placeholder="Escribe tu mensaje"></textarea>
+    <input type="hidden" name="subject" value="Contacto desde El Tío Viruelas Web">
+    <button type="submit">Enviar</button>
+  </form>
+</footer>
 
 </body>
 </html>
