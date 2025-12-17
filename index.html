@@ -11,10 +11,10 @@
       font-family: 'Rock Salt', cursive;
       color: #C88713;
       overflow-x: hidden;
+      text-align: center;
     }
 
     header {
-      text-align: center;
       font-size: clamp(2rem, 4vw, 5rem);
       font-weight: bold;
       margin-top: 3vh;
@@ -22,8 +22,8 @@
 
     .tocadiscos {
       position: relative;
-      width: clamp(300px, 40vw, 500px);
-      height: clamp(300px, 40vw, 500px);
+      width: clamp(300px, 40vw, 450px);
+      height: clamp(300px, 40vw, 450px);
       margin: 5vh auto;
     }
 
@@ -31,12 +31,21 @@
       width: 100%;
       height: 100%;
       border-radius: 50%;
-      background: repeating-radial-gradient(circle, #000 0px, #222 2px, #000 4px);
+      background: repeating-radial-gradient(circle, #000 0px, #111 2px, #000 4px);
       display: flex;
       justify-content: center;
       align-items: center;
       position: relative;
-      overflow: hidden;
+      animation: girar 8s linear infinite;
+    }
+
+    .vinilo.rapido {
+      animation: girar 4s linear infinite;
+    }
+
+    @keyframes girar {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
     }
 
     .galleta {
@@ -46,6 +55,11 @@
       object-fit: cover;
       border: 4px solid #C88713;
       z-index: 2;
+      animation: girar 8s linear infinite;
+    }
+
+    .galleta.rapido {
+      animation: girar 4s linear infinite;
     }
 
     .agujero {
@@ -59,16 +73,20 @@
 
     .brazo {
       position: absolute;
-      top: -10%;
-      right: -5%;
-      width: 50%;
-      z-index: 1;
+      top: 5%;
+      right: -15%;
+      width: 35%;
+      transition: transform 1s ease;
+    }
+
+    .brazo.activo {
+      transform: rotate(20deg) translate(-10%, 20%);
     }
 
     .galeria {
       display: flex;
       overflow-x: auto;
-      gap: 20px;
+      gap: -30px;
       padding: 20px;
       justify-content: center;
     }
@@ -76,48 +94,32 @@
     .galeria img {
       width: clamp(100px, 15vw, 180px);
       height: clamp(115px, 17vw, 200px);
-      border-radius: 10px;
+      border-radius: 5px;
       object-fit: cover;
       cursor: pointer;
+      border: 3px solid #000;
+      box-shadow: 2px 2px 8px rgba(0,0,0,0.7);
       transition: transform 0.3s ease;
+      margin-left: -20px;
     }
 
     .galeria img:hover {
-      transform: scale(1.1);
+      transform: scale(1.05);
+      z-index: 2;
     }
 
-    .info {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      color: #C88713;
-      font-size: 1em;
+    audio {
+      margin-top: 20px;
+    }
+
+    #info-disco {
+      margin-top: 15px;
       font-family: sans-serif;
-      text-align: right;
-    }
-
-    .info-icon {
-      font-size: 1.5em;
-      cursor: pointer;
-      margin-right: 10px;
-    }
-
-    #popup {
-      display: none;
-      position: fixed;
-      bottom: 80px;
-      right: 20px;
-      background: #222;
-      color: #fff;
-      padding: 20px;
-      border-radius: 10px;
-      font-family: sans-serif;
-      max-width: 300px;
-    }
-
-    #popup a {
-      color: #C88713;
-      text-decoration: none;
+      color: #eee;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: center;
     }
   </style>
 </head>
@@ -126,45 +128,59 @@
   <header>El Tío Viruelas</header>
 
   <div class="tocadiscos">
-    <img src="img/tocadiscos.png" class="brazo" alt="Brazo del tocadiscos">
-    <div class="vinilo">
+    <img src="img/tocadiscos.png" class="brazo" id="brazo" alt="Brazo del tocadiscos">
+    <div class="vinilo" id="vinilo">
       <img id="galleta" class="galleta" src="img/logo.jpeg" alt="Logo del disco">
       <div class="agujero"></div>
     </div>
   </div>
 
   <div class="galeria">
-    <img src="img/Vol I.jpg" data-img="img/Vol I.jpg" alt="Volumen I">
-    <img src="img/Vol II.jpg" data-img="img/Vol II.jpg" alt="Volumen II">
-    <img src="img/Vol III.jpg" data-img="img/Vol III.jpg" alt="Volumen III">
-    <img src="img/Vol IV.jpg" data-img="img/Vol IV.jpg" alt="Volumen IV">
+    <img src="img/Vol I.jpg" data-img="img/Vol I.jpg" data-song="El camino largo.flac" data-info="Vol I.txt" alt="Volumen I">
+    <img src="img/Vol II.jpg" data-img="img/Vol II.jpg" data-song="cancion2.mp3" data-info="Vol II.txt" alt="Volumen II">
+    <img src="img/Vol III.jpg" data-img="img/Vol III.jpg" data-song="cancion3.mp3" data-info="Vol III.txt" alt="Volumen III">
+    <img src="img/Vol IV.jpg" data-img="img/Vol IV.jpg" data-song="cancion4.mp3" data-info="Vol IV.txt" alt="Volumen IV">
   </div>
 
-  <div class="info">
-    <span class="info-icon" onclick="mostrarPopup()">ℹ️</span><br>
-    <span>eltioviruelas@gmail.com</span>
-  </div>
+  <audio id="player" controls></audio>
 
-  <div id="popup">
-    <p>¿Quieres contarme algo?</p>
-    <a href="mailto:eltioviruelas@gmail.com?subject=Historias con el tío viruelas">Escríbeme aquí</a>
-  </div>
+  <div id="info-disco">Selecciona un disco para ver información.</div>
 
   <script>
     const portadas = document.querySelectorAll('.galeria img');
     const galleta = document.getElementById('galleta');
+    const vinilo = document.getElementById('vinilo');
+    const brazo = document.getElementById('brazo');
+    const player = document.getElementById('player');
+    const infoDisco = document.getElementById('info-disco');
 
     portadas.forEach(portada => {
       portada.addEventListener('click', () => {
-        const nuevaGalleta = portada.getAttribute('data-img');
-        galleta.src = nuevaGalleta;
+        // Cambiar galleta
+        galleta.src = portada.dataset.img;
+
+        // Activar brazo
+        brazo.classList.add('activo');
+
+        // Acelerar vinilo y galleta
+        vinilo.classList.add('rapido');
+        galleta.classList.add('rapido');
+
+        // Reproducir canción
+        player.src = portada.dataset.song;
+        player.play();
+
+        // Cargar info desde txt (requiere servidor que sirva los txt)
+        fetch(portada.dataset.info)
+          .then(response => response.text())
+          .then(text => {
+            infoDisco.innerText = text;
+          })
+          .catch(() => {
+            infoDisco.innerText = "Información no disponible.";
+          });
       });
     });
-
-    function mostrarPopup() {
-      const popup = document.getElementById('popup');
-      popup.style.display = popup.style.display === 'block' ? 'none' : 'block';
-    }
   </script>
 
 </body>
