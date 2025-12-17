@@ -1,361 +1,147 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<title>El Tío Viruelas</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <title>El Tío Viruelas</title>
+  <link href="https://fonts.googleapis.com/css2?family=Rock+Salt&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      background-color: #111;
+      font-family: 'Rock Salt', cursive;
+      color: #C88713;
+      overflow-x: hidden;
+    }
 
-<link href="https://fonts.googleapis.com/css2?family=Rock+Salt&display=swap" rel="stylesheet">
+    header {
+      text-align: center;
+      font-size: 3em;
+      font-weight: bold;
+      margin-top: 30px;
+    }
 
-<style>
-/* ===== BASE ===== */
-body {
-  margin: 0;
-  background: #000;
-  color: #fff;
-  font-family: 'Rock Salt', cursive;
-}
+    .tocadiscos {
+      position: relative;
+      width: 300px;
+      height: 300px;
+      margin: 40px auto;
+    }
 
-/* Bloqueo básico de imágenes */
-img {
-  pointer-events: none;
-  user-select: none;
-}
+    .vinilo {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: radial-gradient(circle at center, #000 60%, #333 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
-/* ===== HEADER ===== */
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px 40px;
-  border-bottom: 1px solid #222;
-}
+    .galleta {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid #C88713;
+    }
 
-.header-left {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
+    .galeria {
+      display: flex;
+      overflow-x: auto;
+      gap: 20px;
+      padding: 20px;
+      justify-content: center;
+    }
 
-.logo {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  border: 3px solid #C88713;
-  object-fit: cover;
-}
+    .galeria img {
+      width: 120px;
+      height: 120px;
+      border-radius: 10px;
+      object-fit: cover;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
 
-header h1 {
-  color: #C88713;
-  font-size: 72px;
-  font-weight: bold;
-  margin: 0;
-}
+    .galeria img:hover {
+      transform: scale(1.1);
+    }
 
-/* ===== MENU ===== */
-nav {
-  display: flex;
-  gap: 20px;
-}
+    .info {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      color: #C88713;
+      font-size: 1em;
+      font-family: sans-serif;
+    }
 
-nav a {
-  color: #C88713;
-  text-decoration: none;
-  font-size: 18px;
-  transition: color 0.3s;
-}
+    .info-icon {
+      font-size: 1.5em;
+      cursor: pointer;
+      margin-right: 10px;
+    }
 
-nav a:hover {
-  color: #fff;
-}
+    #popup {
+      display: none;
+      position: fixed;
+      bottom: 80px;
+      right: 20px;
+      background: #222;
+      color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      font-family: sans-serif;
+    }
 
-/* ===== ZONA CENTRAL ===== */
-.zona-central {
-  max-width: 1200px;
-  margin: 40px auto;
-  position: relative;
-}
-
-.fondo-wrapper {
-  height: 620px;
-  overflow: hidden;
-  position: relative;
-}
-
-.fondo {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  animation: fondo-movimiento 40s ease-in-out infinite alternate;
-  transition: filter 0.6s ease, opacity 0.6s ease;
-}
-
-.zona-central:hover .fondo {
-  filter: grayscale(100%);
-  opacity: 0.35;
-}
-
-@keyframes fondo-movimiento {
-  from { transform: scale(1) translate(0,0); }
-  to { transform: scale(1.06) translate(-10px,-10px); }
-}
-
-/* ===== GALERÍA ===== */
-.galeria-wrapper {
-  position: absolute;
-  bottom: 40px;
-  left: 0;
-  right: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 40px;
-}
-
-.control {
-  font-size: 36px;
-  color: #C88713;
-  cursor: pointer;
-  user-select: none;
-}
-
-.control:hover {
-  color: #fff;
-}
-
-.galeria {
-  width: 200px;
-  height: 200px;
-  position: relative;
-  overflow: hidden;
-}
-
-/* ===== VINILO ===== */
-.vinilo {
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
-  overflow: hidden;
-  background-image: repeating-radial-gradient(
-    circle,
-    #111 0px,
-    #111 2px,
-    #000 2px,
-    #000 4px
-  );
-  border: 3px solid #111;
-  box-shadow: 0 0 16px rgba(255,255,255,0.3);
-  animation: girar 14s linear infinite;
-  position: absolute;
-  top: 0;
-  left: 0;
-  display: none;
-}
-
-.vinilo.activo {
-  display: block;
-}
-
-/* Galleta central */
-.galleta {
-  width: 54px;
-  height: 54px;
-  border-radius: 50%;
-  background: #222;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.galleta img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 50%;
-}
-
-.galleta span {
-  position: absolute;
-  bottom: -18px;
-  font-size: 11px;
-  color: #C88713;
-}
-
-@keyframes girar {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-/* ===== FOOTER ===== */
-footer {
-  border-top: 1px solid #222;
-  padding: 40px;
-  color: #C88713;
-  text-align: center;
-}
-
-footer form {
-  max-width: 400px;
-  margin: 20px auto;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-footer input,
-footer textarea {
-  font-family: 'Rock Salt', cursive;
-  background: #111;
-  border: 1px solid #444;
-  color: #fff;
-  padding: 10px;
-}
-
-footer button {
-  background: #C88713;
-  border: none;
-  padding: 12px;
-  font-family: 'Rock Salt', cursive;
-  cursor: pointer;
-}
-
-footer button:hover {
-  background: #fff;
-  color: #000;
-}
-
-/* ===== RESPONSIVE ===== */
-@media (max-width: 768px) {
-  header {
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  nav {
-    justify-content: center;
-  }
-
-  header h1 {
-    font-size: 48px;
-  }
-
-  .fondo-wrapper {
-    height: 420px;
-  }
-
-  .vinilo,
-  .galeria {
-    width: 140px;
-    height: 140px;
-  }
-}
-</style>
+    #popup a {
+      color: #C88713;
+      text-decoration: none;
+    }
+  </style>
 </head>
-
 <body>
 
-<header>
-  <div class="header-left">
-    <img src="img/logo.jpeg" alt="Logo" class="logo">
-    <h1>El Tío Viruelas</h1>
-  </div>
+  <header>El Tío Viruelas</header>
 
-  <nav>
-    <a href="#">Inicio</a>
-    <a href="#">Volúmenes</a>
-    <a href="#contacto">Contacto</a>
-  </nav>
-</header>
-
-<main class="zona-central">
-  <div class="fondo-wrapper">
-    <img src="img/fondo.jpg" alt="Fondo" class="fondo">
-
-    <div class="galeria-wrapper">
-      <div class="control" onclick="prev()">◀</div>
-
-      <div class="galeria">
-        <div class="vinilo activo">
-          <div class="galleta">
-            <img src="img/vinilo1.jpeg" alt="Volumen I">
-            <span>VOL I</span>
-          </div>
-        </div>
-
-        <div class="vinilo">
-          <div class="galleta"><span>VOL II</span></div>
-        </div>
-
-        <div class="vinilo">
-          <div class="galleta"><span>VOL III</span></div>
-        </div>
-
-        <div class="vinilo">
-          <div class="galleta"><span>VOL IV</span></div>
-        </div>
-      </div>
-
-      <div class="control" onclick="next()">▶</div>
+  <div class="tocadiscos">
+    <div class="vinilo">
+      <img id="galleta" class="galleta" src="img/logo.jpeg" alt="Logo del disco">
     </div>
   </div>
-</main>
 
-<footer id="contacto">
-  <p>Contacto · eltioviruelas@gmail.com</p>
+  <div class="galeria">
+    <img src="img/Vol I.jpg" data-img="img/Vol I.jpg" alt="Volumen I">
+    <img src="img/Vol II.jpg" data-img="img/Vol II.jpg" alt="Volumen II">
+    <img src="img/Vol III.jpg" data-img="img/Vol III.jpg" alt="Volumen III">
+    <img src="img/Vol IV.jpg" data-img="img/Vol IV.jpg" alt="Volumen IV">
+  </div>
 
-  <form action="mailto:eltioviruelas@gmail.com" method="POST" enctype="text/plain">
-    <input type="text" name="nombre" placeholder="Tu nombre">
-    <input type="email" name="email" placeholder="Tu email">
-    <textarea name="mensaje" rows="4" placeholder="Mensaje"></textarea>
-    <input type="hidden" name="subject" value="Contacto desde El Tío Viruelas Web">
-    <button type="submit">Enviar</button>
-  </form>
-</footer>
+  <div class="info">
+    <span class="info-icon" onclick="mostrarPopup()">ℹ️</span>
+    <span>eltioviruelas@gmail.com</span>
+  </div>
 
-<script>
-/* Galería */
-let index = 0;
-const vinilos = document.querySelectorAll('.vinilo');
+  <div id="popup">
+    <p>¿Quieres contarme algo?</p>
+    <a href="mailto:eltioviruelas@gmail.com?subject=Historias con el tío viruelas">Escríbeme aquí</a>
+  </div>
 
-function mostrar(i) {
-  vinilos.forEach(v => v.classList.remove('activo'));
-  vinilos[i].classList.add('activo');
-}
+  <script>
+    const portadas = document.querySelectorAll('.galeria img');
+    const galleta = document.getElementById('galleta');
 
-function next() {
-  index = (index + 1) % vinilos.length;
-  mostrar(index);
-}
+    portadas.forEach(portada => {
+      portada.addEventListener('click', () => {
+        const nuevaGalleta = portada.getAttribute('data-img');
+        galleta.src = nuevaGalleta;
+      });
+    });
 
-function prev() {
-  index = (index - 1 + vinilos.length) % vinilos.length;
-  mostrar(index);
-}
-
-/* Swipe táctil */
-let startX = 0;
-const galeria = document.querySelector('.galeria');
-
-galeria.addEventListener('touchstart', e => {
-  startX = e.touches[0].clientX;
-});
-
-galeria.addEventListener('touchend', e => {
-  const endX = e.changedTouches[0].clientX;
-  const diff = startX - endX;
-
-  if (diff > 40) next();
-  if (diff < -40) prev();
-});
-
-/* Bloqueo botón derecho */
-document.addEventListener('contextmenu', e => e.preventDefault());
-</script>
+    function mostrarPopup() {
+      const popup = document.getElementById('popup');
+      popup.style.display = popup.style.display === 'block' ? 'none' : 'block';
+    }
+  </script>
 
 </body>
 </html>
