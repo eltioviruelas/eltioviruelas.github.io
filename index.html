@@ -1,16 +1,17 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>El Tío Viruelas</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link href="https://fonts.googleapis.com/css2?family=Rock+Salt&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Rock+Salt&display=swap" rel="stylesheet">
   <style>
-    :root{
-      --bg:#111;
-      --gold:#C88713;
-      --panel:#222;
-      --text:#eee;
+    :root {
+      --bg: #111;
+      --gold: #C88713;
+      --panel: #222;
+      --text: #eee;
+      --shadow: rgba(0,0,0,0.7);
     }
 
     body {
@@ -19,40 +20,53 @@
       font-family: 'Rock Salt', cursive;
       color: var(--gold);
       overflow-x: hidden;
+      text-align: center;
     }
 
-    /* HEADER */
+    /* HEADER con logo moneda a la izquierda */
     header {
-      display: flex;
+      display: grid;
+      grid-template-columns: auto 1fr;
       align-items: center;
-      gap: 16px;
-      padding: 16px 20px;
+      gap: 14px;
+      padding: 16px 18px;
     }
-    header img {
-      height: 48px;
-      width: 48px;
-      border-radius: 6px;
+    .logo-moneda {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 3px solid var(--gold);
+      box-shadow: 0 6px 16px var(--shadow), inset 0 0 10px rgba(255,255,255,0.06);
+      background: radial-gradient(circle at 35% 35%, #2a1f0a 0%, #533b14 40%, #2a1f0a 100%);
+      display: grid;
+      place-items: center;
+    }
+    .logo-moneda img {
+      width: 92%;
+      height: 92%;
       object-fit: cover;
-      border: 2px solid var(--gold);
+      border-radius: 50%;
     }
-    header h1 {
-      font-size: clamp(1.8rem, 4vw, 4rem);
+    .titulo {
+      font-size: clamp(2rem, 4vw, 5rem);
+      font-weight: bold;
       margin: 0;
+      text-align: left;
     }
 
-    /* TURNTABLE */
+    /* Tocadiscos */
     .tocadiscos {
       position: relative;
       width: clamp(300px, 40vw, 450px);
       height: clamp(300px, 40vw, 450px);
-      margin: 4vh auto 2vh;
+      margin: 5vh auto;
     }
 
     .vinilo {
       width: 100%;
       height: 100%;
       border-radius: 50%;
-      /* surcos y contraste */
       background:
         radial-gradient(circle at 50% 50%, #000 0%, #0c0c0c 62%, #000 100%),
         repeating-radial-gradient(circle at 50% 50%, rgba(255,255,255,0.06) 0 2px, rgba(0,0,0,0.0) 2px 4px);
@@ -61,7 +75,7 @@
       justify-content: center;
       align-items: center;
       position: relative;
-      animation: girar 16s linear infinite; /* mitad de velocidad (más lento) */
+      animation: girar 16s linear infinite; /* lento por defecto (mitad) */
       z-index: 1;
     }
     .vinilo.rapido { animation: girar 8s linear infinite; }
@@ -95,22 +109,23 @@
 
     .brazo {
       position: absolute;
-      top: -4%;
+      top: -5%;
       right: -10%;
-      width: 32%;
-      transform-origin: top right; /* pivota desde la parte superior */
-      transition: transform 800ms ease;
+      width: 40%;
+      transform-origin: top right; /* pivota desde arriba */
+      transition: transform 0.9s ease;
       z-index: 5; /* por encima del vinilo */
       filter: drop-shadow(0 6px 12px rgba(0,0,0,0.6));
     }
-    .brazo.activo { transform: rotate(22deg) translate(-8%, 18%); }
+    .brazo.activo { transform: rotate(20deg) translate(-10%, 20%); }
 
-    /* GALERÍA DE PORTADAS */
+    /* Galería deslizable con inclinación ligera */
     .galeria {
       display: flex;
       overflow-x: auto;
       gap: 18px;
       padding: 20px;
+      justify-content: flex-start;
       scroll-snap-type: x mandatory;
       -webkit-overflow-scrolling: touch;
     }
@@ -118,48 +133,65 @@
     .galeria::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 4px; }
 
     .galeria img {
-      aspect-ratio: 1 / 1;              /* cuadradas para que se vean completas */
-      width: clamp(120px, 15vw, 180px);
+      aspect-ratio: 1 / 1; /* cuadradas para verse completas */
+      width: clamp(110px, 15vw, 180px);
       border-radius: 6px;
-      object-fit: cover;                 /* ajusta sin distorsión */
+      object-fit: cover;
       cursor: pointer;
-      border: 3px solid #000;            /* marco de carátula */
-      box-shadow: 2px 2px 10px rgba(0,0,0,0.7);
+      border: 3px solid #000; /* marco de carátula */
+      box-shadow: 2px 2px 10px var(--shadow);
       transition: transform 0.25s ease, z-index 0.25s ease;
       scroll-snap-align: start;
-      margin-left: -8px;                 /* solapado muy sutil */
+      margin-left: -10px; /* solapado sutil */
     }
-    /* Inclinación aleatoria 5–10º */
-    .galeria img:nth-child(1n) { transform: rotate(-6deg); }
-    .galeria img:nth-child(2n) { transform: rotate(7deg); }
-    .galeria img:nth-child(3n) { transform: rotate(-5deg); }
-    .galeria img:nth-child(4n) { transform: rotate(8deg); }
+    .galeria img:nth-child(odd) { transform: rotate(-6deg); }
+    .galeria img:nth-child(even) { transform: rotate(7deg); }
     .galeria img:hover { transform: scale(1.05) rotate(0deg); z-index: 2; }
 
-    /* CONTROLES PERSONALIZADOS */
+    /* Reproductor oculto y controles retro estilo cómic */
+    audio { display: none; }
+
     .controles {
       margin: 8px auto 0;
       display: flex;
       justify-content: center;
       gap: 12px;
       align-items: center;
+      flex-wrap: wrap;
     }
     .btn {
       cursor: pointer;
-      padding: 10px;
+      padding: 12px;
       border: 2px solid var(--gold);
-      border-radius: 50%;
-      transition: background 0.25s ease, color 0.25s ease, transform 0.08s ease;
+      border-radius: 14px; /* pill con toque cómic */
+      background: linear-gradient(180deg, #1a1a1a 0%, #0f0f0f 100%);
+      color: var(--gold);
+      box-shadow: 2px 4px 0 #000, inset 0 0 8px rgba(255,255,255,0.05);
+      transition: transform 0.08s ease, filter 0.25s ease;
       user-select: none;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.25rem;
-      width: 42px;
-      height: 42px;
+      font-size: 1.1rem;
+      gap: 8px;
     }
-    .btn:hover { background: var(--gold); color: #111; }
-    .btn:active { transform: scale(0.96); }
+    .btn:hover { filter: brightness(1.2); }
+    .btn:active { transform: translateY(1px); }
+
+    .icon {
+      display: inline-block;
+      width: 22px;
+      height: 22px;
+      background-size: cover;
+      filter: drop-shadow(0 1px 0 #000);
+    }
+    /* Iconos retro/cómic (usa emojis como respaldo visual simple) */
+    .i-play::before  { content: "▶️"; }
+    .i-pause::before { content: "⏸️"; }
+    .i-stop::before  { content: "⏹️"; }
+    .i-vol-::before  { content: "🔉"; }
+    .i-vol+::before  { content: "🔊"; }
+    .i-reset::before { content: "🔄"; }
 
     #tiempo {
       margin-top: 8px;
@@ -168,21 +200,21 @@
       text-align: center;
     }
 
-    /* INFO DEL DISCO (.txt) */
+    /* Info del disco (txt) con estilo del sitio */
     #info-disco {
-      margin: 14px auto 18px;
+      margin: 16px auto 24px;
       font-family: 'Rock Salt', cursive;
       color: var(--gold);
       max-width: 680px;
       text-align: center;
       background: var(--panel);
-      padding: 16px;
+      padding: 18px;
       border-radius: 10px;
       box-shadow: 0 6px 24px rgba(0,0,0,0.4);
       white-space: pre-line; /* respeta saltos de línea del .txt */
     }
 
-    /* FOOTER / CONTACTO */
+    /* Footer con formulario (requiere endpoint backend para enviar sin abrir el cliente de correo) */
     footer {
       margin-top: 30px;
       background: var(--panel);
@@ -207,7 +239,6 @@
       color: var(--text);
     }
     footer input::placeholder, footer textarea::placeholder { color: #aaa; }
-
     footer button {
       background: var(--gold);
       color: #111;
@@ -220,10 +251,12 @@
     }
     footer button:hover { background: #fff; }
 
-    /* RESPONSIVE FINO */
+    /* Responsive fino */
     @media (max-width: 480px) {
       .tocadiscos { width: 84vw; height: 84vw; }
       .brazo { right: -6%; width: 38%; }
+      .titulo { font-size: clamp(1.8rem, 8vw, 3rem); }
+      .galeria { gap: 14px; }
     }
   </style>
 </head>
@@ -231,8 +264,10 @@
 
   <!-- HEADER -->
   <header>
-    <img src="img/logo.jpeg" alt="Logo">
-    <h1>El Tío Viruelas</h1>
+    <div class="logo-moneda">
+      <img src="img/logo.jpeg" alt="Logo">
+    </div>
+    <h1 class="titulo">El Tío Viruelas</h1>
   </header>
 
   <!-- TOCADISCOS -->
@@ -250,34 +285,35 @@
     <img src="img/Vol II.jpg"  data-img="img/Vol II.jpg"  data-song="audio/cancion2.mp3"         data-info="info/Vol II.txt"  alt="Volumen II">
     <img src="img/Vol III.jpg" data-img="img/Vol III.jpg" data-song="audio/cancion3.mp3"         data-info="info/Vol III.txt" alt="Volumen III">
     <img src="img/Vol IV.jpg"  data-img="img/Vol IV.jpg"  data-song="audio/cancion4.mp3"         data-info="info/Vol IV.txt"  alt="Volumen IV">
-    <!-- añade más portadas siguiendo el mismo patrón -->
+    <!-- podrás añadir más portadas siguiendo el mismo patrón -->
   </div>
 
   <!-- Reproductor oculto (controlado por JS) -->
   <audio id="player"></audio>
 
-  <!-- CONTROLES PERSONALIZADOS -->
+  <!-- CONTROLES RETRO CÓMIC -->
   <div class="controles">
-    <span class="btn" title="Play" onclick="playSong()">▶️</span>
-    <span class="btn" title="Pausa" onclick="pauseSong()">⏸️</span>
-    <span class="btn" title="Stop" onclick="stopSong()">⏹️</span>
-    <span class="btn" title="Volumen -" onclick="volDown()">🔉</span>
-    <span class="btn" title="Volumen +" onclick="volUp()">🔊</span>
-    <span class="btn" title="Volver al inicio" onclick="resetVinilo()">🔄</span>
+    <button class="btn" title="Play" onclick="playSong()"><span class="icon i-play"></span> Play</button>
+    <button class="btn" title="Pausa" onclick="pauseSong()"><span class="icon i-pause"></span> Pausa</button>
+    <button class="btn" title="Stop" onclick="stopSong()"><span class="icon i-stop"></span> Stop</button>
+    <button class="btn" title="Volumen -" onclick="volDown()"><span class="icon i-vol-"></span> Vol -</button>
+    <button class="btn" title="Volumen +" onclick="volUp()"><span class="icon i-vol+"></span> Vol +</button>
+    <button class="btn" title="Volver al inicio" onclick="resetVinilo()"><span class="icon i-reset"></span> Inicio</button>
   </div>
 
   <div id="tiempo">0:00 / 0:00</div>
   <div id="info-disco">Selecciona un disco para ver información.</div>
 
-  <!-- FOOTER con formulario (requiere endpoint de backend para enviar sin abrir correo) -->
+  <!-- FOOTER con formulario (envío directo requiere endpoint backend tipo Formspree/Netlify Forms) -->
   <footer>
     <h3>Contacto</h3>
-    <form action="https://formspree.io/f/tu-endpoint" method="POST">
+    <!-- Sustituye la URL de action por tu endpoint real de Formspree/Netlify -->
+    <form action="https://formspree.io/f/TU-ENDPOINT" method="POST">
       <input type="text" name="nombre" placeholder="Tu nombre" required />
       <input type="email" name="email" placeholder="Tu email" required />
       <textarea name="mensaje" rows="4" placeholder="Escribe tu mensaje..." required></textarea>
       <input type="hidden" name="_subject" value="Mensaje desde El Tío Viruelas" />
-      <input type="hidden" name="_replyto" value="eltioviruelas@gmail.com" />
+      <input type="hidden" name="destinatario" value="eltioviruelas@gmail.com" />
       <button type="submit">Enviar</button>
     </form>
   </footer>
@@ -292,7 +328,6 @@
     const infoBox  = document.getElementById('info-disco');
     const tiempoEl = document.getElementById('tiempo');
 
-    // Estado inicial
     let currentSong = null;
 
     // Formateo mm:ss
@@ -303,7 +338,6 @@
       return `${m}:${String(s).padStart(2,'0')}`;
     }
 
-    // Actualizar tiempo
     function updateTime(){
       const cur = fmt(player.currentTime);
       const dur = fmt(player.duration);
@@ -326,7 +360,7 @@
         // Cambiar galleta (imagen central)
         galleta.src = portada.dataset.img;
 
-        // Activar brazo por encima y acelerar a velocidad "normal" (8s)
+        // Activar brazo y acelerar a velocidad "normal" (8s)
         brazo.classList.add('activo');
         vinilo.classList.add('rapido');
         galleta.classList.add('rapido');
@@ -334,7 +368,7 @@
         // Reproducir canción desde /audio
         currentSong = portada.dataset.song;
         player.src = currentSong;
-        try { await player.play(); } catch(e){ /* silencio en autoplay bloqueado */ }
+        try { await player.play(); } catch(e){ /* algunos navegadores bloquean autoplay, el usuario puede pulsar Play */ }
 
         // Cargar info .txt desde /info
         const infoUrl = portada.dataset.info;
