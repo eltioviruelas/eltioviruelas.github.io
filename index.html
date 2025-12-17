@@ -2,30 +2,29 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Viruelas - Tocadiscos</title>
+  <title>El Tío Viruelas</title>
+  <link href="https://fonts.googleapis.com/css2?family=Rock+Salt&display=swap" rel="stylesheet">
   <style>
     body {
-      background: #111;
-      color: #fff;
-      font-family: 'Montserrat', sans-serif;
       margin: 0;
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      background-color: #111;
+      font-family: 'Rock Salt', cursive;
+      color: #C88713;
+      overflow-x: hidden;
     }
 
-    h1 {
-      margin-top: 30px;
-      font-size: 2.5em;
-      color: #e0cda9;
+    header {
+      text-align: center;
+      font-size: clamp(2rem, 4vw, 5rem);
+      font-weight: bold;
+      margin-top: 3vh;
     }
 
     .tocadiscos {
       position: relative;
-      width: 300px;
-      height: 300px;
-      margin: 40px auto;
+      width: clamp(300px, 40vw, 500px);
+      height: clamp(300px, 40vw, 500px);
+      margin: 5vh auto;
     }
 
     .vinilo {
@@ -36,116 +35,135 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      overflow: hidden;
       position: relative;
+      overflow: hidden;
     }
 
     .galleta {
-      width: 100px;
-      height: 100px;
+      width: 40%;
+      height: 40%;
       border-radius: 50%;
       object-fit: cover;
+      border: 4px solid #C88713;
       z-index: 2;
+    }
+
+    .agujero {
+      position: absolute;
+      width: 5%;
+      height: 5%;
+      background: #000;
+      border-radius: 50%;
+      z-index: 3;
     }
 
     .brazo {
       position: absolute;
-      top: -20px;
-      right: -60px;
-      width: 150px;
-      transform: rotate(20deg);
+      top: -10%;
+      right: -5%;
+      width: 50%;
       z-index: 1;
-    }
-
-    .canciones {
-      display: flex;
-      justify-content: space-around;
-      margin-top: 20px;
-      width: 80%;
-      flex-wrap: wrap;
-    }
-
-    .canciones button {
-      background: #e0cda9;
-      color: #111;
-      border: none;
-      border-radius: 50px;
-      padding: 10px 20px;
-      margin: 10px;
-      cursor: pointer;
-      font-weight: bold;
-      transition: background 0.3s;
-    }
-
-    .canciones button:hover {
-      background: #fff;
     }
 
     .galeria {
       display: flex;
       overflow-x: auto;
-      margin: 30px 0;
-      gap: 10px;
-      padding: 10px;
-      width: 90%;
+      gap: 20px;
+      padding: 20px;
+      justify-content: center;
     }
 
     .galeria img {
-      width: 120px;
-      height: 120px;
+      width: clamp(100px, 15vw, 180px);
+      height: clamp(115px, 17vw, 200px);
+      border-radius: 10px;
       object-fit: cover;
       cursor: pointer;
-      border-radius: 10px;
-      transition: transform 0.3s;
+      transition: transform 0.3s ease;
     }
 
     .galeria img:hover {
       transform: scale(1.1);
     }
 
-    audio {
-      margin-top: 20px;
+    .info {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      color: #C88713;
+      font-size: 1em;
+      font-family: sans-serif;
+      text-align: right;
+    }
+
+    .info-icon {
+      font-size: 1.5em;
+      cursor: pointer;
+      margin-right: 10px;
+    }
+
+    #popup {
+      display: none;
+      position: fixed;
+      bottom: 80px;
+      right: 20px;
+      background: #222;
+      color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      font-family: sans-serif;
+      max-width: 300px;
+    }
+
+    #popup a {
+      color: #C88713;
+      text-decoration: none;
     }
   </style>
 </head>
 <body>
 
-  <h1>Viruelas</h1>
+  <header>El Tío Viruelas</header>
 
   <div class="tocadiscos">
-    <img src="tocadiscos.jpg" class="brazo" alt="Brazo del tocadiscos">
+    <img src="img/tocadiscos.jpg" class="brazo" alt="Brazo del tocadiscos">
     <div class="vinilo">
-      <img id="galleta" src="logo.png" class="galleta" alt="Logo del disco">
+      <img id="galleta" class="galleta" src="img/logo.jpeg" alt="Logo del disco">
+      <div class="agujero"></div>
     </div>
   </div>
 
-  <div class="canciones">
-    <button onclick="reproducir('cancion1.mp3')">Canción 1</button>
-    <button onclick="reproducir('cancion2.mp3')">Canción 2</button>
-    <button onclick="reproducir('cancion3.mp3')">Canción 3</button>
-    <button onclick="reproducir('cancion4.mp3')">Canción 4</button>
-  </div>
-
   <div class="galeria">
-    <img src="portada1.jpg" data-img="galleta1.png" onclick="cambiarGalleta(this)">
-    <img src="portada2.jpg" data-img="galleta2.png" onclick="cambiarGalleta(this)">
-    <img src="portada3.jpg" data-img="galleta3.png" onclick="cambiarGalleta(this)">
-    <img src="portada4.jpg" data-img="galleta4.png" onclick="cambiarGalleta(this)">
+    <img src="img/Vol I.jpg" data-img="img/Vol I.jpg" alt="Volumen I">
+    <img src="img/Vol II.jpg" data-img="img/Vol II.jpg" alt="Volumen II">
+    <img src="img/Vol III.jpg" data-img="img/Vol III.jpg" alt="Volumen III">
+    <img src="img/Vol IV.jpg" data-img="img/Vol IV.jpg" alt="Volumen IV">
   </div>
 
-  <audio id="player" controls hidden></audio>
+  <div class="info">
+    <span class="info-icon" onclick="mostrarPopup()">ℹ️</span><br>
+    <span>eltioviruelas@gmail.com</span>
+  </div>
+
+  <div id="popup">
+    <p>¿Quieres contarme algo?</p>
+    <a href="mailto:eltioviruelas@gmail.com?subject=Historias con el tío viruelas">Escríbeme aquí</a>
+  </div>
 
   <script>
-    function cambiarGalleta(el) {
-      const nuevaGalleta = el.dataset.img;
-      document.getElementById('galleta').src = nuevaGalleta;
-    }
+    const portadas = document.querySelectorAll('.galeria img');
+    const galleta = document.getElementById('galleta');
 
-    function reproducir(src) {
-      const player = document.getElementById('player');
-      player.src = src;
-      player.hidden = false;
-      player.play();
+    portadas.forEach(portada => {
+      portada.addEventListener('click', () => {
+        const nuevaGalleta = portada.getAttribute('data-img');
+        galleta.src = nuevaGalleta;
+      });
+    });
+
+    function mostrarPopup() {
+      const popup = document.getElementById('popup');
+      popup.style.display = popup.style.display === 'block' ? 'none' : 'block';
     }
   </script>
 
