@@ -15,16 +15,18 @@
 
     header {
       text-align: center;
-      font-size: 3em;
+      font-size: 4vw;
       font-weight: bold;
-      margin-top: 30px;
+      margin-top: 3vh;
     }
 
     .tocadiscos {
       position: relative;
-      width: 300px;
-      height: 300px;
-      margin: 40px auto;
+      width: 40vw;
+      height: 40vw;
+      margin: 5vh auto;
+      min-width: 300px;
+      min-height: 300px;
     }
 
     .vinilo {
@@ -35,14 +37,37 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      position: relative;
     }
 
     .galleta {
-      width: 120px;
-      height: 120px;
+      width: 40%;
+      height: 40%;
       border-radius: 50%;
       object-fit: cover;
       border: 4px solid #C88713;
+      position: relative;
+      z-index: 2;
+    }
+
+    .agujero {
+      position: absolute;
+      width: 5%;
+      height: 5%;
+      background: #000;
+      border-radius: 50%;
+      z-index: 3;
+    }
+
+    .brazo {
+      position: absolute;
+      width: 20%;
+      height: 4%;
+      background: #C88713;
+      top: 10%;
+      right: -10%;
+      transform: rotate(30deg);
+      border-radius: 2px;
     }
 
     .galeria {
@@ -54,8 +79,10 @@
     }
 
     .galeria img {
-      width: 120px;
-      height: 120px;
+      width: 15vw;
+      height: 17vw;
+      min-width: 100px;
+      min-height: 115px;
       border-radius: 10px;
       object-fit: cover;
       cursor: pointer;
@@ -73,6 +100,7 @@
       color: #C88713;
       font-size: 1em;
       font-family: sans-serif;
+      text-align: right;
     }
 
     .info-icon {
@@ -91,6 +119,7 @@
       padding: 20px;
       border-radius: 10px;
       font-family: sans-serif;
+      max-width: 300px;
     }
 
     #popup a {
@@ -106,7 +135,9 @@
   <div class="tocadiscos">
     <div class="vinilo">
       <img id="galleta" class="galleta" src="img/logo.jpeg" alt="Logo del disco">
+      <div class="agujero"></div>
     </div>
+    <div class="brazo"></div>
   </div>
 
   <div class="galeria">
@@ -117,7 +148,7 @@
   </div>
 
   <div class="info">
-    <span class="info-icon" onclick="mostrarPopup()">ℹ️</span>
+    <span class="info-icon" onclick="mostrarPopup()">ℹ️</span><br>
     <span>eltioviruelas@gmail.com</span>
   </div>
 
