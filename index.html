@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <title>El Tío Viruelas</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
 <link href="https://fonts.googleapis.com/css2?family=Rock+Salt&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
@@ -12,10 +11,9 @@
 body{
   margin:0;
   background:#111;
-  font-family:'Rock Salt',cursive;
+  font-family:'Rock Salt', cursive;
   color:#C88713;
   text-align:center;
-  overflow-x:hidden;
 }
 
 header{
@@ -23,165 +21,125 @@ header{
   align-items:center;
   justify-content:center;
   gap:20px;
-  margin-top:3vh;
+  padding:30px 10px;
 }
 
-.logo-moneda{
-  width:40%;
-  max-width:180px;
-  aspect-ratio:1/1;
+.logo{
+  width:120px;
+  height:120px;
   border-radius:50%;
   overflow:hidden;
   border:4px solid #C88713;
-  background:radial-gradient(circle at 35% 35%,#2a1f0a,#533b14,#2a1f0a);
+}
+.logo img{width:100%;height:100%;object-fit:cover;}
+
+h1{font-size:3rem;margin:0;}
+
+.volumenes{
+  display:flex;
+  overflow-x:auto;
+  gap:20px;
+  padding:20px;
+  justify-content:center;
+}
+.vol-btn{
+  padding:10px 20px;
+  border:2px solid #C88713;
+  border-radius:30px;
+  cursor:pointer;
+}
+.vol-btn.activo{
+  box-shadow:0 0 15px #C88713;
 }
 
-.logo-moneda img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
-
-header h1{
-  font-size:clamp(2rem,4vw,5rem);
-  margin:0;
-}
-
-/* TOCADISCOS */
 .tocadiscos{
   position:relative;
-  width:clamp(300px,40vw,450px);
-  height:clamp(300px,40vw,450px);
-  margin:5vh auto;
+  width:360px;
+  height:360px;
+  margin:30px auto;
 }
 
 .vinilo{
   width:100%;
   height:100%;
   border-radius:50%;
-  background:repeating-radial-gradient(circle,#000 0px,#111 2px,#000 4px);
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  background:repeating-radial-gradient(circle,#000 0,#111 2px,#000 4px);
   animation:girar 16s linear infinite;
 }
+.vinilo.rapido{animation-duration:8s;}
 
-.vinilo.rapido{ animation:girar 8s linear infinite; }
-
-@keyframes girar{
-  from{transform:rotate(0deg);}
-  to{transform:rotate(360deg);}
-}
+@keyframes girar{to{transform:rotate(360deg)}}
 
 .galleta{
+  position:absolute;
   width:40%;
   height:40%;
   border-radius:50%;
-  object-fit:cover;
+  top:30%;
+  left:30%;
   border:4px solid #C88713;
-  animation:girar 16s linear infinite;
-}
-
-.galleta.rapido{ animation:girar 8s linear infinite; }
-
-.agujero{
-  position:absolute;
-  width:5%;
-  height:5%;
-  background:#000;
-  border-radius:50%;
 }
 
 .brazo{
   position:absolute;
-  top:-5%;
+  top:-10%;
   right:-10%;
   width:40%;
-  transform-origin:top right;
-  transition:transform 1s ease;
-  z-index:10;
+  transition:1s;
+}
+.brazo.activo{transform:rotate(20deg) translate(-10%,20%);}
+
+.vu{
+  width:300px;
+  margin:30px auto;
+  position:relative;
+}
+.vu img{width:100%;}
+.aguja{
+  position:absolute;
+  bottom:18%;
+  left:50%;
+  width:3px;
+  height:70px;
+  background:#C88713;
+  transform-origin:bottom;
+  transform:rotate(-45deg);
+  transition:0.5s;
 }
 
-.brazo.activo{
-  transform:rotate(20deg) translate(-10%,20%);
+.canciones{
+  max-width:600px;
+  margin:auto;
 }
-
-/* GALERIA */
-.galeria{
-  display:flex;
-  gap:20px;
-  overflow-x:auto;
-  padding:20px;
-  justify-content:center;
-}
-
-.galeria img{
-  width:clamp(100px,15vw,180px);
-  height:clamp(115px,17vw,200px);
-  object-fit:cover;
-  border-radius:5px;
+.canciones div{
+  padding:10px;
   cursor:pointer;
-  border:3px solid #000;
-  box-shadow:2px 2px 8px rgba(0,0,0,.7);
-  transition:.3s;
+  border-bottom:1px solid #333;
+}
+.canciones div:hover{background:#222;}
+
+#info{
+  white-space:pre-line;
+  background:#222;
+  margin:20px auto;
+  padding:15px;
+  border-radius:10px;
+  max-width:600px;
 }
 
-.galeria img:nth-child(odd){transform:rotate(-6deg);}
-.galeria img:nth-child(even){transform:rotate(6deg);}
-.galeria img:hover{transform:scale(1.05) rotate(0deg);}
-
-/* CONTROLES */
 .controles{
   display:flex;
-  gap:15px;
   justify-content:center;
-  margin-top:20px;
+  gap:15px;
+  margin:20px;
 }
-
 .controles button{
-  width:50px;
-  height:50px;
+  width:50px;height:50px;
   border-radius:50%;
   border:2px solid #C88713;
   background:#222;
   color:#C88713;
-  font-size:1.3rem;
-  cursor:pointer;
-}
-
-.controles button:hover{
-  background:#C88713;
-  color:#111;
-}
-
-/* VU METER */
-.vu-container{
-  width:300px;
-  height:120px;
-  margin:30px auto;
-  background:#222;
-  border:2px solid #C88713;
-}
-
-#vu{
-  width:100%;
-  height:100%;
-}
-
-/* INFO */
-#tiempo{
-  color:#eee;
-  font-family:sans-serif;
-  margin-top:10px;
-}
-
-#info-disco{
-  margin:15px auto;
-  max-width:600px;
-  background:#222;
-  padding:15px;
-  border-radius:10px;
-  white-space:pre-line;
+  font-size:1.2rem;
 }
 </style>
 </head>
@@ -189,109 +147,90 @@ header h1{
 <body>
 
 <header>
-  <div class="logo-moneda">
-    <img src="img/logo.jpeg">
-  </div>
+  <div class="logo"><img src="img/logo.jpeg"></div>
   <h1>El Tío Viruelas</h1>
 </header>
+
+<div class="volumenes" id="volumenes"></div>
 
 <div class="tocadiscos">
   <img src="img/tocadiscos.png" class="brazo" id="brazo">
   <div class="vinilo" id="vinilo">
-    <img id="galleta" class="galleta" src="img/logo.jpeg">
-    <div class="agujero"></div>
+    <img class="galleta" id="galleta">
   </div>
 </div>
 
-<div class="vu-container">
-  <canvas id="vu"></canvas>
+<div class="vu">
+  <img src="img/vu-meter.png">
+  <div class="aguja" id="aguja"></div>
 </div>
 
-<div class="galeria">
-  <img src="img/Vol I.jpg" data-img="img/Vol I.jpg" data-song="audio/El camino largo.mp3" data-info="info/Vol I.txt">
-  <img src="img/Vol II.jpg" data-img="img/Vol II.jpg" data-song="audio/adios.mp3" data-info="info/Vol II.txt">
-</div>
+<div class="canciones" id="canciones"></div>
+<div id="info">Selecciona una canción</div>
 
 <audio id="player"></audio>
 
 <div class="controles">
-  <button onclick="playSong()"><i class="fas fa-play"></i></button>
-  <button onclick="pauseSong()"><i class="fas fa-pause"></i></button>
-  <button onclick="stopSong()"><i class="fas fa-stop"></i></button>
-  <button onclick="volDown()"><i class="fas fa-volume-down"></i></button>
-  <button onclick="volUp()"><i class="fas fa-volume-up"></i></button>
+  <button onclick="player.play()"><i class="fas fa-play"></i></button>
+  <button onclick="player.pause()"><i class="fas fa-pause"></i></button>
 </div>
 
-<div id="tiempo">0:00 / 0:00</div>
-<div id="info-disco">Selecciona un disco.</div>
-
 <script>
-const player=document.getElementById('player');
-const vinilo=document.getElementById('vinilo');
-const galleta=document.getElementById('galleta');
-const brazo=document.getElementById('brazo');
-const info=document.getElementById('info-disco');
-const tiempo=document.getElementById('tiempo');
+let data, volActual, player=document.getElementById('player');
 
-/* TIEMPO */
-function fmt(t){
- if(isNaN(t)) return '0:00';
- const m=Math.floor(t/60);
- const s=Math.floor(t%60);
- return `${m}:${String(s).padStart(2,'0')}`;
-}
-player.ontimeupdate=()=>tiempo.textContent=`${fmt(player.currentTime)} / ${fmt(player.duration)}`;
-
-/* PORTADAS */
-document.querySelectorAll('.galeria img').forEach(p=>{
- p.onclick=async()=>{
-  galleta.src=p.dataset.img;
-  vinilo.classList.add('rapido');
-  galleta.classList.add('rapido');
-  brazo.classList.add('activo');
-
-  player.src=p.dataset.song;
-  await player.play();
-
-  const txt=await fetch(p.dataset.info).then(r=>r.text());
-  info.textContent=txt;
- };
+fetch('data.json').then(r=>r.json()).then(json=>{
+  data=json;
+  crearVolumenes();
 });
 
-/* CONTROLES */
-function playSong(){player.play();}
-function pauseSong(){player.pause();}
-function stopSong(){player.pause();player.currentTime=0;}
-function volUp(){player.volume=Math.min(1,player.volume+.1);}
-function volDown(){player.volume=Math.max(0,player.volume-.1);}
-
-/* VU METER */
-const canvas=document.getElementById('vu');
-const ctx=canvas.getContext('2d');
-canvas.width=300;
-canvas.height=120;
-
-const audioCtx=new (window.AudioContext||window.webkitAudioContext)();
-const src=audioCtx.createMediaElementSource(player);
-const analyser=audioCtx.createAnalyser();
-analyser.fftSize=64;
-src.connect(analyser);
-analyser.connect(audioCtx.destination);
-
-const data=new Uint8Array(analyser.frequencyBinCount);
-
-function drawVU(){
- requestAnimationFrame(drawVU);
- analyser.getByteFrequencyData(data);
- ctx.clearRect(0,0,300,120);
- for(let i=0;i<20;i++){
-  const v=data[i]/255;
-  ctx.fillStyle=v>.6?'#f00':v>.3?'#ff0':'#0f0';
-  ctx.fillRect(10+i*14,110-v*100,10,v*100);
- }
+function crearVolumenes(){
+  const cont=document.getElementById('volumenes');
+  data.volumenes.forEach(v=>{
+    const b=document.createElement('div');
+    b.textContent=v.titulo;
+    b.className='vol-btn';
+    b.onclick=()=>cargarVolumen(v,b);
+    cont.appendChild(b);
+  });
 }
-drawVU();
+
+function cargarVolumen(v,btn){
+  document.querySelectorAll('.vol-btn').forEach(b=>b.classList.remove('activo'));
+  btn.classList.add('activo');
+  volActual=v;
+  moverAguja(v.vu);
+  cargarCanciones(v.canciones);
+}
+
+function moverAguja(valor){
+  const aguja=document.getElementById('aguja');
+  aguja.style.transform=`rotate(${valor*4}deg)`;
+}
+
+function cargarCanciones(canciones){
+  const cont=document.getElementById('canciones');
+  cont.innerHTML='';
+  canciones.forEach(c=>{
+    const d=document.createElement('div');
+    d.textContent=c.titulo;
+    d.onclick=()=>reproducir(c);
+    cont.appendChild(d);
+  });
+}
+
+async function reproducir(c){
+  player.src=c.audio;
+  await player.play();
+  document.getElementById('galleta').src=c.galleta;
+  document.getElementById('vinilo').classList.add('rapido');
+  document.getElementById('brazo').classList.add('activo');
+
+  const letra=await fetch(c.letra).then(r=>r.text());
+  const extra=await fetch(c.extra).then(r=>r.text());
+  document.getElementById('info').textContent=letra+"\n\n"+extra;
+}
 </script>
 
 </body>
 </html>
+
