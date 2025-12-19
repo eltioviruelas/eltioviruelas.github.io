@@ -171,3 +171,15 @@ header {
   transform: rotate(-40deg);
   transition: transform 0.4s ease;
 }
+.volumenes-scroll {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  gap: 20px;
+  padding: 20px;
+}
+
+.volumen-btn {
+  flex: 0 0 auto;
+  scroll-snap-align: center;
+}
