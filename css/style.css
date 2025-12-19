@@ -133,3 +133,16 @@ header {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  justify-content: center;
+}
+
+.logo {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 3px solid #C88713;
+}
