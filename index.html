@@ -3,353 +3,58 @@
 <head>
   <meta charset="UTF-8">
   <title>El Tío Viruelas</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Fuente -->
   <link href="https://fonts.googleapis.com/css2?family=Rock+Salt&display=swap" rel="stylesheet">
-  <!-- Font Awesome para iconos retro -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <style>
-    body {
-      margin: 0;
-      background-color: #111;
-      font-family: 'Rock Salt', cursive;
-      color: #C88713;
-      overflow-x: hidden;
-      text-align: center;
-    }
 
-    header {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 20px;
-      margin-top: 3vh;
-    }
-
-    /* Logo a la izquierda, tamaño como la galleta (máx 180px) */
-    .logo-moneda {
-      width: 40%;
-      max-width: 180px;
-      aspect-ratio: 1/1;
-      border-radius: 50%;
-      overflow: hidden;
-      border: 4px solid #C88713;
-      box-shadow: 0 0 15px rgba(0,0,0,0.6);
-      background: radial-gradient(circle at 35% 35%, #2a1f0a 0%, #533b14 40%, #2a1f0a 100%);
-    }
-    .logo-moneda img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    header h1 {
-      font-size: clamp(2rem, 4vw, 5rem);
-      margin: 0;
-    }
-
-    .tocadiscos {
-      position: relative;
-      width: clamp(300px, 40vw, 450px);
-      height: clamp(300px, 40vw, 450px);
-      margin: 5vh auto;
-    }
-
-    .vinilo {
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      background: repeating-radial-gradient(circle, #000 0px, #111 2px, #000 4px);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      position: relative;
-      animation: girar 16s linear infinite; /* mitad de velocidad (más lento) */
-      z-index: 1;
-    }
-    .vinilo.rapido { animation: girar 8s linear infinite; }
-
-    @keyframes girar {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-
-    .galleta {
-      width: 40%;
-      height: 40%;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 4px solid #C88713;
-      z-index: 2;
-      animation: girar 16s linear infinite; /* misma velocidad lenta */
-    }
-    .galleta.rapido { animation: girar 8s linear infinite; }
-
-    .agujero {
-      position: absolute;
-      width: 5%;
-      height: 5%;
-      background: #000;
-      border-radius: 50%;
-      z-index: 3;
-    }
-
-    .brazo {
-      position: absolute;
-      top: -5%;
-      right: -10%;
-      width: 40%;
-      transform-origin: top right; /* pivota desde arriba */
-      transition: transform 1s ease;
-      z-index: 5; /* por encima del vinilo */
-    }
-    .brazo.activo { transform: rotate(20deg) translate(-10%, 20%); }
-
-    .galeria {
-      display: flex;
-      overflow-x: auto;
-      gap: 20px;
-      padding: 20px;
-      justify-content: center; /* centrada */
-    }
-    .galeria img {
-      width: clamp(100px, 15vw, 180px);
-      height: clamp(115px, 17vw, 200px);
-      border-radius: 5px;
-      object-fit: cover;
-      cursor: pointer;
-      border: 3px solid #000;
-      box-shadow: 2px 2px 8px rgba(0,0,0,0.7);
-      transition: transform 0.3s ease;
-    }
-    .galeria img:nth-child(odd) { transform: rotate(-6deg); }
-    .galeria img:nth-child(even) { transform: rotate(6deg); }
-    .galeria img:hover { transform: scale(1.05) rotate(0deg); }
-
-    /* Controles con iconos Font Awesome (retro) */
-    .controles {
-      margin-top: 20px;
-      display: flex;
-      justify-content: center; /* centrados */
-      gap: 15px;
-    }
-    .controles button {
-      background: #222;
-      border: 2px solid #C88713;
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
-      color: #C88713;
-      font-size: 1.4rem;
-      cursor: pointer;
-      transition: all 0.3s;
-    }
-    .controles button:hover {
-      background: #C88713;
-      color: #111;
-    }
-
-    #tiempo {
-      margin-top: 10px;
-      font-family: sans-serif;
-      color: #eee;
-      text-align: center; /* centrado */
-    }
-
-    #info-disco {
-      margin-top: 15px;
-      font-family: 'Rock Salt', cursive;
-      color: #C88713;
-      max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
-      text-align: center;
-      background: #222;
-      padding: 15px;
-      border-radius: 10px;
-      white-space: pre-line; /* respeta saltos de línea del .txt */
-    }
-
-    footer {
-      margin-top: 40px;
-      background: #222;
-      color: #C88713;
-      padding: 20px;
-      text-align: center;
-    }
-    footer form {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      max-width: 400px;
-      margin: auto;
-    }
-    footer input, footer textarea {
-      padding: 10px;
-      border-radius: 5px;
-      border: none;
-      font-family: sans-serif;
-    }
-    footer button {
-      background: #C88713;
-      color: #111;
-      padding: 10px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-    footer button:hover { background: #fff; }
-
-    @media (max-width: 480px) {
-      .tocadiscos { width: 84vw; height: 84vw; }
-      .brazo { right: -6%; width: 38%; }
-      header { gap: 12px; }
-    }
-  </style>
+  <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
 
-  <header>
-    <div class="logo-moneda">
-      <img src="img/logo.jpeg" alt="Logo">
+<header>
+  <h1>El Tío Viruelas</h1>
+</header>
+
+<main>
+
+  <!-- SELECTOR DE VOLUMENES -->
+  <section class="volumenes">
+    <button id="vol-prev">◀</button>
+    <div id="volumenes-container"></div>
+    <button id="vol-next">▶</button>
+  </section>
+
+  <!-- VU METER -->
+  <section class="vu-meter">
+    <div class="vu-base">
+      <div id="aguja"></div>
     </div>
-    <h1>El Tío Viruelas</h1>
-  </header>
+  </section>
 
-  <div class="tocadiscos">
-    <img src="img/tocadiscos.png" class="brazo" id="brazo" alt="Brazo del tocadiscos">
-    <div class="vinilo" id="vinilo">
-      <img id="galleta" class="galleta" src="img/logo.jpeg" alt="Logo del disco">
-      <div class="agujero"></div>
-    </div>
-  </div>
+  <!-- PORTADAS -->
+  <section id="portadas" class="portadas"></section>
 
-  <div class="galeria">
-    <img src="img/Vol I.jpg"  data-img="img/Vol I.jpg"  data-song="audio/El camino largo.mp3" data-info="info/Vol I.txt"  alt="Volumen I">
-    <img src="img/Vol II.jpg" data-img="img/Vol II.jpg" data-song="audio/cancion2.mp3"         data-info="info/Vol II.txt" alt="Volumen II">
-    <img src="img/Vol III.jpg"data-img="img/Vol III.jpg"data-song="audio/cancion3.mp3"         data-info="info/Vol III.txt"alt="Volumen III">
-    <img src="img/Vol IV.jpg" data-img="img/Vol IV.jpg" data-song="audio/cancion4.mp3"         data-info="info/Vol IV.txt" alt="Volumen IV">
-  </div>
+  <!-- REPRODUCTOR -->
+  <section class="reproductor">
+    <p id="tema-actual">Selecciona una canción</p>
+    <audio id="audio" controls></audio>
+  </section>
 
-  <!-- Reproductor oculto -->
-  <audio id="player"></audio>
+  <!-- LETRAS -->
+  <section class="letra">
+    <pre id="letra-texto"></pre>
+  </section>
 
-  <!-- Controles -->
-  <div class="controles">
-    <button onclick="playSong()"    title="Play"><i class="fas fa-play"></i></button>
-    <button onclick="pauseSong()"   title="Pausa"><i class="fas fa-pause"></i></button>
-    <button onclick="stopSong()"    title="Stop"><i class="fas fa-stop"></i></button>
-    <button onclick="volDown()"     title="Volumen -"><i class="fas fa-volume-down"></i></button>
-    <button onclick="volUp()"       title="Volumen +"><i class="fas fa-volume-up"></i></button>
-    <button onclick="resetVinilo()" title="Volver al inicio"><i class="fas fa-rotate-left"></i></button>
-  </div>
+  <!-- EXTRAS -->
+  <section class="extra">
+    <pre id="extra-texto"></pre>
+  </section>
 
-  <div id="tiempo">0:00 / 0:00</div>
-  <div id="info-disco">Selecciona un disco para ver información.</div>
+</main>
 
-  <!-- Pie de página con formulario (envío directo via endpoint) -->
-  <footer>
-    <h3>Contacto</h3>
-    <!-- Sustituye la URL de action por tu endpoint real (p.ej. Formspree/Netlify Forms) -->
-    <form action="https://formspree.io/f/TU-ENDPOINT" method="POST">
-      <input type="text"  name="nombre" placeholder="Tu nombre" required>
-      <input type="email" name="email"  placeholder="Tu email"  required>
-      <textarea name="mensaje" rows="4" placeholder="Escribe tu mensaje..." required></textarea>
-      <input type="hidden" name="_subject" value="Mensaje desde El Tío Viruelas">
-      <input type="hidden" name="destinatario" value="eltioviruelas@gmail.com">
-      <button type="submit">Enviar</button>
-    </form>
-  </footer>
-
-  <script>
-    const portadas = document.querySelectorAll('.galeria img');
-    const galleta  = document.getElementById('galleta');
-    const vinilo   = document.getElementById('vinilo');
-    const brazo    = document.getElementById('brazo');
-    const player   = document.getElementById('player');
-    const infoDisco= document.getElementById('info-disco');
-    const tiempoEl = document.getElementById('tiempo');
-
-    let currentSong = null;
-
-    // Formateo mm:ss
-    function fmt(t){
-      if(isNaN(t) || !isFinite(t)) return '0:00';
-      const m = Math.floor(t / 60);
-      const s = Math.floor(t % 60);
-      return `${m}:${String(s).padStart(2,'0')}`;
-    }
-
-    function updateTime(){
-      const cur = fmt(player.currentTime);
-      const dur = fmt(player.duration);
-      tiempoEl.textContent = `${cur} / ${dur}`;
-    }
-
-    player.addEventListener('timeupdate', updateTime);
-    player.addEventListener('loadedmetadata', updateTime);
-    player.addEventListener('durationchange', updateTime);
-    player.addEventListener('ended', () => {
-      brazo.classList.remove('activo');
-      vinilo.classList.remove('rapido');
-      galleta.classList.remove('rapido');
-    });
-
-    // Portadas: cambio de galleta, brazo, rotación, audio y txt
-    portadas.forEach(portada => {
-      portada.addEventListener('click', async () => {
-        galleta.src = portada.dataset.img;
-        brazo.classList.add('activo');
-        vinilo.classList.add('rapido');
-        galleta.classList.add('rapido');
-
-        currentSong = portada.dataset.song;
-        player.src = currentSong;
-        try { await player.play(); } catch(e) { /* algunos navegadores bloquean autoplay */ }
-
-        const infoUrl = portada.dataset.info;
-        try {
-          const res = await fetch(infoUrl);
-          const text = await res.text();
-          infoDisco.textContent = text;
-        } catch(e) {
-          infoDisco.textContent = 'Información no disponible.';
-        }
-      });
-    });
-
-    // Controles
-    function playSong(){
-      if(!player.src && currentSong){ player.src = currentSong; }
-      player.play().catch(()=>{});
-    }
-    function pauseSong(){ player.pause(); }
-    function stopSong(){
-      player.pause();
-      player.currentTime = 0;
-      updateTime();
-    }
-    function volUp(){ player.volume = Math.min(1, player.volume + 0.1); }
-    function volDown(){ player.volume = Math.max(0, player.volume - 0.1); }
-    function resetVinilo(){
-      brazo.classList.remove('activo');
-      vinilo.classList.remove('rapido');
-      galleta.classList.remove('rapido');
-      galleta.src = 'img/logo.jpeg';
-      stopSong();
-      tiempoEl.textContent = '0:00 / 0:00';
-      infoDisco.textContent = 'Selecciona un disco para ver información.';
-      currentSong = null;
-      player.removeAttribute('src');
-    }
-
-    // Exponer funciones a los botones (necesario si usas atributos onclick)
-    window.playSong   = playSong;
-    window.pauseSong  = pauseSong;
-    window.stopSong   = stopSong;
-    window.volUp      = volUp;
-    window.volDown    = volDown;
-    window.resetVinilo= resetVinilo;
-  </script>
+<script src="js/app.js"></script>
 </body>
 </html>
+
