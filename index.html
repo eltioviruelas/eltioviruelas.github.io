@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <title>El Tío Viruelas</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
 <link href="https://fonts.googleapis.com/css2?family=Rock+Salt&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
 body{
@@ -33,17 +33,17 @@ header{
 }
 .logo img{width:100%;height:100%;object-fit:cover;}
 
-h1{font-size:3rem;margin:0;}
+h1{margin:0;font-size:3rem;}
 
 .volumenes{
   display:flex;
-  overflow-x:auto;
-  gap:20px;
-  padding:20px;
   justify-content:center;
+  gap:20px;
+  margin:20px 0;
 }
+
 .vol-btn{
-  padding:10px 20px;
+  padding:10px 25px;
   border:2px solid #C88713;
   border-radius:30px;
   cursor:pointer;
@@ -54,8 +54,8 @@ h1{font-size:3rem;margin:0;}
 
 .tocadiscos{
   position:relative;
-  width:360px;
-  height:360px;
+  width:350px;
+  height:350px;
   margin:30px auto;
 }
 
@@ -66,41 +66,48 @@ h1{font-size:3rem;margin:0;}
   background:repeating-radial-gradient(circle,#000 0,#111 2px,#000 4px);
   animation:girar 16s linear infinite;
 }
+
 .vinilo.rapido{animation-duration:8s;}
 
-@keyframes girar{to{transform:rotate(360deg)}}
+@keyframes girar{
+  to{transform:rotate(360deg);}
+}
 
 .galleta{
   position:absolute;
   width:40%;
   height:40%;
-  border-radius:50%;
   top:30%;
   left:30%;
+  border-radius:50%;
   border:4px solid #C88713;
 }
 
 .brazo{
   position:absolute;
   top:-10%;
-  right:-10%;
-  width:40%;
+  right:-15%;
+  width:45%;
+  transform-origin:top right;
   transition:1s;
 }
-.brazo.activo{transform:rotate(20deg) translate(-10%,20%);}
+.brazo.activo{
+  transform:rotate(22deg) translate(-10%,20%);
+}
 
 .vu{
-  width:300px;
-  margin:30px auto;
+  width:320px;
+  margin:20px auto;
   position:relative;
 }
 .vu img{width:100%;}
+
 .aguja{
   position:absolute;
   bottom:18%;
   left:50%;
   width:3px;
-  height:70px;
+  height:75px;
   background:#C88713;
   transform-origin:bottom;
   transform:rotate(-45deg);
@@ -109,7 +116,7 @@ h1{font-size:3rem;margin:0;}
 
 .canciones{
   max-width:600px;
-  margin:auto;
+  margin:20px auto;
 }
 .canciones div{
   padding:10px;
@@ -119,28 +126,15 @@ h1{font-size:3rem;margin:0;}
 .canciones div:hover{background:#222;}
 
 #info{
-  white-space:pre-line;
-  background:#222;
+  max-width:600px;
   margin:20px auto;
+  background:#222;
   padding:15px;
   border-radius:10px;
-  max-width:600px;
+  white-space:pre-line;
 }
 
-.controles{
-  display:flex;
-  justify-content:center;
-  gap:15px;
-  margin:20px;
-}
-.controles button{
-  width:50px;height:50px;
-  border-radius:50%;
-  border:2px solid #C88713;
-  background:#222;
-  color:#C88713;
-  font-size:1.2rem;
-}
+audio{display:none;}
 </style>
 </head>
 
@@ -156,7 +150,7 @@ h1{font-size:3rem;margin:0;}
 <div class="tocadiscos">
   <img src="img/tocadiscos.png" class="brazo" id="brazo">
   <div class="vinilo" id="vinilo">
-    <img class="galleta" id="galleta">
+    <img id="galleta" class="galleta">
   </div>
 </div>
 
@@ -170,67 +164,67 @@ h1{font-size:3rem;margin:0;}
 
 <audio id="player"></audio>
 
-<div class="controles">
-  <button onclick="player.play()"><i class="fas fa-play"></i></button>
-  <button onclick="player.pause()"><i class="fas fa-pause"></i></button>
-</div>
-
 <script>
-let data, volActual, player=document.getElementById('player');
+let data, volumenActual;
+const player = document.getElementById('player');
+const vinilo = document.getElementById('vinilo');
+const brazo  = document.getElementById('brazo');
+const galleta= document.getElementById('galleta');
+const aguja  = document.getElementById('aguja');
 
-fetch('data.json').then(r=>r.json()).then(json=>{
-  data=json;
-  crearVolumenes();
-});
+fetch('data.json')
+  .then(r => r.json())
+  .then(json => {
+    data = json;
+    crearBotones();
+  });
 
-function crearVolumenes(){
-  const cont=document.getElementById('volumenes');
+function crearBotones(){
+  const cont = document.getElementById('volumenes');
   data.volumenes.forEach(v=>{
-    const b=document.createElement('div');
-    b.textContent=v.titulo;
-    b.className='vol-btn';
-    b.onclick=()=>cargarVolumen(v,b);
+    const b = document.createElement('div');
+    b.className = 'vol-btn';
+    b.textContent = v.titulo;
+    b.onclick = ()=>seleccionarVolumen(v,b);
     cont.appendChild(b);
   });
 }
 
-function cargarVolumen(v,btn){
+function seleccionarVolumen(v,btn){
   document.querySelectorAll('.vol-btn').forEach(b=>b.classList.remove('activo'));
   btn.classList.add('activo');
-  volActual=v;
+  volumenActual = v;
   moverAguja(v.vu);
   cargarCanciones(v.canciones);
 }
 
-function moverAguja(valor){
-  const aguja=document.getElementById('aguja');
-  aguja.style.transform=`rotate(${valor*4}deg)`;
+function moverAguja(v){
+  aguja.style.transform = `rotate(${v*3}deg)`;
 }
 
-function cargarCanciones(canciones){
-  const cont=document.getElementById('canciones');
-  cont.innerHTML='';
-  canciones.forEach(c=>{
-    const d=document.createElement('div');
-    d.textContent=c.titulo;
-    d.onclick=()=>reproducir(c);
+function cargarCanciones(lista){
+  const cont = document.getElementById('canciones');
+  cont.innerHTML = '';
+  lista.forEach(c=>{
+    const d = document.createElement('div');
+    d.textContent = c.titulo;
+    d.onclick = ()=>reproducir(c);
     cont.appendChild(d);
   });
 }
 
 async function reproducir(c){
-  player.src=c.audio;
+  player.src = c.audio;
   await player.play();
-  document.getElementById('galleta').src=c.galleta;
-  document.getElementById('vinilo').classList.add('rapido');
-  document.getElementById('brazo').classList.add('activo');
+  vinilo.classList.add('rapido');
+  brazo.classList.add('activo');
+  galleta.src = c.galleta;
 
-  const letra=await fetch(c.letra).then(r=>r.text());
-  const extra=await fetch(c.extra).then(r=>r.text());
-  document.getElementById('info').textContent=letra+"\n\n"+extra;
+  const letra = await fetch(c.letra).then(r=>r.text());
+  const extra = await fetch(c.extra).then(r=>r.text());
+  document.getElementById('info').textContent = letra + "\n\n" + extra;
 }
 </script>
 
 </body>
 </html>
-
