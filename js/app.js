@@ -76,3 +76,23 @@ function cargarTexto(url, destino) {
     });
 }
 
+const audio = document.getElementById('audio');
+const viniloCentral = document.getElementById('vinilo-central');
+const brazo = document.getElementById('brazo');
+
+document.getElementById('play').onclick = () => audio.play();
+document.getElementById('pause').onclick = () => audio.pause();
+
+document.getElementById('volumen').oninput = e => {
+  audio.volume = e.target.value;
+};
+
+audio.onplay = () => {
+  viniloCentral.style.animationPlayState = 'running';
+  brazo.style.transform = 'rotate(-5deg)';
+};
+
+audio.onpause = () => {
+  viniloCentral.style.animationPlayState = 'paused';
+  brazo.style.transform = 'rotate(-25deg)';
+};
