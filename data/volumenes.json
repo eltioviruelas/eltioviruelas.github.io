@@ -1,41 +1,39 @@
 {
-  "artista": "El Tío Viruelas",
   "volumenes": [
     {
       "id": "vol1",
-      "titulo": "Volumen I",
-      "galleta": "img/galletas/vol1.png",
+      "titulo": "Vol. 1",
+      "vu": -5,
       "canciones": [
         {
           "titulo": "El camino largo",
-          "portada": "img/portadas/vol1/el camino largo.jpg",
-          "archivo": "audio/vol1/el camino largo.mp3",
+          "audio": "audio/vol1/el camino largo.mp3",
           "letra": "letras/vol1/el camino largo.txt",
-          "extra": "extras/vol1/el camino largo extra.txt"
+          "extra": "extras/vol1/el camino largo extra.txt",
+          "galleta": "img/logo.jpeg"
         },
         {
           "titulo": "Adiós",
-          "portada": "img/portadas/vol1/adios.jpg",
-          "archivo": "audio/vol1/adios.mp3",
+          "audio": "audio/vol1/adios.mp3",
           "letra": "letras/vol1/adios.txt",
-          "extra": "extras/vol1/adios extra.txt"
+          "extra": "extras/vol1/adios extra.txt",
+          "galleta": "img/logo.jpeg"
         }
       ]
     },
     {
       "id": "vol2",
-      "titulo": "Volumen II",
-      "galleta": "img/galletas/vol2.png",
+      "titulo": "Vol. 2",
+      "vu": 5,
       "canciones": [
         {
           "titulo": "Nunca estuve lejos",
-          "portada": "img/portadas/vol2/nunca estuve lejos.jpg",
-          "archivo": "audio/vol2/nunca estuve lejos.mp3",
+          "audio": "audio/vol2/nunca estuve lejos.mp3",
           "letra": "letras/vol2/nunca estuve lejos.txt",
-          "extra": "extras/vol2/nunca estuve lejos extra.txt"
+          "extra": "extras/vol2/nunca estuve lejos extra.txt",
+          "galleta": "img/logo.jpeg"
         }
       ]
     }
   ]
 }
-
