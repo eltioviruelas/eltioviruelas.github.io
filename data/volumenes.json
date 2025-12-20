@@ -1,7 +1,6 @@
 {
   "volumenes": [
     {
-      "id": "vol1",
       "titulo": "Vol. 1",
       "vu": -10,
       "canciones": [
@@ -22,7 +21,6 @@
       ]
     },
     {
-      "id": "vol2",
       "titulo": "Vol. 2",
       "vu": 10,
       "canciones": [
