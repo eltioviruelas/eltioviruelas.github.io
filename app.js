@@ -65,7 +65,8 @@ function reproducir(c) {
 
   // Cambiar galleta (portada) y estado visual
   galleta.src = c.galleta;
-  vinilo.style.animationPlayState = 'running';
+  vinilo.classList.remove('girarLento');  // Elimina la animación lenta
+  vinilo.classList.add('girarRapido');   // Añade la animación rápida
   brazo.style.transform = 'rotate(-8deg)';
 
   cargar(c.letra, 'letra-texto');
