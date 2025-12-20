@@ -33,34 +33,45 @@ header h1 {
 /* TOCADISCOS */
 .tocadiscos {
   position: relative;
-  width: 420px;
-  height: 420px;
-  margin: 30px auto;
+  width: 500px;
+  height: 500px;
+  margin: 40px auto;
 }
 
 .vinilo {
-  width: 380px;
-  height: 380px;
+  width: 450px;  /* Aumentar tamaño */
+  height: 450px;
   border-radius: 50%;
   margin: auto;
   background: repeating-radial-gradient(
     circle,
-    #050505 0px,
-    #050505 2px,
+    #000 0px,
+    #000 2px,
     #111 2px,
     #111 5px
   );
-  border: 6px solid #000;
-  box-shadow:
-    inset 0 0 30px rgba(0,0,0,0.9),
-    0 0 25px rgba(0,0,0,0.9);
   animation: girar 16s linear infinite;
   animation-play-state: paused;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
+  z-index: 1;  /* Para que el brazo quede encima */
 }
+
+.brazo {
+  position: absolute;
+  width: 200px;  /* Ajustamos el tamaño */
+  height: 8px;   /* Ajustamos el grosor */
+  background: #C88713;
+  top: 20px;  /* Colocamos el brazo correctamente sobre el vinilo */
+  right: -30px;
+  transform-origin: right center;
+  transform: rotate(-28deg);
+  transition: transform 0.5s ease;
+  z-index: 2;  /* Aseguramos que esté encima del vinilo */
+}
+
 
 .galleta {
   width: 30%;
@@ -80,17 +91,6 @@ header h1 {
   z-index: 3;
 }
 
-/* BRAZO */
-.brazo {
-  position: absolute;
-  width: 200px;
-  top: 20px;
-  right: -20px;
-  transform-origin: right center;
-  transform: rotate(-28deg);
-  transition: transform 0.6s ease;
-  pointer-events: none;
-}
 
 /* BOTONES VOL */
 .volumenes-scroll {
