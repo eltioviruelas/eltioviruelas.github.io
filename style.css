@@ -59,20 +59,6 @@ header h1 {
   z-index: 1;  /* Para que el brazo quede encima */
 }
 
-.brazo {
-  position: absolute;
-  width: 200px;  /* Ajustamos el tamaño */
-  height: 8px;   /* Ajustamos el grosor */
-  background: #C88713;
-  top: 20px;  /* Colocamos el brazo correctamente sobre el vinilo */
-  right: -30px;
-  transform-origin: right center;
-  transform: rotate(-28deg);
-  transition: transform 0.5s ease;
-  z-index: 2;  /* Aseguramos que esté encima del vinilo */
-}
-
-
 .galleta {
   width: 30%;
   height: 30%;
@@ -91,6 +77,19 @@ header h1 {
   z-index: 3;
 }
 
+/* BRAZO */
+.brazo {
+  position: absolute;
+  width: 200px;  /* Ajustamos el tamaño */
+  height: 8px;   /* Ajustamos el grosor */
+  background: #C88713;
+  top: 20px;  /* Colocamos el brazo correctamente sobre el vinilo */
+  right: -30px;
+  transform-origin: right center;
+  transform: rotate(-28deg);
+  transition: transform 0.5s ease;
+  z-index: 2;  /* Aseguramos que esté encima del vinilo */
+}
 
 /* BOTONES VOL */
 .volumenes-scroll {
@@ -117,14 +116,20 @@ header h1 {
 }
 
 /* VU */
+.vu-meter {
+  margin: 10px 0 30px;
+}
+
 .vu-caja {
-  width: 320px;
-  margin: 20px auto;
   position: relative;
+  width: 320px;
+  max-width: 90vw;
+  margin: auto;
 }
 
 .vu-caja img {
   width: 100%;
+  display: block;
 }
 
 .aguja {
