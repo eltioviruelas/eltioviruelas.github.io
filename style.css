@@ -39,7 +39,7 @@ header h1 {
 }
 
 .vinilo {
-  width: 450px;  /* Aumentar tamaño */
+  width: 450px;  /* Aumentamos tamaño */
   height: 450px;
   border-radius: 50%;
   margin: auto;
@@ -50,8 +50,8 @@ header h1 {
     #111 2px,
     #111 5px
   );
-  animation: girar 16s linear infinite;
-  animation-play-state: paused;
+  animation: girarLento 16s linear infinite;
+  animation-play-state: paused;  /* Pausado al inicio */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -88,7 +88,7 @@ header h1 {
   transform-origin: right center;
   transform: rotate(-28deg);
   transition: transform 0.5s ease;
-  z-index: 2;  /* Aseguramos que esté encima del vinilo */
+  z-index: 2;  /* Aseguramos que el brazo esté encima del vinilo */
 }
 
 /* BOTONES VOL */
@@ -199,7 +199,12 @@ header h1 {
   color: #eee;
 }
 
-@keyframes girar {
+@keyframes girarLento {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes girarRapido {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
