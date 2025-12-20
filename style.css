@@ -1,9 +1,4 @@
-/* =====================
-   BASE
-===================== */
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
   margin: 0;
@@ -11,24 +6,15 @@ body {
   color: #C88713;
   font-family: 'Rock Salt', cursive;
   text-align: center;
-  overflow-x: hidden;
 }
 
-/* =====================
-   HEADER
-===================== */
+/* HEADER */
 header {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 20px;
   padding: 30px 20px;
-}
-
-header h1 {
-  font-size: clamp(2.2rem, 4vw, 4rem);
-  margin: 0;
-  font-weight: bold;
 }
 
 .logo {
@@ -39,24 +25,77 @@ header h1 {
   object-fit: cover;
 }
 
-/* =====================
-   BOTONES DE VOLUMEN
-===================== */
+header h1 {
+  font-size: clamp(2.4rem, 4vw, 4rem);
+  margin: 0;
+}
+
+/* TOCADISCOS */
+.tocadiscos {
+  position: relative;
+  width: 420px;
+  height: 420px;
+  margin: 30px auto;
+}
+
+.vinilo {
+  width: 380px;
+  height: 380px;
+  border-radius: 50%;
+  margin: auto;
+  background: repeating-radial-gradient(
+    circle,
+    #000 0px,
+    #000 2px,
+    #111 2px,
+    #111 5px
+  );
+  animation: girar 16s linear infinite;
+  animation-play-state: paused;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.galleta {
+  width: 38%;
+  height: 38%;
+  border-radius: 50%;
+  border: 4px solid #C88713;
+  object-fit: cover;
+}
+
+.agujero {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  background: #000;
+  border-radius: 50%;
+}
+
+/* BRAZO */
+.brazo {
+  position: absolute;
+  width: 200px;
+  top: 20px;
+  right: -20px;
+  transform-origin: right center;
+  transform: rotate(-28deg);
+  transition: transform 0.6s ease;
+  pointer-events: none;
+}
+
+/* BOTONES VOL */
 .volumenes-scroll {
   display: flex;
   gap: 20px;
+  justify-content: center;
   padding: 20px;
   overflow-x: auto;
-  justify-content: center;
-  scroll-snap-type: x mandatory;
-}
-
-.volumenes-scroll::-webkit-scrollbar {
-  display: none;
 }
 
 .volumen-btn {
-  flex: 0 0 auto;
   width: 90px;
   height: 90px;
   border-radius: 50%;
@@ -65,36 +104,21 @@ header h1 {
   color: #C88713;
   font-family: inherit;
   cursor: pointer;
-  scroll-snap-align: center;
-  transition: all 0.3s ease;
-}
-
-.volumen-btn:hover {
-  background: #C88713;
-  color: #000;
 }
 
 .volumen-btn.activo {
-  box-shadow: 0 0 18px #C88713;
+  box-shadow: 0 0 16px #C88713;
 }
 
-/* =====================
-   VU METER
-===================== */
-.vu-meter {
-  margin: 10px 0 30px;
-}
-
+/* VU */
 .vu-caja {
-  position: relative;
   width: 320px;
-  max-width: 90vw;
-  margin: auto;
+  margin: 20px auto;
+  position: relative;
 }
 
 .vu-caja img {
   width: 100%;
-  display: block;
 }
 
 .aguja {
@@ -109,84 +133,36 @@ header h1 {
   transition: transform 0.4s ease;
 }
 
-/* =====================
-   TOCADISCOS
-===================== */
-.tocadiscos {
-  position: relative;
-  width: 340px;
-  height: 340px;
-  margin: 30px auto;
-}
-
-.vinilo-central {
-  width: 260px;
-  height: 260px;
-  border-radius: 50%;
-  margin: auto;
-  background: repeating-radial-gradient(
-    circle,
-    #000 0px,
-    #000 3px,
-    #111 3px,
-    #111 6px
-  );
-  animation: girar 8s linear infinite;
-  animation-play-state: paused;
-  box-shadow: 0 0 20px rgba(0,0,0,0.8);
-}
-
-/* Brazo del tocadiscos */
-.brazo {
-  position: absolute;
-  width: 160px;
-  top: 25px;
-  right: -10px;
-  transform-origin: right center;
-  transform: rotate(-25deg);
-  transition: transform 0.5s ease;
-  pointer-events: none;
-}
-
-/* =====================
-   PORTADAS
-===================== */
+/* PORTADAS */
 .portadas {
   display: flex;
-  gap: 20px;
   justify-content: center;
-  flex-wrap: wrap;
-  padding: 20px;
+  margin-top: 30px;
 }
 
 .portada {
   width: 160px;
+  margin-left: -40px;
   cursor: pointer;
   transition: transform 0.3s ease;
+}
+
+.portada:nth-child(odd) { transform: rotate(-6deg); }
+.portada:nth-child(even){ transform: rotate(6deg); }
+
+.portada:hover {
+  transform: scale(1.05) rotate(0deg);
+  z-index: 10;
 }
 
 .portada img {
   width: 100%;
   border-radius: 6px;
-  box-shadow: 3px 3px 10px rgba(0,0,0,0.8);
+  box-shadow: 3px 3px 12px rgba(0,0,0,0.8);
 }
 
-.portada:hover {
-  transform: scale(1.05);
-}
-
-.portada p {
-  margin-top: 8px;
-  font-size: 0.9rem;
-}
-
-/* =====================
-   CONTROLES
-===================== */
+/* CONTROLES */
 .controles {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
   margin: 20px 0;
 }
 
@@ -194,63 +170,41 @@ header h1 {
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  border: 2px solid #C88713;
   background: #111;
   color: #C88713;
-  font-size: 1.2rem;
+  border: 2px solid #C88713;
   cursor: pointer;
-  transition: all 0.3s ease;
 }
 
-.controles button:hover {
-  background: #C88713;
-  color: #000;
-}
-
-/* =====================
-   LETRA / EXTRAS
-===================== */
-.letra,
-.extra {
+/* TEXTO */
+.letra, .extra {
   max-width: 700px;
   margin: 20px auto;
-  padding: 15px;
   background: #111;
+  padding: 15px;
   border-radius: 10px;
   white-space: pre-wrap;
   font-family: sans-serif;
   color: #eee;
 }
 
-/* =====================
-   ANIMACIONES
-===================== */
 @keyframes girar {
   from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
+  to { transform: rotate(360deg); }
 }
 
-/* =====================
-   RESPONSIVE
-===================== */
+/* MOBILE */
 @media (max-width: 480px) {
   .tocadiscos {
+    width: 300px;
+    height: 300px;
+  }
+  .vinilo {
     width: 260px;
     height: 260px;
   }
-
-  .vinilo-central {
-    width: 200px;
-    height: 200px;
-  }
-
   .brazo {
-    width: 120px;
-    right: -5px;
-  }
-
-  header {
-    flex-direction: column;
-    gap: 10px;
+    width: 140px;
+    right: -10px;
   }
 }
