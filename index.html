@@ -1,230 +1,50 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<title>El Tío Viruelas</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
-<link href="https://fonts.googleapis.com/css2?family=Rock+Salt&display=swap" rel="stylesheet">
-
-<style>
-body{
-  margin:0;
-  background:#111;
-  font-family:'Rock Salt', cursive;
-  color:#C88713;
-  text-align:center;
-}
-
-header{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:20px;
-  padding:30px 10px;
-}
-
-.logo{
-  width:120px;
-  height:120px;
-  border-radius:50%;
-  overflow:hidden;
-  border:4px solid #C88713;
-}
-.logo img{width:100%;height:100%;object-fit:cover;}
-
-h1{margin:0;font-size:3rem;}
-
-.volumenes{
-  display:flex;
-  justify-content:center;
-  gap:20px;
-  margin:20px 0;
-}
-
-.vol-btn{
-  padding:10px 25px;
-  border:2px solid #C88713;
-  border-radius:30px;
-  cursor:pointer;
-}
-.vol-btn.activo{
-  box-shadow:0 0 15px #C88713;
-}
-
-.tocadiscos{
-  position:relative;
-  width:350px;
-  height:350px;
-  margin:30px auto;
-}
-
-.vinilo{
-  width:100%;
-  height:100%;
-  border-radius:50%;
-  background:repeating-radial-gradient(circle,#000 0,#111 2px,#000 4px);
-  animation:girar 16s linear infinite;
-}
-
-.vinilo.rapido{animation-duration:8s;}
-
-@keyframes girar{
-  to{transform:rotate(360deg);}
-}
-
-.galleta{
-  position:absolute;
-  width:40%;
-  height:40%;
-  top:30%;
-  left:30%;
-  border-radius:50%;
-  border:4px solid #C88713;
-}
-
-.brazo{
-  position:absolute;
-  top:-10%;
-  right:-15%;
-  width:45%;
-  transform-origin:top right;
-  transition:1s;
-}
-.brazo.activo{
-  transform:rotate(22deg) translate(-10%,20%);
-}
-
-.vu{
-  width:320px;
-  margin:20px auto;
-  position:relative;
-}
-.vu img{width:100%;}
-
-.aguja{
-  position:absolute;
-  bottom:18%;
-  left:50%;
-  width:3px;
-  height:75px;
-  background:#C88713;
-  transform-origin:bottom;
-  transform:rotate(-45deg);
-  transition:0.5s;
-}
-
-.canciones{
-  max-width:600px;
-  margin:20px auto;
-}
-.canciones div{
-  padding:10px;
-  cursor:pointer;
-  border-bottom:1px solid #333;
-}
-.canciones div:hover{background:#222;}
-
-#info{
-  max-width:600px;
-  margin:20px auto;
-  background:#222;
-  padding:15px;
-  border-radius:10px;
-  white-space:pre-line;
-}
-
-audio{display:none;}
-</style>
+  <meta charset="UTF-8">
+  <title>El Tío Viruelas</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css2?family=Rock+Salt&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
 <header>
-  <div class="logo"><img src="img/logo.jpeg"></div>
+  <img src="img/logo.jpeg" class="logo">
   <h1>El Tío Viruelas</h1>
 </header>
 
-<div class="volumenes" id="volumenes"></div>
+<!-- BOTONES DE VOLUMEN -->
+<div class="volumenes-scroll" id="volumenes-container"></div>
 
-<div class="tocadiscos">
-  <img src="img/tocadiscos.png" class="brazo" id="brazo">
-  <div class="vinilo" id="vinilo">
-    <img id="galleta" class="galleta">
+<!-- VU METER -->
+<div class="vu-meter">
+  <div class="vu-caja">
+    <img src="img/vu/vu.png" alt="VU Meter" style="width:100%">
+    <div class="aguja" id="aguja"></div>
   </div>
 </div>
 
-<div class="vu">
-  <img src="img/vu-meter.png">
-  <div class="aguja" id="aguja"></div>
+<!-- TOCADISCOS -->
+<div class="tocadiscos">
+  <img src="img/tocadiscos/brazo.png" id="brazo" class="brazo">
+  <div class="vinilo-central" id="vinilo-central"></div>
 </div>
 
-<div class="canciones" id="canciones"></div>
-<div id="info">Selecciona una canción</div>
+<!-- PORTADAS -->
+<div class="portadas" id="portadas"></div>
 
-<audio id="player"></audio>
+<!-- REPRODUCTOR -->
+<audio id="audio"></audio>
 
-<script>
-let data, volumenActual;
-const player = document.getElementById('player');
-const vinilo = document.getElementById('vinilo');
-const brazo  = document.getElementById('brazo');
-const galleta= document.getElementById('galleta');
-const aguja  = document.getElementById('aguja');
+<div class="controles">
+  <button id="play">▶</button>
+  <button id="pause">⏸</button>
+</div>
 
-fetch('data.json')
-  .then(r => r.json())
-  .then(json => {
-    data = json;
-    crearBotones();
-  });
+<div class="letra"><pre id="letra-texto"></pre></div>
+<div class="extra"><pre id="extra-texto"></pre></div>
 
-function crearBotones(){
-  const cont = document.getElementById('volumenes');
-  data.volumenes.forEach(v=>{
-    const b = document.createElement('div');
-    b.className = 'vol-btn';
-    b.textContent = v.titulo;
-    b.onclick = ()=>seleccionarVolumen(v,b);
-    cont.appendChild(b);
-  });
-}
-
-function seleccionarVolumen(v,btn){
-  document.querySelectorAll('.vol-btn').forEach(b=>b.classList.remove('activo'));
-  btn.classList.add('activo');
-  volumenActual = v;
-  moverAguja(v.vu);
-  cargarCanciones(v.canciones);
-}
-
-function moverAguja(v){
-  aguja.style.transform = `rotate(${v*3}deg)`;
-}
-
-function cargarCanciones(lista){
-  const cont = document.getElementById('canciones');
-  cont.innerHTML = '';
-  lista.forEach(c=>{
-    const d = document.createElement('div');
-    d.textContent = c.titulo;
-    d.onclick = ()=>reproducir(c);
-    cont.appendChild(d);
-  });
-}
-
-async function reproducir(c){
-  player.src = c.audio;
-  await player.play();
-  vinilo.classList.add('rapido');
-  brazo.classList.add('activo');
-  galleta.src = c.galleta;
-
-  const letra = await fetch(c.letra).then(r=>r.text());
-  const extra = await fetch(c.extra).then(r=>r.text());
-  document.getElementById('info').textContent = letra + "\n\n" + extra;
-}
-</script>
-
+<script src="app.js"></script>
 </body>
 </html>
