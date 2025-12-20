@@ -55,8 +55,7 @@ function reproducir(c) {
   audio.play();
 
   galleta.src = c.galleta;
-  vinilo.style.animationPlayState = 'running';
-  brazo.style.transform = 'rotate(-8deg)';
+
 
   cargar(c.letra, 'letra-texto');
   cargar(c.extra, 'extra-texto');
@@ -71,6 +70,21 @@ document.getElementById('play').onclick = () => audio.play();
 document.getElementById('pause').onclick = () => audio.pause();
 
 audio.onpause = () => {
+  vinilo.style.animationPlayState = 'paused';
+  brazo.style.transform = 'rotate(-28deg)';
+};
+
+audio.onplay = () => {
+  vinilo.style.animationPlayState = 'running';
+  brazo.style.transform = 'rotate(-8deg)';
+};
+
+audio.onpause = () => {
+  vinilo.style.animationPlayState = 'paused';
+  brazo.style.transform = 'rotate(-28deg)';
+};
+
+audio.onended = () => {
   vinilo.style.animationPlayState = 'paused';
   brazo.style.transform = 'rotate(-28deg)';
 };
