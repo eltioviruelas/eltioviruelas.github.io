@@ -1,7 +1,8 @@
 let data;
-let audio = document.getElementById('audio');
-let vinilo = document.getElementById('vinilo-central');
-let brazo = document.getElementById('brazo');
+const audio = document.getElementById('audio');
+const vinilo = document.getElementById('vinilo');
+const brazo = document.getElementById('brazo');
+const galleta = document.getElementById('galleta');
 
 fetch('data/volumenes.json')
   .then(r => r.json())
@@ -43,7 +44,7 @@ function mostrarPortadas(vol) {
   vol.canciones.forEach(c => {
     const d = document.createElement('div');
     d.className = 'portada';
-    d.innerHTML = `<img src="${c.galleta}"><p>${c.titulo}</p>`;
+    d.innerHTML = `<img src="${c.galleta}">`;
     d.onclick = () => reproducir(c);
     p.appendChild(d);
   });
@@ -53,18 +54,17 @@ function reproducir(c) {
   audio.src = c.audio;
   audio.play();
 
+  galleta.src = c.galleta;
   vinilo.style.animationPlayState = 'running';
-  brazo.style.transform = 'rotate(-5deg)';
+  brazo.style.transform = 'rotate(-8deg)';
 
   cargar(c.letra, 'letra-texto');
   cargar(c.extra, 'extra-texto');
 }
 
 function cargar(url, id) {
-  fetch(url)
-    .then(r => r.text())
-    .then(t => document.getElementById(id).textContent = t)
-    .catch(() => document.getElementById(id).textContent = '');
+  fetch(url).then(r => r.text())
+    .then(t => document.getElementById(id).textContent = t);
 }
 
 document.getElementById('play').onclick = () => audio.play();
@@ -72,5 +72,5 @@ document.getElementById('pause').onclick = () => audio.pause();
 
 audio.onpause = () => {
   vinilo.style.animationPlayState = 'paused';
-  brazo.style.transform = 'rotate(-25deg)';
+  brazo.style.transform = 'rotate(-28deg)';
 };
