@@ -194,7 +194,11 @@ header {
   transform-origin: bottom center;
   transform: rotate(-40deg);
   animation: agujaViva 1.5s ease-in-out infinite;
+
+  /* 🔥 HALO */
+  filter: drop-shadow(0 0 6px #C88713);
 }
+
 
 
 /* ================= PORTADAS ================= */
@@ -317,6 +321,7 @@ header {
 }
 @keyframes agujaViva {
   0%   { transform: rotate(var(--base-angle)); }
-  50%  { transform: rotate(calc(var(--base-angle) + 2deg)); }
+  50%  { transform: rotate(calc(var(--base-angle) + 5deg)); }
   100% { transform: rotate(var(--base-angle)); }
 }
+
