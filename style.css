@@ -255,8 +255,8 @@ header {
   border: 1px solid #C88713;
   background: #111;
   color: #C88713;
-  font-size: 1.3rem;
-  box-shadow: 0 0 6px #C88713; /* halo */
+  font-size: 1rem;
+  box-shadow: 0 0 12px #C88713; /* halo */
 }
 
 
@@ -287,8 +287,8 @@ header {
 .potenciometro .min,
 .potenciometro .max {
   position: absolute;
-  font-size: 0.65rem;
-  bottom: -16px;
+  font-size: 0.40rem;
+  bottom: -14px;
 }
 
 .potenciometro .min { left: -6px; }
