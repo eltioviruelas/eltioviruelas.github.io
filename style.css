@@ -249,14 +249,14 @@ header {
 }
 
 .ctrl {
-  width: 55px;
-  height: 55px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
-  border: 2px solid #C88713;
+  border: 1px solid #C88713;
   background: #111;
   color: #C88713;
   font-size: 1.3rem;
-  box-shadow: 0 0 12px #C88713; /* halo */
+  box-shadow: 0 0 6px #C88713; /* halo */
 }
 
 
@@ -266,11 +266,11 @@ header {
 /* ================= POTENCIÓMETRO ================= */
 .potenciometro {
   position: relative;
-  width: 60px;
-  height: 60px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   background: radial-gradient(#333, #000);
-  border: 2px solid #C88713;
+  border: 1px solid #C88713;
 }
 
 .marca {
