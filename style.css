@@ -274,11 +274,11 @@ header {
 }
 
 .marca {
-  width: 4px;
-  height: 18px;
+  width: 2px;
+  height: 10px;
   background: #C88713;
   position: absolute;
-  top: 8px;
+  top: 5px;
   left: 50%;
   transform-origin: bottom center;
   transform: translateX(-50%) rotate(-120deg);
