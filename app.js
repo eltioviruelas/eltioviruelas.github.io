@@ -1,26 +1,26 @@
 let data;
 const audio = document.getElementById('audio');
 const vinilo = document.getElementById('vinilo');
+const wrapper = document.getElementById('viniloWrapper');
 const brazo = document.getElementById('brazo');
 const galleta = document.getElementById('galleta');
 const aguja = document.getElementById('aguja');
 const pot = document.getElementById('potenciometro');
-const marca = pot.querySelector('.marca');
+const marca = document.querySelector('.marca');
 
-/* ================= VOLUMEN ================= */
 let volumen = 0.8;
 audio.volume = volumen;
 
-/* sincroniza marca visual */
-const angInicial = -120 + volumen * 240;
-marca.style.transform = `translateX(-50%) rotate(${angInicial}deg)`;
+/* sincroniza marca */
+marca.style.transform = `translateX(-50%) rotate(${ -120 + volumen * 240 }deg)`;
 
-/* ================= CARGA JSON ================= */
+/* JSON */
 fetch('data/volumenes.json')
   .then(r => r.json())
   .then(j => {
     data = j;
-    vinilo.classList.add('lento'); // 🔴 CLAVE: arranca el giro
+    vinilo.classList.add('lento');
+    wrapper.classList.add('lento');
     crearBotones();
     seleccionarVol(0);
   });
@@ -41,8 +41,8 @@ function seleccionarVol(i) {
     .forEach((b, idx) => b.classList.toggle('activo', idx === i));
 
   const min = -40, max = 40;
-  const deg = min + (max - min) * (i / (data.volumenes.length - 1 || 1));
-  aguja.style.transform = `rotate(${deg}deg)`;
+  aguja.style.transform =
+    `rotate(${min + (max - min) * (i / (data.volumenes.length - 1 || 1))}deg)`;
 
   mostrarPortadas(data.volumenes[i]);
 }
@@ -67,10 +67,10 @@ function reproducir(c) {
     audio.play();
 
     galleta.src = c.galleta;
-    vinilo.classList.remove('lento');
-    vinilo.classList.add('rapido');
+    vinilo.className = 'vinilo rapido';
+    wrapper.className = 'vinilo-wrapper rapido';
     brazo.style.transform = 'rotate(-10deg)';
-  }, 350);
+  }, 300);
 
   cargar(c.letra, 'letra-texto');
   cargar(c.extra, 'extra-texto');
@@ -82,18 +82,29 @@ function cargar(url, id) {
     .then(t => document.getElementById(id).textContent = t);
 }
 
-/* ================= CONTROLES ================= */
+/* CONTROLES */
 document.getElementById('play').onclick = () => audio.play();
 document.getElementById('pause').onclick = () => audio.pause();
 
 audio.onpause = () => {
-  vinilo.classList.remove('rapido');
-  vinilo.classList.add('lento');
+  vinilo.className = 'vinilo lento';
+  wrapper.className = 'vinilo-wrapper lento';
   brazo.style.transform = 'rotate(-35deg)';
 };
 
-/* ================= POTENCIÓMETRO ================= */
+/* POTENCIÓMETRO */
 let girando = false;
+
+pot.addEventListener('mousedown', () => girando = true);
+document.addEventListener('mouseup', () => girando = false);
+document.addEventListener('mousemove', moverPot);
+
+pot.addEventListener('touchstart', e => {
+  girando = true;
+  moverPot(e);
+});
+document.addEventListener('touchend', () => girando = false);
+document.addEventListener('touchmove', moverPot, { passive: false });
 
 function moverPot(e) {
   if (!girando) return;
@@ -102,29 +113,15 @@ function moverPot(e) {
   const cx = rect.left + rect.width / 2;
   const cy = rect.top + rect.height / 2;
 
-  const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-  const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+  const x = e.touches ? e.touches[0].clientX : e.clientX;
+  const y = e.touches ? e.touches[0].clientY : e.clientY;
 
-  const ang = Math.atan2(clientY - cy, clientX - cx) * 180 / Math.PI;
+  const ang = Math.atan2(y - cy, x - cx) * 180 / Math.PI;
   const limitado = Math.max(-120, Math.min(120, ang));
 
   marca.style.transform = `translateX(-50%) rotate(${limitado}deg)`;
-  volumen = (limitado + 120) / 240;
-  audio.volume = volumen;
+  audio.volume = (limitado + 120) / 240;
 }
 
-/* ratón */
-pot.addEventListener('mousedown', () => girando = true);
-document.addEventListener('mouseup', () => girando = false);
-document.addEventListener('mousemove', moverPot);
-
-/* táctil */
-pot.addEventListener('touchstart', e => {
-  girando = true;
-  moverPot(e);
-});
-document.addEventListener('touchend', () => girando = false);
-document.addEventListener('touchmove', moverPot, { passive: false });
-
-/* bloqueos */
+/* BLOQUEO DESCARGAS */
 document.addEventListener('contextmenu', e => e.preventDefault());
