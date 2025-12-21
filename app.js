@@ -85,24 +85,39 @@ audio.onpause = () => {
   brazo.style.transform = 'rotate(-35deg)';
 };
 
-/* POTENCIÓMETRO */
+/* POTENCIÓMETRO — RATÓN + TÁCTIL */
 let girando = false;
 
-pot.addEventListener('mousedown', () => girando = true);
-document.addEventListener('mouseup', () => girando = false);
-
-document.addEventListener('mousemove', e => {
+function moverPot(e) {
   if (!girando) return;
+
   const rect = pot.getBoundingClientRect();
   const cx = rect.left + rect.width / 2;
   const cy = rect.top + rect.height / 2;
-  const ang = Math.atan2(e.clientY - cy, e.clientX - cx) * 180 / Math.PI;
+
+  const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+  const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+  const ang = Math.atan2(clientY - cy, clientX - cx) * 180 / Math.PI;
   const limitado = Math.max(-120, Math.min(120, ang));
 
   marca.style.transform = `translateX(-50%) rotate(${limitado}deg)`;
   volumen = (limitado + 120) / 240;
   audio.volume = volumen;
+}
+
+/* RATÓN */
+pot.addEventListener('mousedown', () => girando = true);
+document.addEventListener('mouseup', () => girando = false);
+document.addEventListener('mousemove', moverPot);
+
+/* TÁCTIL */
+pot.addEventListener('touchstart', e => {
+  girando = true;
+  moverPot(e);
 });
+document.addEventListener('touchend', () => girando = false);
+document.addEventListener('touchmove', moverPot, { passive: false });
 
 /* BLOQUEOS */
 document.addEventListener('contextmenu', e => e.preventDefault());
