@@ -8,7 +8,14 @@ body {
   background: #000;
   color: #C88713;
   font-family: 'Rock Salt', cursive;
+}
+
+/* ================= CONTENEDOR PRINCIPAL ================= */
+.escenario {
+  max-width: 900px;          /* 🔴 AQUÍ LIMITAS TODO */
+  margin: 0 auto;
   text-align: center;
+  padding-bottom: 50px;
 }
 
 /* ================= HEADER ================= */
@@ -17,7 +24,7 @@ header {
   align-items: center;
   justify-content: center;
   gap: 20px;
-  padding: 30px;
+  padding: 30px 0;
 }
 
 .logo {
@@ -29,17 +36,16 @@ header {
 
 /* ================= TOCADISCOS ================= */
 
-/* 🟡 AJUSTA AQUÍ EL TAMAÑO GENERAL */
+/* 🟡 AJUSTA AQUÍ EL TAMAÑO REAL DEL VINILO */
 .tocadiscos {
   position: relative;
-  width: 600px;     /* ⬅️ más grande / más pequeño */
+  width: 600px;      /* ⬅️ PRUEBA AQUÍ */
   height: 600px;
-  margin: 30px auto;
+  margin: 0 auto 20px;
 }
 
-/* 🟡 AJUSTA AQUÍ EL TAMAÑO DEL VINILO */
 .vinilo {
-  width: 540px;     /* ⬅️ protagonista */
+  width: 540px;
   height: 540px;
   margin: auto;
   border-radius: 50%;
@@ -56,7 +62,7 @@ header {
   position: relative;
 }
 
-/* ===== GIRO + BAMBOLEO ===== */
+/* GIRO REAL */
 .vinilo.lento {
   animation: girar 40s linear infinite, wobble 6s ease-in-out infinite;
 }
@@ -76,7 +82,6 @@ header {
   100% { transform: rotate(0deg) scale(1); }
 }
 
-/* ================= GALLETA ================= */
 .galleta {
   width: 30%;
   height: 30%;
@@ -92,12 +97,12 @@ header {
   border-radius: 50%;
 }
 
-/* ================= BRAZO ================= */
+/* BRAZO */
 .brazo {
   position: absolute;
-  top: -10px;
-  right: 80px;
-  width: 160px;   /* 🟡 AJUSTA SI LO QUIERES MÁS LARGO */
+  top: 0;
+  right: 110px;
+  width: 180px;
   transform-origin: top right;
   transform: rotate(-35deg);
   transition: transform 0.6s ease;
@@ -109,6 +114,7 @@ header {
   display: flex;
   justify-content: center;
   gap: 25px;
+  margin: 20px 0;
 }
 
 .volumen-btn {
@@ -118,25 +124,27 @@ header {
   background: transparent;
   border: 2px solid #C88713;
   color: #C88713;
-  cursor: pointer;
-}
-
-.volumen-btn.activo {
-  box-shadow: 0 0 20px #C88713;
 }
 
 /* ================= VU METER ================= */
+.vu-meter {
+  margin: 15px 0;
+}
 
-/* 🟡 AJUSTA SOLO ESTE WIDTH */
 .vu-caja {
-  width: 50px;   /* ⬅️ más pequeño / grande */
-  margin: auto;
+  width: 220px;        /* 🟡 AJUSTA AQUÍ */
+  margin: 0 auto;
   position: relative;
+}
+
+.vu-img {
+  width: 100%;         /* 🔴 CLAVE: ahora escala */
+  display: block;
 }
 
 .aguja {
   position: absolute;
-  bottom: 20%;
+  bottom: 22%;
   left: 50%;
   width: 3px;
   height: 45px;
@@ -146,16 +154,21 @@ header {
 }
 
 /* ================= PORTADAS ================= */
-
-/* 🟡 AJUSTA SOLO AQUÍ */
-.portada {
-  width: 50px;        /* ⬅️ tamaño */
-  margin-left: -10px;/* ⬅️ solape */
-  cursor: pointer;
+.portadas {
+  display: flex;
+  justify-content: center;
+  margin-top: 25px;
 }
 
-.portada:nth-child(odd) { transform: rotate(-3deg); }
-.portada:nth-child(even){ transform: rotate(3deg); }
+.portada {
+  width: 90px;          /* 🟡 AJUSTA AQUÍ */
+  margin-left: -14px;
+}
+
+.portada img {
+  width: 100%;          /* 🔴 CLAVE */
+  display: block;
+}
 
 /* ================= CONTROLES ================= */
 .controles {
@@ -166,17 +179,6 @@ header {
   gap: 25px;
 }
 
-.controles button {
-  width: 55px;
-  height: 55px;
-  border-radius: 50%;
-  border: 2px solid #C88713;
-  background: #111;
-  color: #C88713;
-  font-size: 1.3rem;
-  cursor: pointer;
-}
-
 /* ================= POTENCIÓMETRO ================= */
 .potenciometro {
   width: 60px;
@@ -185,48 +187,4 @@ header {
   background: radial-gradient(#333, #000);
   border: 2px solid #C88713;
   position: relative;
-  cursor: pointer;
-}
-
-/* marca */
-.potenciometro .marca {
-  width: 4px;
-  height: 18px;
-  background: #C88713;
-  position: absolute;
-  top: 8px;
-  left: 50%;
-  transform-origin: bottom center;
-  transform: translateX(-50%) rotate(-120deg);
-}
-
-/* marcas 0 / 10 */
-.potenciometro::before,
-.potenciometro::after {
-  position: absolute;
-  font-size: 0.7rem;
-  color: #C88713;
-  bottom: -14px;
-}
-
-.potenciometro::before {
-  content: "0";
-  left: -6px;
-}
-
-.potenciometro::after {
-  content: "10";
-  right: -10px;
-}
-
-/* ================= TEXTO ================= */
-.letra, .extra {
-  max-width: 700px;
-  margin: 20px auto;
-  background: #111;
-  padding: 15px;
-  border-radius: 10px;
-  white-space: pre-wrap;
-  font-family: sans-serif;
-  color: #eee;
 }
