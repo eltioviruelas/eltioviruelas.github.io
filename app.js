@@ -77,8 +77,8 @@ function reproducir(c) {
   wrapper.className = 'vinilo-wrapper rapido';
   brazo.style.transform = 'rotate(-10deg)';
 
-  cargarLetra(c.letra);
-  cargarExtra(c.extra);
+  cargarLetra(c.letra); // Cargar subtítulos
+  cargarExtra(c.extra); // Cargar extras
 }
 
 // Cargar letra (subtítulos)
@@ -86,7 +86,7 @@ function cargarLetra(url) {
   fetch(url)
     .then(r => r.text())
     .then(t => {
-      subtitulos = parseLRC(t);  // Parseo de letras en formato LRC
+      subtitulos = parseLRC(t); // Parsear los subtítulos LRC
       subIndex = 0;
       letraTexto.innerHTML = '';
     })
@@ -123,6 +123,7 @@ audio.ontimeupdate = () => {
   `;
 };
 
+// Función para parsear el formato LRC
 function parseLRC(texto) {
   const lineas = texto.split(/\r?\n/);
   const subs = [];
