@@ -30,15 +30,15 @@ header {
 /* TOCADISCOS */
 .tocadiscos {
   position: relative;
-  width: 520px;
-  height: 520px;
+  width: 600px;
+  height: 600px;
   margin: 30px auto;
 }
 
 /* VINILO */
 .vinilo {
-  width: 460px;
-  height: 460px;
+  width: 540px;
+  height: 540px;
   margin: auto;
   border-radius: 50%;
   background: repeating-radial-gradient(
@@ -129,7 +129,7 @@ header {
 }
 
 .vu-caja {
-  width: 200px;
+  width: 120px;
   margin: auto;
   position: relative;
 }
@@ -153,8 +153,8 @@ header {
 }
 
 .portada {
-  width: 95px;
-  margin-left: -15px;
+  width: 60px;
+  margin-left: -12px;
   cursor: pointer;
   transition: transform 0.3s ease;
 }
