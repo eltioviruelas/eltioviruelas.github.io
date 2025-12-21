@@ -309,7 +309,42 @@ header {
 .potenciometro .max { right: -6px; }
 
 /* ================= TEXTO ================= */
-.letra, .extra {
+/* CONTENEDOR DE SUBTÍTULOS */
+.letra {
+  max-width: 700px;
+  margin: 20px auto;
+  padding: 10px 15px;
+  font-family: 'Rock Salt', cursive;
+  text-align: center;
+  height: 3.4em;              /* 2 líneas */
+  line-height: 1.7em;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Línea anterior (blanca) */
+.sub-previa {
+  color: #ffffff;
+  opacity: 0.6;
+  font-size: 1.1rem;
+}
+
+/* Línea actual (dorado) */
+.sub-actual {
+  color: #C88713;
+  font-size: 1.2rem;
+  animation: subtitulo 0.5s ease;
+}
+
+/* Animación suave */
+@keyframes subtitulo {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+
+
+.extra {
   max-width: 700px;
   margin: 20px auto;
   background: #111;
