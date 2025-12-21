@@ -83,7 +83,8 @@ function reproducir(c) {
 
 // Cargar letra (subtítulos)
 function cargarLetra(url) {
-  fetch(url)
+  const githubUrl = `https://raw.githubusercontent.com/eltioViruelas/eltioViruelas.github.io/main/${url}`; // URL directo desde GitHub
+  fetch(githubUrl)
     .then(r => r.text())
     .then(t => {
       subtitulos = parseLRC(t); // Parsear los subtítulos LRC
@@ -95,7 +96,8 @@ function cargarLetra(url) {
 
 // Cargar extra
 function cargarExtra(url) {
-  fetch(url)
+  const githubUrl = `https://raw.githubusercontent.com/eltioViruelas/eltioViruelas.github.io/main/${url}`; // URL directo desde GitHub
+  fetch(githubUrl)
     .then(r => r.text())
     .then(t => extraTexto.textContent = t)
     .catch(err => console.error('Error cargando extra', err));
