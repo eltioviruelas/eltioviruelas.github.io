@@ -30,15 +30,15 @@ header {
 /* TOCADISCOS */
 .tocadiscos {
   position: relative;
-  width: 480px;
-  height: 480px;
+  width: 520px;
+  height: 520px;
   margin: 30px auto;
 }
 
 /* VINILO */
 .vinilo {
-  width: 420px;
-  height: 420px;
+  width: 460px;
+  height: 460px;
   margin: auto;
   border-radius: 50%;
   background: repeating-radial-gradient(
@@ -70,7 +70,7 @@ header {
 
 @keyframes wobble {
   0%   { transform: rotate(0deg) scale(1); }
-  50%  { transform: rotate(0.3deg) scale(1.002); }
+  50%  { transform: rotate(0.25deg) scale(1.002); }
   100% { transform: rotate(0deg) scale(1); }
 }
 
@@ -94,8 +94,8 @@ header {
 .brazo {
   position: absolute;
   top: -10px;
-  right: 70px;
-  width: 150px;
+  right: 80px;
+  width: 160px;
   transform-origin: top right;
   transform: rotate(-35deg);
   transition: transform 0.6s ease;
@@ -123,23 +123,23 @@ header {
   box-shadow: 0 0 20px #C88713;
 }
 
-/* VU */
+/* VU METER */
 .vu-meter {
-  margin: 20px 0;
+  margin: 15px 0;
 }
 
 .vu-caja {
-  width: 260px;
+  width: 200px;
   margin: auto;
   position: relative;
 }
 
 .aguja {
   position: absolute;
-  bottom: 18%;
+  bottom: 20%;
   left: 50%;
-  width: 4px;
-  height: 60px;
+  width: 3px;
+  height: 45px;
   background: red;
   transform-origin: bottom center;
   transform: rotate(-40deg);
@@ -149,17 +149,23 @@ header {
 .portadas {
   display: flex;
   justify-content: center;
-  margin-top: 30px;
+  margin-top: 25px;
 }
 
 .portada {
-  width: 130px;
-  margin-left: -25px;
+  width: 95px;
+  margin-left: -15px;
   cursor: pointer;
+  transition: transform 0.3s ease;
 }
 
-.portada:nth-child(odd) { transform: rotate(-4deg); }
-.portada:nth-child(even){ transform: rotate(4deg); }
+.portada:nth-child(odd) { transform: rotate(-3deg); }
+.portada:nth-child(even){ transform: rotate(3deg); }
+
+.portada:hover {
+  transform: scale(1.05) rotate(0deg);
+  z-index: 5;
+}
 
 /* CONTROLES */
 .controles {
