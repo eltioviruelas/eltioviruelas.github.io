@@ -1,222 +1,60 @@
-* {
-  box-sizing: border-box;
-  user-select: none;
-}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>El Tío Viruelas</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css2?family=Rock+Salt&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-body {
-  margin: 0;
-  background: #000;
-  color: #C88713;
-  font-family: 'Rock Salt', cursive;
-  text-align: center;
-}
+<header>
+  <img src="img/logo.jpeg" class="logo" draggable="false">
+  <h1>El Tío Viruelas</h1>
+</header>
 
-/* HEADER */
-header {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
-  padding: 30px;
-}
+<!-- ================= TOCADISCOS ================= -->
+<div class="tocadiscos">
+  <img src="img/tocadiscos/brazo.png" id="brazo" class="brazo" draggable="false">
 
-.logo {
-  width: 90px;
-  height: 90px;
-  border-radius: 50%;
-  border: 3px solid #C88713;
-}
+  <!-- El vinilo SIEMPRE empieza girando lento -->
+  <div class="vinilo lento" id="vinilo">
+    <img src="img/logo.jpeg" id="galleta" class="galleta" draggable="false">
+    <div class="agujero"></div>
+  </div>
+</div>
 
-/* TOCADISCOS */
-.tocadiscos {
-  position: relative;
-  width: 600px;
-  height: 600px;
-  margin: 30px auto;
-}
+<!-- ================= VOLUMENES ================= -->
+<div id="volumenes-container" class="volumenes-scroll"></div>
 
-/* VINILO */
-.vinilo {
-  width: 540px;
-  height: 540px;
-  margin: auto;
-  border-radius: 50%;
-  background: repeating-radial-gradient(
-    circle,
-    #050505 0px,
-    #050505 2px,
-    #111 2px,
-    #111 5px
-  );
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-}
+<!-- ================= VU METER ================= -->
+<div class="vu-meter">
+  <div class="vu-caja">
+    <img src="img/vu/vu.png" draggable="false">
+    <div class="aguja" id="aguja"></div>
+  </div>
+</div>
 
-/* GIROS */
-.vinilo.lento {
-  animation: girar 40s linear infinite, wobble 6s ease-in-out infinite;
-}
+<!-- ================= PORTADAS ================= -->
+<div class="portadas" id="portadas"></div>
 
-.vinilo.rapido {
-  animation: girar 12s linear infinite, wobble 4s ease-in-out infinite;
-}
+<audio id="audio" preload="auto"></audio>
 
-@keyframes girar {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
+<!-- ================= CONTROLES ================= -->
+<div class="controles">
+  <button id="play">▶</button>
+  <button id="pause">⏸</button>
 
-@keyframes wobble {
-  0%   { transform: rotate(0deg) scale(1); }
-  50%  { transform: rotate(0.25deg) scale(1.002); }
-  100% { transform: rotate(0deg) scale(1); }
-}
+  <!-- Potenciómetro analógico -->
+  <div class="potenciometro" id="potenciometro">
+    <div class="marca"></div>
+  </div>
+</div>
 
-/* GALLETA */
-.galleta {
-  width: 30%;
-  height: 30%;
-  border-radius: 50%;
-  border: 4px solid #C88713;
-}
+<div class="letra"><pre id="letra-texto"></pre></div>
+<div class="extra"><pre id="extra-texto"></pre></div>
 
-.agujero {
-  position: absolute;
-  width: 12px;
-  height: 12px;
-  background: #000;
-  border-radius: 50%;
-}
-
-/* BRAZO */
-.brazo {
-  position: absolute;
-  top: -10px;
-  right: 80px;
-  width: 160px;
-  transform-origin: top right;
-  transform: rotate(-35deg);
-  transition: transform 0.6s ease;
-  z-index: 10;
-}
-
-/* VOLUMENES */
-.volumenes-scroll {
-  display: flex;
-  justify-content: center;
-  gap: 25px;
-}
-
-.volumen-btn {
-  width: 110px;
-  height: 110px;
-  border-radius: 50%;
-  background: transparent;
-  border: 2px solid #C88713;
-  color: #C88713;
-  cursor: pointer;
-}
-
-.volumen-btn.activo {
-  box-shadow: 0 0 20px #C88713;
-}
-
-/* VU METER */
-.vu-meter {
-  margin: 15px 0;
-}
-
-.vu-caja {
-  width: 120px;
-  margin: auto;
-  position: relative;
-}
-
-.aguja {
-  position: absolute;
-  bottom: 20%;
-  left: 50%;
-  width: 3px;
-  height: 45px;
-  background: red;
-  transform-origin: bottom center;
-  transform: rotate(-40deg);
-}
-
-/* PORTADAS */
-.portadas {
-  display: flex;
-  justify-content: center;
-  margin-top: 25px;
-}
-
-.portada {
-  width: 60px;
-  margin-left: -12px;
-  cursor: pointer;
-  transition: transform 0.3s ease;
-}
-
-.portada:nth-child(odd) { transform: rotate(-3deg); }
-.portada:nth-child(even){ transform: rotate(3deg); }
-
-.portada:hover {
-  transform: scale(1.05) rotate(0deg);
-  z-index: 5;
-}
-
-/* CONTROLES */
-.controles {
-  margin: 25px 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 25px;
-}
-
-.controles button {
-  width: 55px;
-  height: 55px;
-  border-radius: 50%;
-  border: 2px solid #C88713;
-  background: #111;
-  color: #C88713;
-  font-size: 1.3rem;
-  cursor: pointer;
-}
-
-/* POTENCIÓMETRO */
-.potenciometro {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background: radial-gradient(#333, #000);
-  border: 2px solid #C88713;
-  position: relative;
-  cursor: pointer;
-}
-
-.potenciometro .marca {
-  width: 4px;
-  height: 18px;
-  background: #C88713;
-  position: absolute;
-  top: 8px;
-  left: 50%;
-  transform-origin: bottom center;
-  transform: translateX(-50%) rotate(-120deg);
-}
-
-/* TEXTO */
-.letra, .extra {
-  max-width: 700px;
-  margin: 20px auto;
-  background: #111;
-  padding: 15px;
-  border-radius: 10px;
-  white-space: pre-wrap;
-  font-family: sans-serif;
-  color: #eee;
-}
+<script src="app.js"></script>
+</body>
+</html>
