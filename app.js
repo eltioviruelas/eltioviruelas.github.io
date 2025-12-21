@@ -115,11 +115,12 @@ function parseLRC(texto) {
 
   lineas.forEach(l => {
     // Acepta [mm:ss] o [mm:ss.xx]
-    const match = l.match(/
+const match = l.match(/
 
 \[(\d+):(\d+(?:\.\d+)?)\]
 
 (.*)/);
+
     if (match) {
       const min = parseInt(match[1]);
       const sec = parseFloat(match[2]);
@@ -209,3 +210,4 @@ function moverPot(e) {
 
 /* BLOQUEO DESCARGAS */
 document.addEventListener('contextmenu', e => e.preventDefault());
+
