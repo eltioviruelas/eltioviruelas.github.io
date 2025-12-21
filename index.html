@@ -11,6 +11,7 @@
 
 <main class="escenario">
 
+  <!-- ================= HEADER ================= -->
   <header>
     <img src="img/logo.jpeg" class="logo" draggable="false">
     <h1>El Tío Viruelas</h1>
@@ -18,15 +19,31 @@
 
   <!-- ================= TOCADISCOS ================= -->
   <div class="tocadiscos">
+
+    <!-- Brazo -->
     <img src="img/tocadiscos/brazo.png" id="brazo" class="brazo" draggable="false">
 
+    <!-- Vinilo -->
     <div class="vinilo-wrapper lento" id="viniloWrapper">
       <div class="vinilo" id="vinilo">
         <img src="img/logo.jpeg" id="galleta" class="galleta" draggable="false">
         <div class="agujero"></div>
       </div>
     </div>
-  </div>
+
+    <!-- ================= CONTROLES (DENTRO DEL TOCADISCOS) ================= -->
+    <div class="controles">
+      <button id="play" class="ctrl">▶</button>
+      <button id="pause" class="ctrl">⏸</button>
+
+      <div class="potenciometro" id="potenciometro">
+        <div class="marca"></div>
+        <span class="min">MIN</span>
+        <span class="max">MAX</span>
+      </div>
+    </div>
+
+  </div> <!-- cierre tocadiscos -->
 
   <!-- ================= VOLUMENES ================= -->
   <div id="volumenes-container" class="volumenes-scroll"></div>
@@ -42,20 +59,10 @@
   <!-- ================= PORTADAS ================= -->
   <div class="portadas" id="portadas"></div>
 
+  <!-- AUDIO -->
   <audio id="audio" preload="auto"></audio>
 
-  <!-- ================= CONTROLES ================= -->
-  <div class="controles">
-    <button id="play" class="ctrl">▶</button>
-    <button id="pause" class="ctrl">⏸</button>
-
-    <div class="potenciometro" id="potenciometro">
-      <div class="marca"></div>
-      <span class="min">MIN</span>
-      <span class="max">MAX</span>
-    </div>
-  </div>
-
+  <!-- ================= LETRA Y EXTRA ================= -->
   <div class="letra"><pre id="letra-texto"></pre></div>
   <div class="extra"><pre id="extra-texto"></pre></div>
 
@@ -64,3 +71,4 @@
 <script src="app.js"></script>
 </body>
 </html>
+
