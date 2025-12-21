@@ -117,10 +117,10 @@ function parseLRC(texto) {
     // Acepta [mm:ss] o [mm:ss.xx]
 
     const match = l.match(/
+/
+[(\d+):(\d+(?:\.\d+)?)](.*)
+/);
 
-\[(\d+):(\d+(?:\.\d+)?)\]
-
-(.*)/);
 
 
     if (match) {
@@ -212,5 +212,6 @@ function moverPot(e) {
 
 /* BLOQUEO DESCARGAS */
 document.addEventListener('contextmenu', e => e.preventDefault());
+
 
 
