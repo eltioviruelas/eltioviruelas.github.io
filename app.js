@@ -41,8 +41,9 @@ function seleccionarVol(i) {
     .forEach((b, idx) => b.classList.toggle('activo', idx === i));
 
   const min = -40, max = 40;
-  aguja.style.transform =
-    `rotate(${min + (max - min) * (i / (data.volumenes.length - 1 || 1))}deg)`;
+const base = min + (max - min) * (i / (data.volumenes.length - 1 || 1));
+aguja.style.setProperty('--base-angle', base + 'deg');
+aguja.style.transform = `rotate(${base}deg)`;
 
   mostrarPortadas(data.volumenes[i]);
 }
@@ -128,4 +129,5 @@ function moverPot(e) {
 
 /* BLOQUEO DESCARGAS */
 document.addEventListener('contextmenu', e => e.preventDefault());
+
 
