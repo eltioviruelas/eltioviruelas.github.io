@@ -14,7 +14,6 @@ fetch('data/volumenes.json')
 
 function crearBotones() {
   const c = document.getElementById('volumenes-container');
-  c.innerHTML = '';
   data.volumenes.forEach((v, i) => {
     const b = document.createElement('button');
     b.className = 'volumen-btn';
@@ -27,15 +26,7 @@ function crearBotones() {
 function seleccionarVol(i) {
   document.querySelectorAll('.volumen-btn')
     .forEach((b, idx) => b.classList.toggle('activo', idx === i));
-
-  moverAguja(i);
   mostrarPortadas(data.volumenes[i]);
-}
-
-function moverAguja(i) {
-  const min = -40, max = 40;
-  const deg = min + (max - min) * (i / (data.volumenes.length - 1 || 1));
-  document.getElementById('aguja').style.transform = `rotate(${deg}deg)`;
 }
 
 function mostrarPortadas(vol) {
@@ -51,37 +42,17 @@ function mostrarPortadas(vol) {
 }
 
 function reproducir(c) {
-  // Pausa cualquier otro audio y resetea
-  audio.pause();
-  audio.currentTime = 0;
-
-  // Cargar el nuevo audio
   audio.src = c.audio;
+  audio.play();
 
-  // Reproducir de forma controlada
-  audio.play().catch((err) => {
-    console.log('Autoplay bloqueado:', err);
-  });
-
-  // Cambiar galleta (portada) y estado visual
   galleta.src = c.galleta;
-  vinilo.classList.remove('girarLento');  // Elimina la animación lenta
-  vinilo.classList.add('girarRapido');   // Añade la animación rápida
+  vinilo.classList.remove('lento');
+  vinilo.classList.add('rapido');
   brazo.style.transform = 'rotate(-8deg)';
-
-  cargar(c.letra, 'letra-texto');
-  cargar(c.extra, 'extra-texto');
 }
-
-function cargar(url, id) {
-  fetch(url).then(r => r.text())
-    .then(t => document.getElementById(id).textContent = t);
-}
-
-document.getElementById('play').onclick = () => audio.play();
-document.getElementById('pause').onclick = () => audio.pause();
 
 audio.onpause = () => {
-  vinilo.style.animationPlayState = 'paused';
-  brazo.style.transform = 'rotate(-28deg)';
+  vinilo.classList.remove('rapido');
+  vinilo.classList.add('lento');
+  brazo.style.transform = 'rotate(-30deg)';
 };
