@@ -1,4 +1,7 @@
-* { box-sizing: border-box; }
+* {
+  box-sizing: border-box;
+  user-select: none;
+}
 
 body {
   margin: 0;
@@ -32,6 +35,7 @@ header {
   margin: 30px auto;
 }
 
+/* VINILO */
 .vinilo {
   width: 420px;
   height: 420px;
@@ -50,14 +54,28 @@ header {
   position: relative;
 }
 
-.vinilo.lento { animation: girar 40s linear infinite; }
-.vinilo.rapido { animation: girar 12s linear infinite; }
+/* GIROS */
+.vinilo.lento {
+  animation: girar 40s linear infinite, wobble 6s ease-in-out infinite;
+}
+
+.vinilo.rapido {
+  animation: girar 12s linear infinite, wobble 4s ease-in-out infinite;
+}
 
 @keyframes girar {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
 
+/* ligero pandeo */
+@keyframes wobble {
+  0%   { transform: scale(1) rotate(0deg); }
+  50%  { transform: scale(1.002) rotate(0.3deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
+
+/* GALLETA */
 .galleta {
   width: 30%;
   height: 30%;
@@ -76,11 +94,11 @@ header {
 /* BRAZO */
 .brazo {
   position: absolute;
-  top: 30px;
-  right: 10px;
-  width: 160px;           /* MÁS PEQUEÑO */
-  transform-origin: right center;
-  transform: rotate(-30deg);
+  top: -10px;               /* pivote arriba */
+  right: 70px;
+  width: 150px;
+  transform-origin: top right;
+  transform: rotate(-35deg);
   transition: transform 0.6s ease;
   z-index: 10;
 }
@@ -90,17 +108,15 @@ header {
   display: flex;
   justify-content: center;
   gap: 25px;
-  margin-top: 10px;
 }
 
 .volumen-btn {
-  width: 110px;           /* MÁS GRANDES */
+  width: 110px;
   height: 110px;
   border-radius: 50%;
   background: transparent;
   border: 2px solid #C88713;
   color: #C88713;
-  font-family: inherit;
   cursor: pointer;
 }
 
@@ -109,15 +125,11 @@ header {
 }
 
 /* VU */
-.vu-meter { margin: 15px 0; }
-
 .vu-caja {
-  width: 240px;           /* MÁS PEQUEÑO */
-  margin: auto;
+  width: 240px;
+  margin: 15px auto;
   position: relative;
 }
-
-.vu-caja img { width: 100%; }
 
 .aguja {
   position: absolute;
@@ -128,7 +140,6 @@ header {
   background: red;
   transform-origin: bottom center;
   transform: rotate(-40deg);
-  transition: transform 0.4s ease;
 }
 
 /* PORTADAS */
@@ -139,31 +150,20 @@ header {
 }
 
 .portada {
-  width: 120px;           /* MÁS PEQUEÑAS */
-  margin-left: -20px;    /* SUPERPOSICIÓN SUAVE */
+  width: 120px;
+  margin-left: -20px;
   cursor: pointer;
-  transition: transform 0.3s ease;
 }
 
 .portada:nth-child(odd) { transform: rotate(-4deg); }
 .portada:nth-child(even){ transform: rotate(4deg); }
-
-.portada:hover {
-  transform: scale(1.05) rotate(0deg);
-  z-index: 5;
-}
-
-.portada img {
-  width: 100%;
-  border-radius: 6px;
-  box-shadow: 3px 3px 10px rgba(0,0,0,0.7);
-}
 
 /* CONTROLES */
 .controles {
   margin: 25px 0;
   display: flex;
   justify-content: center;
+  align-items: center;
   gap: 15px;
 }
 
@@ -178,9 +178,9 @@ header {
   cursor: pointer;
 }
 
-.controles button:hover {
-  background: #C88713;
-  color: #000;
+#volumen {
+  width: 120px;
+  accent-color: #C88713;
 }
 
 /* TEXTO */
