@@ -68,11 +68,10 @@ header {
   to { transform: rotate(360deg); }
 }
 
-/* ligero pandeo */
 @keyframes wobble {
-  0%   { transform: scale(1) rotate(0deg); }
-  50%  { transform: scale(1.002) rotate(0.3deg); }
-  100% { transform: scale(1) rotate(0deg); }
+  0%   { transform: rotate(0deg) scale(1); }
+  50%  { transform: rotate(0.3deg) scale(1.002); }
+  100% { transform: rotate(0deg) scale(1); }
 }
 
 /* GALLETA */
@@ -94,7 +93,7 @@ header {
 /* BRAZO */
 .brazo {
   position: absolute;
-  top: -10px;               /* pivote arriba */
+  top: -10px;
   right: 70px;
   width: 150px;
   transform-origin: top right;
@@ -125,9 +124,13 @@ header {
 }
 
 /* VU */
+.vu-meter {
+  margin: 20px 0;
+}
+
 .vu-caja {
-  width: 240px;
-  margin: 15px auto;
+  width: 260px;
+  margin: auto;
   position: relative;
 }
 
@@ -136,7 +139,7 @@ header {
   bottom: 18%;
   left: 50%;
   width: 4px;
-  height: 55px;
+  height: 60px;
   background: red;
   transform-origin: bottom center;
   transform: rotate(-40deg);
@@ -150,8 +153,8 @@ header {
 }
 
 .portada {
-  width: 120px;
-  margin-left: -20px;
+  width: 130px;
+  margin-left: -25px;
   cursor: pointer;
 }
 
@@ -164,7 +167,7 @@ header {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 15px;
+  gap: 25px;
 }
 
 .controles button {
@@ -178,9 +181,26 @@ header {
   cursor: pointer;
 }
 
-#volumen {
-  width: 120px;
-  accent-color: #C88713;
+/* POTENCIÓMETRO */
+.potenciometro {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: radial-gradient(#333, #000);
+  border: 2px solid #C88713;
+  position: relative;
+  cursor: pointer;
+}
+
+.potenciometro .marca {
+  width: 4px;
+  height: 18px;
+  background: #C88713;
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform-origin: bottom center;
+  transform: translateX(-50%) rotate(-120deg);
 }
 
 /* TEXTO */
