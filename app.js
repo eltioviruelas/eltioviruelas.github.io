@@ -67,6 +67,9 @@ function reproducir(c) {
     audio.play();
 
     galleta.src = c.galleta;
+    galleta.style.objectFit = 'cover';
+    galleta.style.borderRadius = '50%';
+
     vinilo.className = 'vinilo rapido';
     wrapper.className = 'vinilo-wrapper rapido';
     brazo.style.transform = 'rotate(-10deg)';
@@ -125,3 +128,4 @@ function moverPot(e) {
 
 /* BLOQUEO DESCARGAS */
 document.addEventListener('contextmenu', e => e.preventDefault());
+
