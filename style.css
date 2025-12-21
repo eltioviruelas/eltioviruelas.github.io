@@ -39,7 +39,7 @@ header h1 {
 }
 
 .vinilo {
-  width: 450px;  /* Aumentamos tamaño */
+  width: 450px;
   height: 450px;
   border-radius: 50%;
   margin: auto;
@@ -51,12 +51,12 @@ header h1 {
     #111 5px
   );
   animation: girarLento 16s linear infinite;
-  animation-play-state: paused;  /* Pausado al inicio */
+  animation-play-state: paused;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
-  z-index: 1;  /* Para que el brazo quede encima */
+  z-index: 1;
 }
 
 .galleta {
@@ -80,15 +80,15 @@ header h1 {
 /* BRAZO */
 .brazo {
   position: absolute;
-  width: 200px;  /* Ajustamos el tamaño */
-  height: 8px;   /* Ajustamos el grosor */
+  width: 200px;
+  height: 8px;
   background: #C88713;
-  top: 20px;  /* Colocamos el brazo correctamente sobre el vinilo */
+  top: 20px;
   right: -30px;
   transform-origin: right center;
   transform: rotate(-28deg);
   transition: transform 0.5s ease;
-  z-index: 2;  /* Aseguramos que el brazo esté encima del vinilo */
+  z-index: 2;
 }
 
 /* BOTONES VOL */
