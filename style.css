@@ -14,7 +14,7 @@ header {
   align-items: center;
   justify-content: center;
   gap: 20px;
-  padding: 30px 20px;
+  padding: 30px;
 }
 
 .logo {
@@ -22,50 +22,54 @@ header {
   height: 90px;
   border-radius: 50%;
   border: 3px solid #C88713;
-  object-fit: cover;
-}
-
-header h1 {
-  font-size: clamp(2.4rem, 4vw, 4rem);
-  margin: 0;
 }
 
 /* TOCADISCOS */
 .tocadiscos {
   position: relative;
-  width: 500px;
-  height: 500px;
+  width: 520px;
+  height: 520px;
   margin: 40px auto;
 }
 
 .vinilo {
-  width: 450px;
-  height: 450px;
-  border-radius: 50%;
+  width: 460px;
+  height: 460px;
   margin: auto;
+  border-radius: 50%;
   background: repeating-radial-gradient(
     circle,
-    #000 0px,
-    #000 2px,
+    #050505 0px,
+    #050505 2px,
     #111 2px,
     #111 5px
   );
-  animation: girarLento 16s linear infinite;
-  animation-play-state: paused;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
-  z-index: 1;
 }
 
+/* ANIMACIONES */
+.vinilo.lento {
+  animation: girar 40s linear infinite;
+}
+
+.vinilo.rapido {
+  animation: girar 12s linear infinite;
+}
+
+@keyframes girar {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* GALLETA */
 .galleta {
-  width: 30%;
-  height: 30%;
+  width: 32%;
+  height: 32%;
   border-radius: 50%;
   border: 4px solid #C88713;
-  object-fit: cover;
-  z-index: 2;
 }
 
 .agujero {
@@ -74,62 +78,46 @@ header h1 {
   height: 12px;
   background: #000;
   border-radius: 50%;
-  z-index: 3;
 }
 
-/* BRAZO */
+/* BRAZO — AQUÍ ESTABA EL PROBLEMA */
 .brazo {
   position: absolute;
-  width: 200px;
-  height: 8px;
-  background: #C88713;
   top: 20px;
-  right: -30px;
+  right: -10px;
+  width: 220px;
   transform-origin: right center;
-  transform: rotate(-28deg);
-  transition: transform 0.5s ease;
-  z-index: 2;
+  transform: rotate(-30deg);
+  transition: transform 0.6s ease;
+  z-index: 10;
 }
 
-/* BOTONES VOL */
+/* VOLUMENES */
 .volumenes-scroll {
   display: flex;
-  gap: 20px;
   justify-content: center;
-  padding: 20px;
-  overflow-x: auto;
+  gap: 20px;
 }
 
 .volumen-btn {
   width: 90px;
   height: 90px;
   border-radius: 50%;
-  border: 2px solid #C88713;
   background: transparent;
+  border: 2px solid #C88713;
   color: #C88713;
-  font-family: inherit;
   cursor: pointer;
 }
 
 .volumen-btn.activo {
-  box-shadow: 0 0 16px #C88713;
+  box-shadow: 0 0 18px #C88713;
 }
 
 /* VU */
-.vu-meter {
-  margin: 10px 0 30px;
-}
-
 .vu-caja {
-  position: relative;
   width: 320px;
-  max-width: 90vw;
-  margin: auto;
-}
-
-.vu-caja img {
-  width: 100%;
-  display: block;
+  margin: 20px auto;
+  position: relative;
 }
 
 .aguja {
@@ -141,7 +129,6 @@ header h1 {
   background: red;
   transform-origin: bottom center;
   transform: rotate(-40deg);
-  transition: transform 0.4s ease;
 }
 
 /* PORTADAS */
@@ -155,72 +142,7 @@ header h1 {
   width: 160px;
   margin-left: -40px;
   cursor: pointer;
-  transition: transform 0.3s ease;
 }
 
 .portada:nth-child(odd) { transform: rotate(-6deg); }
 .portada:nth-child(even){ transform: rotate(6deg); }
-
-.portada:hover {
-  transform: scale(1.05) rotate(0deg);
-  z-index: 10;
-}
-
-.portada img {
-  width: 100%;
-  border-radius: 6px;
-  box-shadow: 3px 3px 12px rgba(0,0,0,0.8);
-}
-
-/* CONTROLES */
-.controles {
-  margin: 20px 0;
-}
-
-.controles button {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background: #111;
-  color: #C88713;
-  border: 2px solid #C88713;
-  cursor: pointer;
-}
-
-/* TEXTO */
-.letra, .extra {
-  max-width: 700px;
-  margin: 20px auto;
-  background: #111;
-  padding: 15px;
-  border-radius: 10px;
-  white-space: pre-wrap;
-  font-family: sans-serif;
-  color: #eee;
-}
-
-@keyframes girarLento {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-@keyframes girarRapido {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-/* MOBILE */
-@media (max-width: 480px) {
-  .tocadiscos {
-    width: 300px;
-    height: 300px;
-  }
-  .vinilo {
-    width: 260px;
-    height: 260px;
-  }
-  .brazo {
-    width: 140px;
-    right: -10px;
-  }
-}
