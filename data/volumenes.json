@@ -7,15 +7,15 @@
         {
           "titulo": "El camino largo",
           "audio": "audio/vol1/el_camino_largo.mp3",
-          "letra": "letras/vol1/el camino largo.txt",
-          "extra": "extras/vol1/el camino largo extra.txt",
-          "galleta": "img/portadas/vol1/el camino largo.jpg"
+          "letra": "letras/vol1/el_camino_largo.txt",
+          "extra": "extras/vol1/el_camino_largo_extra.txt",
+          "galleta": "img/portadas/vol1/el_camino_largo.jpg"
         },
         {
           "titulo": "Adiós",
           "audio": "audio/vol1/adios.mp3",
           "letra": "letras/vol1/adios.txt",
-          "extra": "extras/vol1/adios extra.txt",
+          "extra": "extras/vol1/adios_extra.txt",
           "galleta": "img/portadas/vol1/adios.jpg"
         }
       ]
@@ -27,9 +27,9 @@
         {
           "titulo": "Nunca estuve lejos",
           "audio": "audio/vol2/nunca_estuve_lejos.mp3",
-          "letra": "letras/vol2/nunca estuve lejos.txt",
-          "extra": "extras/vol2/nunca estuve lejos extra.txt",
-          "galleta": "img/portadas/vol2/nunca estuve lejos.jpg"
+          "letra": "letras/vol2/nunca_estuve_lejos.txt",
+          "extra": "extras/vol2/nunca_estuve_lejos_extra.txt",
+          "galleta": "img/portadas/vol2/nunca_estuve_lejos.jpg"
         }
       ]
     }
