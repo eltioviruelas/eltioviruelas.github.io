@@ -158,11 +158,11 @@ header {
 /* ================= POTENCIÓMETRO ================= */
 .potenciometro {
   position: relative;
-  width: 60px;
-  height: 60px;
+  width: 45px;
+  height: 45px;
   border-radius: 50%;
   background: radial-gradient(#333, #000);
-  border: 2px solid #C88713;
+  border: 1px solid #C88713;
 }
 
 .marca {
