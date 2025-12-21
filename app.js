@@ -16,14 +16,22 @@ marca.style.transform = `translateX(-50%) rotate(${ -120 + volumen * 240 }deg)`;
 
 /* JSON */
 fetch('data/volumenes.json')
-  .then(r => r.json())
+  .then(r => {
+    console.log('fetch status', r.status, r.statusText);
+    return r.json();
+  })
   .then(j => {
+    console.log('JSON cargado', j);
     data = j;
     vinilo.classList.add('lento');
     wrapper.classList.add('lento');
     crearBotones();
     seleccionarVol(0);
+  })
+  .catch(err => {
+    console.error('Error fetch volumenes.json', err);
   });
+
 
 function crearBotones() {
   const c = document.getElementById('volumenes-container');
@@ -212,3 +220,4 @@ function moverPot(e) {
 
 /* BLOQUEO DESCARGAS */
 document.addEventListener('contextmenu', e => e.preventDefault());
+
