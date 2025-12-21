@@ -52,9 +52,8 @@ header {
   animation: wobble 3s ease-in-out infinite;
 }
 
-
 .vinilo-wrapper.rapido {
-  animation: wobble 4s ease-in-out infinite;
+  animation: wobble 1.8s ease-in-out infinite;
 }
 
 /* GIRO */
@@ -96,19 +95,15 @@ header {
   100% { transform: rotate(0deg); }
 }
 
-
 .galleta {
   width: 30%;
   height: 30%;
   border-radius: 50%;
   border: 4px solid #C88713;
   animation: inherit;
-
-  /* 🔥 AÑADE ESTO */
   object-fit: cover;
   aspect-ratio: 1 / 1;
 }
-
 
 .agujero {
   position: absolute;
@@ -129,6 +124,67 @@ header {
   transition: transform 0.6s ease;
   z-index: 10;
 }
+
+/* ================= CONTROLES ================= */
+.controles {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  z-index: 20;
+}
+
+.ctrl {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  border: 2px solid #C88713;
+  background: #111;
+  color: #C88713;
+  font-size: 1.1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 0 12px #C88713;
+  transition: transform 0.15s ease;
+}
+
+.ctrl:active {
+  transform: scale(0.85);
+}
+
+/* ================= POTENCIÓMETRO ================= */
+.potenciometro {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: radial-gradient(#333, #000);
+  border: 2px solid #C88713;
+}
+
+.marca {
+  width: 4px;
+  height: 18px;
+  background: #C88713;
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform-origin: bottom center;
+  transform: translateX(-50%) rotate(-120deg);
+}
+
+.potenciometro .min,
+.potenciometro .max {
+  position: absolute;
+  font-size: 0.45rem;
+  bottom: -14px;
+}
+
+.potenciometro .min { left: -6px; }
+.potenciometro .max { right: -6px; }
 
 /* ================= VOLUMENES ================= */
 .volumenes-scroll {
@@ -153,31 +209,12 @@ header {
 }
 
 /* ================= VU ================= */
-/* CRISTAL SOBRE EL VU */
 .vu-caja {
-  position: relative;
   width: 200px;
   margin: auto;
+  position: relative;
   filter: drop-shadow(0 0 12px #C88713);
 }
-
-.vu-caja::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border-radius: 6px;
-  background: linear-gradient(
-    135deg,
-    rgba(255,255,255,0.25) 0%,
-    rgba(255,255,255,0.05) 40%,
-    rgba(255,255,255,0) 60%
-  );
-  pointer-events: none;
-}
-
 
 .vu-img {
   width: 100%;
@@ -194,12 +231,14 @@ header {
   transform-origin: bottom center;
   transform: rotate(-40deg);
   animation: agujaViva 1.5s ease-in-out infinite;
-
-  /* 🔥 HALO */
   filter: drop-shadow(0 0 6px #C88713);
 }
 
-
+@keyframes agujaViva {
+  0%   { transform: rotate(var(--base-angle)); }
+  50%  { transform: rotate(calc(var(--base-angle) + 5deg)); }
+  100% { transform: rotate(var(--base-angle)); }
+}
 
 /* ================= PORTADAS ================= */
 .portadas {
@@ -209,7 +248,6 @@ header {
   padding: 10px;
 }
 
-/* ================= PORTADAS ================= */
 .portada {
   width: 90px;
   height: 105px;
@@ -229,6 +267,7 @@ header {
 .portada:nth-child(odd) {
   transform: rotate(-4deg);
 }
+
 .portada:nth-child(even) {
   transform: rotate(3deg);
 }
@@ -238,112 +277,37 @@ header {
   z-index: 5;
 }
 
-
-/* ================= CONTROLES ================= */
-/* ================= CONTROLES ================= */
-/* ================= CONTROLES ================= */
-.controles {
-  position: absolute;
-  bottom: 10px;
-  right: 5px;
-  display: flex;
-  flex-direction: row;
-  gap: 15px;
-  z-index: 20;
-}
-
-/* BOTÓN ÚNICO PLAY/PAUSE */
-.ctrl {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  border: 1px solid #C88713;
-  background: #111;
-  color: #C88713;
-  font-size: 1rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  box-shadow: 0 0 12px #C88713;
-  transition: transform 0.15s ease;
-}
-
-/* Animación al pulsar */
-.ctrl:active {
-  transform: scale(0.85);
-}
-
-
-
-
-
-/* ================= POTENCIÓMETRO ================= */
-.potenciometro {
-  position: relative;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background: radial-gradient(#333, #000);
-  border: 1px solid #C88713;
-}
-
-.marca {
-  width: 2px;
-  height: 10px;
-  background: #C88713;
-  position: absolute;
-  top: 5px;
-  left: 50%;
-  transform-origin: bottom center;
-  transform: translateX(-50%) rotate(-120deg);
-}
-
-.potenciometro .min,
-.potenciometro .max {
-  position: absolute;
-  font-size: 0.40rem;
-  bottom: -14px;
-}
-
-.potenciometro .min { left: -6px; }
-.potenciometro .max { right: -6px; }
-
-/* ================= TEXTO ================= */
-/* CONTENEDOR DE SUBTÍTULOS */
+/* ================= SUBTÍTULOS ================= */
 .letra {
   max-width: 700px;
   margin: 20px auto;
   padding: 10px 15px;
   font-family: 'Rock Salt', cursive;
   text-align: center;
-  height: 3.4em;              /* 2 líneas */
+  height: 3.4em;
   line-height: 1.7em;
   overflow: hidden;
   position: relative;
 }
 
-/* Línea anterior (blanca) */
 .sub-previa {
   color: #ffffff;
   opacity: 0.6;
   font-size: 1.1rem;
 }
 
-/* Línea actual (dorado) */
 .sub-actual {
   color: #C88713;
   font-size: 1.2rem;
   animation: subtitulo 0.5s ease;
 }
 
-/* Animación suave */
 @keyframes subtitulo {
   from { opacity: 0; transform: translateY(10px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-
-
+/* EXTRA */
 .extra {
   max-width: 700px;
   margin: 20px auto;
@@ -354,9 +318,3 @@ header {
   font-family: sans-serif;
   color: #eee;
 }
-@keyframes agujaViva {
-  0%   { transform: rotate(var(--base-angle)); }
-  50%  { transform: rotate(calc(var(--base-angle) + 5deg)); }
-  100% { transform: rotate(var(--base-angle)); }
-}
-
