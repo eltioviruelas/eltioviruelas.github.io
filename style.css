@@ -240,8 +240,8 @@ header {
 /* ================= CONTROLES ================= */
 .controles {
   position: absolute;
-  bottom: 20px;       /* sube o baja según te guste */
-  right: 20px;        /* pegado al borde derecho del tocadiscos */
+  bottom: 20px;
+  right: 20px;
   display: flex;
   flex-direction: row;
   gap: 15px;
