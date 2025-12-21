@@ -41,9 +41,9 @@ function seleccionarVol(i) {
     .forEach((b, idx) => b.classList.toggle('activo', idx === i));
 
   const min = -40, max = 40;
-const base = min + (max - min) * (i / (data.volumenes.length - 1 || 1));
-aguja.style.setProperty('--base-angle', base + 'deg');
-aguja.style.transform = `rotate(${base}deg)`;
+  const base = min + (max - min) * (i / (data.volumenes.length - 1 || 1));
+  aguja.style.setProperty('--base-angle', base + 'deg');
+  aguja.style.transform = `rotate(${base}deg)`;
 
   mostrarPortadas(data.volumenes[i]);
 }
@@ -60,6 +60,9 @@ function mostrarPortadas(vol) {
   });
 }
 
+/* ===========================
+   REPRODUCIR CANCIÓN
+=========================== */
 function reproducir(c) {
   brazo.style.transform = 'rotate(-35deg)';
 
@@ -76,47 +79,102 @@ function reproducir(c) {
     brazo.style.transform = 'rotate(-10deg)';
   }, 300);
 
-  cargar(c.letra, 'letra-texto');
-  cargar(c.extra, 'extra-texto');
+  cargarLetra(c.letra);
+  cargarExtra(c.extra);
 }
 
-function cargar(url, id) {
+/* ===========================
+   CARGAR EXTRA
+=========================== */
+function cargarExtra(url) {
   fetch(url)
     .then(r => r.text())
-    .then(t => document.getElementById(id).textContent = t);
+    .then(t => document.getElementById('extra-texto').textContent = t);
 }
 
-/* CONTROLES */
-/* BOTÓN ÚNICO PLAY/PAUSE */
-/* BOTÓN ÚNICO PLAY/PAUSE */
+/* ============================================================
+   SUBTÍTULOS SINCRONIZADOS (DOBLE LÍNEA)
+============================================================ */
+let subtitulos = [];
+let subIndex = 0;
+
+function cargarLetra(url) {
+  fetch(url)
+    .then(r => r.text())
+    .then(t => {
+      subtitulos = parseLRC(t);
+      subIndex = 0;
+      document.getElementById('letra-texto').innerHTML = "";
+    });
+}
+
+function parseLRC(texto) {
+  const lineas = texto.split('\n');
+  const subs = [];
+
+  lineas.forEach(l => {
+    const match = l.match(/
+
+\[(\d+):(\d+\.\d+)\]
+
+(.*)/);
+    if (match) {
+      const min = parseInt(match[1]);
+      const sec = parseFloat(match[2]);
+      const tiempo = min * 60 + sec;
+      const texto = match[3].trim();
+      subs.push({ tiempo, texto });
+    }
+  });
+
+  return subs;
+}
+
+audio.ontimeupdate = () => {
+  if (!subtitulos.length) return;
+
+  const t = audio.currentTime;
+
+  if (subIndex < subtitulos.length - 1 && t >= subtitulos[subIndex + 1].tiempo) {
+    subIndex++;
+  }
+
+  const previa = subtitulos[subIndex - 1]?.texto || "";
+  const actual = subtitulos[subIndex]?.texto || "";
+
+  document.getElementById('letra-texto').innerHTML = `
+    <div class="sub-previa">${previa}</div>
+    <div class="sub-actual">${actual}</div>
+  `;
+};
+
+/* ===========================
+   BOTÓN ÚNICO PLAY/PAUSE
+=========================== */
 const playpause = document.getElementById('playpause');
 
 playpause.onclick = () => {
-  if (audio.paused) {
-    audio.play();
-  } else {
-    audio.pause();
-  }
+  if (audio.paused) audio.play();
+  else audio.pause();
 };
 
-/* Cuando empieza a sonar */
 audio.onplay = () => {
-  playpause.textContent = '⏸';   // cambia a pausa
+  playpause.textContent = '⏸';
   vinilo.className = 'vinilo rapido';
   wrapper.className = 'vinilo-wrapper rapido';
   brazo.style.transform = 'rotate(-10deg)';
 };
 
-/* Cuando se pausa */
 audio.onpause = () => {
-  playpause.textContent = '▶';   // vuelve a play
+  playpause.textContent = '▶';
   vinilo.className = 'vinilo lento';
   wrapper.className = 'vinilo-wrapper lento';
   brazo.style.transform = 'rotate(-35deg)';
 };
 
-
-/* POTENCIÓMETRO */
+/* ===========================
+   POTENCIÓMETRO
+=========================== */
 let girando = false;
 
 pot.addEventListener('mousedown', () => girando = true);
@@ -149,7 +207,3 @@ function moverPot(e) {
 
 /* BLOQUEO DESCARGAS */
 document.addEventListener('contextmenu', e => e.preventDefault());
-
-
-
-
