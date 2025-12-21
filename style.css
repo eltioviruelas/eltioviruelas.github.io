@@ -129,7 +129,7 @@ header {
 
 /* 🟡 AJUSTA SOLO ESTE WIDTH */
 .vu-caja {
-  width: 100px;   /* ⬅️ más pequeño / grande */
+  width: 50px;   /* ⬅️ más pequeño / grande */
   margin: auto;
   position: relative;
 }
@@ -149,8 +149,8 @@ header {
 
 /* 🟡 AJUSTA SOLO AQUÍ */
 .portada {
-  width: 95px;        /* ⬅️ tamaño */
-  margin-left: -15px;/* ⬅️ solape */
+  width: 50px;        /* ⬅️ tamaño */
+  margin-left: -10px;/* ⬅️ solape */
   cursor: pointer;
 }
 
