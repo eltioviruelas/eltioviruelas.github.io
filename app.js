@@ -27,6 +27,7 @@ fetch('data/volumenes.json')
 
 function crearBotones() {
   const c = document.getElementById('volumenes-container');
+  c.innerHTML = '';
   data.volumenes.forEach((v, i) => {
     const b = document.createElement('button');
     b.className = 'volumen-btn';
@@ -113,9 +114,10 @@ function parseLRC(texto) {
   const subs = [];
 
   lineas.forEach(l => {
+    // Acepta [mm:ss] o [mm:ss.xx]
     const match = l.match(/
 
-\[(\d+):(\d+\.\d+)\]
+\[(\d+):(\d+(?:\.\d+)?)\]
 
 (.*)/);
     if (match) {
@@ -123,7 +125,7 @@ function parseLRC(texto) {
       const sec = parseFloat(match[2]);
       const tiempo = min * 60 + sec;
       const texto = match[3].trim();
-      subs.push({ tiempo, texto });
+      if (texto) subs.push({ tiempo, texto });
     }
   });
 
