@@ -116,10 +116,13 @@ function parseLRC(texto) {
   lineas.forEach(l => {
     // Acepta [mm:ss] o [mm:ss.xx]
 
-    const match = l.match(/
-/
-[(\d+):(\d+(?:\.\d+)?)](.*)
-/);
+    const regex = new RegExp("\
+
+\[(\\d+):(\\d+(?:\\.\\d+)?)\\]
+
+(.*)");
+    const match = l.match(regex);
+                             
 
 
 
@@ -212,6 +215,7 @@ function moverPot(e) {
 
 /* BLOQUEO DESCARGAS */
 document.addEventListener('contextmenu', e => e.preventDefault());
+
 
 
 
