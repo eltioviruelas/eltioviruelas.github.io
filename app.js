@@ -28,7 +28,6 @@ function seleccionarVol(i) {
   document.querySelectorAll('.volumen-btn')
     .forEach((b, idx) => b.classList.toggle('activo', idx === i));
 
-  // VU meter por volumen
   const min = -40, max = 40;
   const deg = min + (max - min) * (i / (data.volumenes.length - 1 || 1));
   aguja.style.transform = `rotate(${deg}deg)`;
@@ -42,20 +41,26 @@ function mostrarPortadas(vol) {
   vol.canciones.forEach(c => {
     const d = document.createElement('div');
     d.className = 'portada';
-    d.innerHTML = `<img src="${c.galleta}">`;
+    d.innerHTML = `<img src="${c.galleta}" draggable="false">`;
     d.onclick = () => reproducir(c);
     p.appendChild(d);
   });
 }
 
 function reproducir(c) {
-  audio.src = c.audio;
-  audio.play();
+  // levantar brazo
+  brazo.style.transform = 'rotate(-35deg)';
 
-  galleta.src = c.galleta;
-  vinilo.classList.remove('lento');
-  vinilo.classList.add('rapido');
-  brazo.style.transform = 'rotate(-8deg)';
+  setTimeout(() => {
+    audio.src = c.audio;
+    audio.play();
+
+    galleta.src = c.galleta;
+    vinilo.classList.remove('lento');
+    vinilo.classList.add('rapido');
+
+    brazo.style.transform = 'rotate(-10deg)';
+  }, 400);
 
   cargar(c.letra, 'letra-texto');
   cargar(c.extra, 'extra-texto');
@@ -70,8 +75,15 @@ function cargar(url, id) {
 document.getElementById('play').onclick = () => audio.play();
 document.getElementById('pause').onclick = () => audio.pause();
 
+document.getElementById('volumen').oninput = e => {
+  audio.volume = e.target.value;
+};
+
 audio.onpause = () => {
   vinilo.classList.remove('rapido');
   vinilo.classList.add('lento');
-  brazo.style.transform = 'rotate(-30deg)';
+  brazo.style.transform = 'rotate(-35deg)';
 };
+
+/* BLOQUEOS */
+document.addEventListener('contextmenu', e => e.preventDefault());
