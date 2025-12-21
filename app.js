@@ -88,38 +88,31 @@ function cargar(url, id) {
 
 /* CONTROLES */
 /* BOTÓN ÚNICO PLAY/PAUSE */
+/* BOTÓN ÚNICO PLAY/PAUSE */
 const playpause = document.getElementById('playpause');
 
 playpause.onclick = () => {
   if (audio.paused) {
     audio.play();
-    playpause.textContent = '⏸';   // cambia a pausa
-    vinilo.className = 'vinilo rapido';
-    wrapper.className = 'vinilo-wrapper rapido';
-    brazo.style.transform = 'rotate(-10deg)';
   } else {
     audio.pause();
-    playpause.textContent = '▶';   // vuelve a play
-    vinilo.className = 'vinilo lento';
-    wrapper.className = 'vinilo-wrapper lento';
-    brazo.style.transform = 'rotate(-35deg)';
   }
-};
-
-/* Cuando la canción se pausa por cualquier motivo */
-audio.onpause = () => {
-  playpause.textContent = '▶';
-  vinilo.className = 'vinilo lento';
-  wrapper.className = 'vinilo-wrapper lento';
-  brazo.style.transform = 'rotate(-35deg)';
 };
 
 /* Cuando empieza a sonar */
 audio.onplay = () => {
-  playpause.textContent = '⏸';
+  playpause.textContent = '⏸';   // cambia a pausa
   vinilo.className = 'vinilo rapido';
   wrapper.className = 'vinilo-wrapper rapido';
   brazo.style.transform = 'rotate(-10deg)';
+};
+
+/* Cuando se pausa */
+audio.onpause = () => {
+  playpause.textContent = '▶';   // vuelve a play
+  vinilo.className = 'vinilo lento';
+  wrapper.className = 'vinilo-wrapper lento';
+  brazo.style.transform = 'rotate(-35deg)';
 };
 
 
@@ -156,6 +149,7 @@ function moverPot(e) {
 
 /* BLOQUEO DESCARGAS */
 document.addEventListener('contextmenu', e => e.preventDefault());
+
 
 
 
