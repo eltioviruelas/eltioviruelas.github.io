@@ -3,6 +3,7 @@ const audio = document.getElementById('audio');
 const vinilo = document.getElementById('vinilo');
 const brazo = document.getElementById('brazo');
 const galleta = document.getElementById('galleta');
+const aguja = document.getElementById('aguja');
 
 fetch('data/volumenes.json')
   .then(r => r.json())
@@ -26,6 +27,12 @@ function crearBotones() {
 function seleccionarVol(i) {
   document.querySelectorAll('.volumen-btn')
     .forEach((b, idx) => b.classList.toggle('activo', idx === i));
+
+  // VU meter por volumen
+  const min = -40, max = 40;
+  const deg = min + (max - min) * (i / (data.volumenes.length - 1 || 1));
+  aguja.style.transform = `rotate(${deg}deg)`;
+
   mostrarPortadas(data.volumenes[i]);
 }
 
@@ -49,7 +56,19 @@ function reproducir(c) {
   vinilo.classList.remove('lento');
   vinilo.classList.add('rapido');
   brazo.style.transform = 'rotate(-8deg)';
+
+  cargar(c.letra, 'letra-texto');
+  cargar(c.extra, 'extra-texto');
 }
+
+function cargar(url, id) {
+  fetch(url)
+    .then(r => r.text())
+    .then(t => document.getElementById(id).textContent = t);
+}
+
+document.getElementById('play').onclick = () => audio.play();
+document.getElementById('pause').onclick = () => audio.pause();
 
 audio.onpause = () => {
   vinilo.classList.remove('rapido');
