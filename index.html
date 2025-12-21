@@ -9,51 +9,52 @@
 </head>
 <body>
 
-<header>
-  <img src="img/logo.jpeg" class="logo" draggable="false">
-  <h1>El Tío Viruelas</h1>
-</header>
+<main class="escenario">
 
-<!-- ================= TOCADISCOS ================= -->
-<div class="tocadiscos">
-  <img src="img/tocadiscos/brazo.png" id="brazo" class="brazo" draggable="false">
+  <header>
+    <img src="img/logo.jpeg" class="logo" draggable="false">
+    <h1>El Tío Viruelas</h1>
+  </header>
 
-  <!-- El vinilo SIEMPRE empieza girando lento -->
-  <div class="vinilo lento" id="vinilo">
-    <img src="img/logo.jpeg" id="galleta" class="galleta" draggable="false">
-    <div class="agujero"></div>
+  <!-- TOCADISCOS -->
+  <div class="tocadiscos">
+    <img src="img/tocadiscos/brazo.png" id="brazo" class="brazo" draggable="false">
+    <div class="vinilo lento" id="vinilo">
+      <img src="img/logo.jpeg" id="galleta" class="galleta" draggable="false">
+      <div class="agujero"></div>
+    </div>
   </div>
-</div>
 
-<!-- ================= VOLUMENES ================= -->
-<div id="volumenes-container" class="volumenes-scroll"></div>
+  <!-- VOLUMENES -->
+  <div id="volumenes-container" class="volumenes-scroll"></div>
 
-<!-- ================= VU METER ================= -->
-<div class="vu-meter">
-  <div class="vu-caja">
-    <img src="img/vu/vu.png" draggable="false">
-    <div class="aguja" id="aguja"></div>
+  <!-- VU METER -->
+  <div class="vu-meter">
+    <div class="vu-caja">
+      <img src="img/vu/vu.png" class="vu-img" draggable="false">
+      <div class="aguja" id="aguja"></div>
+    </div>
   </div>
-</div>
 
-<!-- ================= PORTADAS ================= -->
-<div class="portadas" id="portadas"></div>
+  <!-- PORTADAS -->
+  <div class="portadas" id="portadas"></div>
 
-<audio id="audio" preload="auto"></audio>
+  <audio id="audio" preload="auto"></audio>
 
-<!-- ================= CONTROLES ================= -->
-<div class="controles">
-  <button id="play">▶</button>
-  <button id="pause">⏸</button>
+  <!-- CONTROLES -->
+  <div class="controles">
+    <button id="play">▶</button>
+    <button id="pause">⏸</button>
 
-  <!-- Potenciómetro analógico -->
-  <div class="potenciometro" id="potenciometro">
-    <div class="marca"></div>
+    <div class="potenciometro" id="potenciometro">
+      <div class="marca"></div>
+    </div>
   </div>
-</div>
 
-<div class="letra"><pre id="letra-texto"></pre></div>
-<div class="extra"><pre id="extra-texto"></pre></div>
+  <div class="letra"><pre id="letra-texto"></pre></div>
+  <div class="extra"><pre id="extra-texto"></pre></div>
+
+</main>
 
 <script src="app.js"></script>
 </body>
