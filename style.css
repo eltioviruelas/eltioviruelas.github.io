@@ -158,6 +158,7 @@ header {
   position: relative;
   width: 200px;
   margin: auto;
+  filter: drop-shadow(0 0 12px #C88713);
 }
 
 .vu-caja::after {
@@ -192,7 +193,9 @@ header {
   background: red;
   transform-origin: bottom center;
   transform: rotate(-40deg);
+  animation: agujaViva 1.5s ease-in-out infinite;
 }
+
 
 /* ================= PORTADAS ================= */
 .portadas {
@@ -234,10 +237,11 @@ header {
 
 /* ================= CONTROLES ================= */
 /* ================= CONTROLES ================= */
+/* ================= CONTROLES ================= */
 .controles {
   position: absolute;
-  bottom: -40px;        /* justo debajo del vinilo */
-  left: 20px;           /* pegado al borde izquierdo del tocadiscos */
+  bottom: 20px;       /* sube o baja según te guste */
+  right: 20px;        /* pegado al borde derecho del tocadiscos */
   display: flex;
   flex-direction: row;
   gap: 15px;
@@ -252,7 +256,9 @@ header {
   background: #111;
   color: #C88713;
   font-size: 1.3rem;
+  box-shadow: 0 0 12px #C88713; /* halo */
 }
+
 
 
 
@@ -298,4 +304,9 @@ header {
   white-space: pre-wrap;
   font-family: sans-serif;
   color: #eee;
+}
+@keyframes agujaViva {
+  0%   { transform: rotate(var(--base-angle)); }
+  50%  { transform: rotate(calc(var(--base-angle) + 2deg)); }
+  100% { transform: rotate(var(--base-angle)); }
 }
