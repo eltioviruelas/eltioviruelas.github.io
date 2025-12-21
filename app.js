@@ -1,3 +1,12 @@
+@@ -1,236 +1,321 @@
+let data;
+const audio = document.getElementById('audio');
+const vinilo = document.getElementById('vinilo');
+const wrapper = document.getElementById('viniloWrapper');
+const brazo = document.getElementById('brazo');
+const galleta = document.getElementById('galleta');
+const aguja = document.getElementById('aguja');
+const pot = document.getElementById('potenciometro');
 // Mejoras: comprobaciones DOM, async/await, parse LRC robusto, sync volumen, pointer events
 
 let data = null;
@@ -36,8 +45,26 @@ async function init() {
     vinilo?.classList.add('lento');
     wrapper?.classList.add('lento');
 
+/* sincroniza marca */
+marca.style.transform = `translateX(-50%) rotate(${ -120 + volumen * 240 }deg)`;
+
+/* JSON */
+fetch('data/volumenes.json')
+  .then(r => {
+    console.log('fetch status', r.status, r.statusText);
+    return r.json();
+  })
+  .then(j => {
+    console.log('JSON cargado', j);
+    data = j;
+    vinilo.classList.add('lento');
+    wrapper.classList.add('lento');
     crearBotones();
     seleccionarVol(0);
+  })
+  .catch(err => {
+    console.error('Error fetch volumenes.json', err);
+  });
   } catch (err) {
     console.error('Error cargando volumenes.json', err);
     // mostrar mensaje al usuario si hace falta
@@ -47,11 +74,16 @@ init();
 
 // Crear botones de volúmenes
 function crearBotones() {
+  const c = document.getElementById('volumenes-container');
+  c.innerHTML = '';
   if (!contVolumenes || !data?.volumenes) return;
   contVolumenes.innerHTML = '';
   data.volumenes.forEach((v, i) => {
     const b = document.createElement('button');
     b.className = 'volumen-btn';
+    b.textContent = v.titulo;
+    b.onclick = () => seleccionarVol(i);
+    c.appendChild(b);
     b.type = 'button';
     b.textContent = v.titulo || `Vol ${i+1}`;
     b.addEventListener('click', () => seleccionarVol(i));
@@ -61,11 +93,16 @@ function crearBotones() {
 
 // Seleccionar volumen (grupo)
 function seleccionarVol(i) {
+  document.querySelectorAll('.volumen-btn')
+    .forEach((b, idx) => b.classList.toggle('activo', idx === i));
   const botones = document.querySelectorAll('.volumen-btn');
   botones.forEach((b, idx) => b.classList.toggle('activo', idx === i));
 
   if (!data?.volumenes?.length) return;
   const min = -40, max = 40;
+  const base = min + (max - min) * (i / (data.volumenes.length - 1 || 1));
+  aguja.style.setProperty('--base-angle', base + 'deg');
+  aguja.style.transform = `rotate(${base}deg)`;
   const denom = (data.volumenes.length - 1) || 1;
   const base = min + (max - min) * (i / denom);
 
@@ -79,6 +116,8 @@ function seleccionarVol(i) {
 
 // Mostrar portadas
 function mostrarPortadas(vol) {
+  const p = document.getElementById('portadas');
+  p.innerHTML = '';
   if (!portadas) return;
   portadas.innerHTML = '';
   if (!vol?.canciones) return;
@@ -86,6 +125,9 @@ function mostrarPortadas(vol) {
   vol.canciones.forEach(c => {
     const d = document.createElement('div');
     d.className = 'portada';
+    d.innerHTML = `<img src="${c.galleta}" draggable="false">`;
+    d.onclick = () => reproducir(c);
+    p.appendChild(d);
     d.tabIndex = 0; // accesible por teclado
     d.innerHTML = `<img src="${c.galleta}" draggable="false" alt="${c.titulo || 'Portada'}">`;
     d.addEventListener('click', () => reproducir(c));
@@ -98,11 +140,22 @@ function mostrarPortadas(vol) {
    REPRODUCIR CANCIÓN
 =========================== */
 function reproducir(c) {
+  brazo.style.transform = 'rotate(-35deg)';
   if (!c) return;
   brazo?.style.setProperty('transition', 'transform 300ms');
   brazo?.style.transform = 'rotate(-35deg)';
 
   setTimeout(() => {
+    audio.src = c.audio;
+    audio.play();
+
+    galleta.src = c.galleta;
+    galleta.style.objectFit = 'cover';
+    galleta.style.borderRadius = '50%';
+
+    vinilo.className = 'vinilo rapido';
+    wrapper.className = 'vinilo-wrapper rapido';
+    brazo.style.transform = 'rotate(-10deg)';
     audio.src = c.audio || '';
     audio.play().catch(err => console.warn('No se pudo reproducir automáticamente', err));
 
@@ -117,6 +170,8 @@ function reproducir(c) {
     brazo && (brazo.style.transform = 'rotate(-10deg)');
   }, 300);
 
+  cargarLetra(c.letra);
+  cargarExtra(c.extra);
   if (c.letra) cargarLetra(c.letra);
   if (c.extra) cargarExtra(c.extra);
 }
@@ -124,6 +179,10 @@ function reproducir(c) {
 /* ===========================
    CARGAR EXTRA
 =========================== */
+function cargarExtra(url) {
+  fetch(url)
+    .then(r => r.text())
+    .then(t => document.getElementById('extra-texto').textContent = t);
 async function cargarExtra(url) {
   if (!extraTexto || !url) return;
   try {
@@ -138,11 +197,20 @@ async function cargarExtra(url) {
 }
 
 /* ============================================================
+   SUBTÍTULOS SINCRONIZADOS (DOBLE LÍNEA)
    SUBTÍTULOS SINCRONIZADOS
 ============================================================ */
 let subtitulos = [];
 let subIndex = 0;
 
+function cargarLetra(url) {
+  fetch(url)
+    .then(r => r.text())
+    .then(t => {
+      subtitulos = parseLRC(t);
+      subIndex = 0;
+      document.getElementById('letra-texto').innerHTML = "";
+    });
 async function cargarLetra(url) {
   if (!letraTexto || !url) return;
   try {
@@ -161,19 +229,36 @@ async function cargarLetra(url) {
 
 // parse LRC: admite múltiples timestamps por línea [mm:ss.xx][mm:ss] Texto
 function parseLRC(texto) {
+  const lineas = texto.split(/\r?\n/);
   if (!texto) return [];
   const lines = texto.split(/\r?\n/);
   const subs = [];
   const timeRegex = /
 
+  lineas.forEach(l => {
+    // eliminar espacios al inicio y final
+    const linea = l.trim();
+    if (!linea) return;
 \[(\d{1,2}):(\d{2}(?:[.,]\d{1,3})?)\]
 
+    // buscar primer ']' que cierre el timestamp
+    const cierre = linea.indexOf(']');
+    if (linea[0] !== '[' || cierre === -1) return;
 /g;
 
+    const timePart = linea.slice(1, cierre); // mm:ss or mm:ss.xx
+    const textoPart = linea.slice(cierre + 1).trim();
+    if (!textoPart) return;
   for (const raw of lines) {
     const line = raw.trim();
     if (!line) continue;
 
+    // separar minutos y segundos
+    const parts = timePart.split(':');
+    if (parts.length !== 2) return;
+    const min = parseInt(parts[0], 10);
+    const sec = parseFloat(parts[1].replace(',', '.'));
+    if (isNaN(min) || isNaN(sec)) return;
     // extraer todos los timestamps
     let match;
     const times = [];
@@ -183,6 +268,9 @@ function parseLRC(texto) {
       if (!isNaN(min) && !isNaN(sec)) times.push(min * 60 + sec);
     }
 
+    const tiempo = min * 60 + sec;
+    subs.push({ tiempo, texto: textoPart });
+  });
     // texto después del último ]
     const lastBracket = line.lastIndexOf(']');
     const textPart = lastBracket !== -1 ? line.slice(lastBracket + 1).trim() : '';
@@ -191,6 +279,7 @@ function parseLRC(texto) {
     times.forEach(t => subs.push({ tiempo: t, texto: textPart }));
   }
 
+  // ordenar por tiempo por si acaso
   subs.sort((a, b) => a.tiempo - b.tiempo);
   return subs;
 }
@@ -210,12 +299,21 @@ function actualizarSubIndexPorTiempo(t) {
 
 audio.ontimeupdate = () => {
   if (!subtitulos.length) return;
+
   const t = audio.currentTime;
+
+  if (subIndex < subtitulos.length - 1 && t >= subtitulos[subIndex + 1].tiempo) {
+    subIndex++;
+  }
   actualizarSubIndexPorTiempo(t);
 
   const previa = subtitulos[subIndex - 1]?.texto || "";
   const actual = subtitulos[subIndex]?.texto || "";
 
+  document.getElementById('letra-texto').innerHTML = `
+    <div class="sub-previa">${previa}</div>
+    <div class="sub-actual">${actual}</div>
+  `;
   if (letraTexto) {
     letraTexto.innerHTML = `
       <div class="sub-previa">${escapeHtml(previa)}</div>
@@ -232,8 +330,10 @@ function escapeHtml(s) {
 }
 
 /* ===========================
+   BOTÓN ÚNICO PLAY/PAUSE
    BOTÓN PLAY/PAUSE Y ESTADOS
 =========================== */
+const playpause = document.getElementById('playpause');
 if (playpause) {
   playpause.addEventListener('click', () => {
     if (audio.paused) audio.play().catch(()=>{});
@@ -241,6 +341,10 @@ if (playpause) {
   });
 }
 
+playpause.onclick = () => {
+  if (audio.paused) audio.play();
+  else audio.pause();
+};
 // estados visuales
 audio.addEventListener('play', () => {
   if (playpause) playpause.textContent = '⏸';
@@ -249,6 +353,12 @@ audio.addEventListener('play', () => {
   brazo && (brazo.style.transform = 'rotate(-10deg)');
 });
 
+audio.onplay = () => {
+  playpause.textContent = '⏸';
+  vinilo.className = 'vinilo rapido';
+  wrapper.className = 'vinilo-wrapper rapido';
+  brazo.style.transform = 'rotate(-10deg)';
+};
 audio.addEventListener('pause', () => {
   if (playpause) playpause.textContent = '▶';
   vinilo && (vinilo.className = 'vinilo lento');
@@ -256,6 +366,12 @@ audio.addEventListener('pause', () => {
   brazo && (brazo.style.transform = 'rotate(-35deg)');
 });
 
+audio.onpause = () => {
+  playpause.textContent = '▶';
+  vinilo.className = 'vinilo lento';
+  wrapper.className = 'vinilo-wrapper lento';
+  brazo.style.transform = 'rotate(-35deg)';
+};
 // tecla espacio para play/pause (accesible)
 document.addEventListener('keydown', e => {
   if (e.code === 'Space' && document.activeElement?.tagName !== 'INPUT' && document.activeElement?.tagName !== 'TEXTAREA') {
@@ -266,13 +382,22 @@ document.addEventListener('keydown', e => {
 });
 
 /* ===========================
+   POTENCIÓMETRO
    POTENCIÓMETRO (pointer events si disponibles)
 =========================== */
 let girando = false;
 
+pot.addEventListener('mousedown', () => girando = true);
+document.addEventListener('mouseup', () => girando = false);
+document.addEventListener('mousemove', moverPot);
+
+pot.addEventListener('touchstart', e => {
 function startPot(e) {
   girando = true;
   moverPot(e);
+});
+document.addEventListener('touchend', () => girando = false);
+document.addEventListener('touchmove', moverPot, { passive: false });
   // evitar scroll en touch
   if (e.cancelable) e.preventDefault();
 }
@@ -300,22 +425,28 @@ if (pot) {
 }
 
 function moverPot(e) {
+  if (!girando) return;
   if (!girando || !pot || !marca || !audio) return;
 
   const rect = pot.getBoundingClientRect();
   const cx = rect.left + rect.width / 2;
   const cy = rect.top + rect.height / 2;
 
+  const x = e.touches ? e.touches[0].clientX : e.clientX;
+  const y = e.touches ? e.touches[0].clientY : e.clientY;
   const clientX = (e.touches && e.touches[0]) ? e.touches[0].clientX : (e.clientX ?? (e.pageX - window.scrollX));
   const clientY = (e.touches && e.touches[0]) ? e.touches[0].clientY : (e.clientY ?? (e.pageY - window.scrollY));
 
+  const ang = Math.atan2(y - cy, x - cx) * 180 / Math.PI;
   const ang = Math.atan2(clientY - cy, clientX - cx) * 180 / Math.PI;
   const limitado = Math.max(-120, Math.min(120, ang));
 
   marca.style.transform = `translateX(-50%) rotate(${limitado}deg)`;
+  audio.volume = (limitado + 120) / 240;
   volumen = (limitado + 120) / 240;
   audio.volume = Math.max(0, Math.min(1, volumen));
 }
 
 /* BLOQUEO DESCARGAS */
 document.addEventListener('contextmenu', e => e.preventDefault());
+
