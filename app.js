@@ -110,26 +110,38 @@ function cargarLetra(url) {
 }
 
 function parseLRC(texto) {
-  const lineas = texto.split('\n');
+  const lineas = texto.split(/\r?\n/);
   const subs = [];
 
   lineas.forEach(l => {
-    const match = l.match(new RegExp("\
+    // eliminar espacios al inicio y final
+    const linea = l.trim();
+    if (!linea) return;
 
-\[(\\d+):(\\d+(?:\\.\\d+)?)\\]
+    // buscar primer ']' que cierre el timestamp
+    const cierre = linea.indexOf(']');
+    if (linea[0] !== '[' || cierre === -1) return;
 
-(.*)"));
-    if (match) {
-      const min = parseInt(match[1]);
-      const sec = parseFloat(match[2]);
-      const tiempo = min * 60 + sec;
-      const texto = match[3].trim();
-      if (texto) subs.push({ tiempo, texto });
-    }
+    const timePart = linea.slice(1, cierre); // mm:ss or mm:ss.xx
+    const textoPart = linea.slice(cierre + 1).trim();
+    if (!textoPart) return;
+
+    // separar minutos y segundos
+    const parts = timePart.split(':');
+    if (parts.length !== 2) return;
+    const min = parseInt(parts[0], 10);
+    const sec = parseFloat(parts[1].replace(',', '.'));
+    if (isNaN(min) || isNaN(sec)) return;
+
+    const tiempo = min * 60 + sec;
+    subs.push({ tiempo, texto: textoPart });
   });
 
+  // ordenar por tiempo por si acaso
+  subs.sort((a, b) => a.tiempo - b.tiempo);
   return subs;
 }
+
 
 audio.ontimeupdate = () => {
   if (!subtitulos.length) return;
@@ -208,6 +220,7 @@ function moverPot(e) {
 
 /* BLOQUEO DESCARGAS */
 document.addEventListener('contextmenu', e => e.preventDefault());
+
 
 
 
