@@ -153,11 +153,30 @@ header {
 }
 
 /* ================= VU ================= */
+/* CRISTAL SOBRE EL VU */
 .vu-caja {
+  position: relative;
   width: 200px;
   margin: auto;
-  position: relative;
 }
+
+.vu-caja::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 6px;
+  background: linear-gradient(
+    135deg,
+    rgba(255,255,255,0.25) 0%,
+    rgba(255,255,255,0.05) 40%,
+    rgba(255,255,255,0) 60%
+  );
+  pointer-events: none;
+}
+
 
 .vu-img {
   width: 100%;
@@ -183,29 +202,30 @@ header {
   padding: 10px;
 }
 
-
+/* ================= PORTADAS ================= */
 .portada {
   width: 90px;
   height: 105px;
-  margin-left: -20px;
-  padding: 5px;
-  background: #111;
-  border: 3px solid #C88713;
-  box-shadow: 0 0 10px #000;
+  margin-left: -14px;
   transition: transform 0.3s ease;
+  filter: drop-shadow(0 0 6px #000);
 }
+
 .portada img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
+  border-radius: 4px;
 }
+
 .portada:nth-child(odd) {
   transform: rotate(-4deg);
 }
 .portada:nth-child(even) {
   transform: rotate(3deg);
 }
+
 .portada:hover {
   transform: scale(1.04) rotate(0deg);
   z-index: 5;
@@ -213,16 +233,16 @@ header {
 
 
 /* ================= CONTROLES ================= */
+/* ================= CONTROLES ================= */
 .controles {
   position: absolute;
-  bottom: 10px;
-  right: 10px;
+  bottom: -40px;        /* justo debajo del vinilo */
+  left: 20px;           /* pegado al borde izquierdo del tocadiscos */
   display: flex;
   flex-direction: row;
   gap: 15px;
   z-index: 20;
 }
-
 
 .ctrl {
   width: 55px;
@@ -233,6 +253,9 @@ header {
   color: #C88713;
   font-size: 1.3rem;
 }
+
+
+
 
 /* ================= POTENCIÓMETRO ================= */
 .potenciometro {
