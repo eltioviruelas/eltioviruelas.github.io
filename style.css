@@ -175,10 +175,13 @@ header {
 
 .portada {
   width: 90px;
-  margin-left: -18px;
+  margin-left: -14px;
   transition: transform 0.3s ease;
 }
-
+.portada img {
+  width: 100%;          /* 🔴 CLAVE */
+  display: block;
+}
 .portada:nth-child(odd) {
   transform: rotate(-4deg);
 }
@@ -187,7 +190,7 @@ header {
 }
 
 .portada:hover {
-  transform: scale(1.08) rotate(0deg);
+  transform: scale(1.04) rotate(0deg);
   z-index: 5;
 }
 
