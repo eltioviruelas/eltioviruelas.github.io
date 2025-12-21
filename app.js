@@ -7,13 +7,20 @@ const aguja = document.getElementById('aguja');
 const pot = document.getElementById('potenciometro');
 const marca = pot.querySelector('.marca');
 
+/* ================= VOLUMEN ================= */
 let volumen = 0.8;
 audio.volume = volumen;
 
+/* sincroniza marca visual */
+const angInicial = -120 + volumen * 240;
+marca.style.transform = `translateX(-50%) rotate(${angInicial}deg)`;
+
+/* ================= CARGA JSON ================= */
 fetch('data/volumenes.json')
   .then(r => r.json())
   .then(j => {
     data = j;
+    vinilo.classList.add('lento'); // 🔴 CLAVE: arranca el giro
     crearBotones();
     seleccionarVol(0);
   });
@@ -75,7 +82,7 @@ function cargar(url, id) {
     .then(t => document.getElementById(id).textContent = t);
 }
 
-/* CONTROLES */
+/* ================= CONTROLES ================= */
 document.getElementById('play').onclick = () => audio.play();
 document.getElementById('pause').onclick = () => audio.pause();
 
@@ -85,7 +92,7 @@ audio.onpause = () => {
   brazo.style.transform = 'rotate(-35deg)';
 };
 
-/* POTENCIÓMETRO — RATÓN + TÁCTIL */
+/* ================= POTENCIÓMETRO ================= */
 let girando = false;
 
 function moverPot(e) {
@@ -106,12 +113,12 @@ function moverPot(e) {
   audio.volume = volumen;
 }
 
-/* RATÓN */
+/* ratón */
 pot.addEventListener('mousedown', () => girando = true);
 document.addEventListener('mouseup', () => girando = false);
 document.addEventListener('mousemove', moverPot);
 
-/* TÁCTIL */
+/* táctil */
 pot.addEventListener('touchstart', e => {
   girando = true;
   moverPot(e);
@@ -119,5 +126,5 @@ pot.addEventListener('touchstart', e => {
 document.addEventListener('touchend', () => girando = false);
 document.addEventListener('touchmove', moverPot, { passive: false });
 
-/* BLOQUEOS */
+/* bloqueos */
 document.addEventListener('contextmenu', e => e.preventDefault());
