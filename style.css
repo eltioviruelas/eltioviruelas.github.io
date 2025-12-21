@@ -49,8 +49,9 @@ header {
 }
 
 .vinilo-wrapper.lento {
-  animation: wobble 6s ease-in-out infinite;
+  animation: wobble 3s ease-in-out infinite;
 }
+
 
 .vinilo-wrapper.rapido {
   animation: wobble 4s ease-in-out infinite;
@@ -88,10 +89,13 @@ header {
 }
 
 @keyframes wobble {
-  0% { transform: rotate(0deg); }
-  50% { transform: rotate(0.4deg); }
+  0%   { transform: rotate(0deg); }
+  25%  { transform: rotate(0.6deg); }
+  50%  { transform: rotate(-0.6deg); }
+  75%  { transform: rotate(0.4deg); }
   100% { transform: rotate(0deg); }
 }
+
 
 .galleta {
   width: 30%;
@@ -171,15 +175,24 @@ header {
   display: flex;
   justify-content: center;
   margin-top: 25px;
+  padding: 10px;
 }
+
 
 .portada {
   width: 90px;
-  margin-left: -14px;
+  height: 105px;
+  margin-left: -20px;
+  padding: 5px;
+  background: #111;
+  border: 3px solid #C88713;
+  box-shadow: 0 0 10px #000;
   transition: transform 0.3s ease;
 }
 .portada img {
-  width: 100%;          /* 🔴 CLAVE */
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   display: block;
 }
 .portada:nth-child(odd) {
@@ -188,20 +201,23 @@ header {
 .portada:nth-child(even) {
   transform: rotate(3deg);
 }
-
 .portada:hover {
   transform: scale(1.04) rotate(0deg);
   z-index: 5;
 }
 
+
 /* ================= CONTROLES ================= */
 .controles {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 25px;
-  margin: 25px 0;
+  flex-direction: row;
+  gap: 15px;
+  z-index: 20;
 }
+
 
 .ctrl {
   width: 55px;
