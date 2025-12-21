@@ -248,6 +248,7 @@ header {
   z-index: 20;
 }
 
+/* BOTÓN ÚNICO PLAY/PAUSE */
 .ctrl {
   width: 30px;
   height: 30px;
@@ -256,7 +257,16 @@ header {
   background: #111;
   color: #C88713;
   font-size: 1rem;
-  box-shadow: 0 0 12px #C88713; /* halo */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 0 12px #C88713;
+  transition: transform 0.15s ease;
+}
+
+/* Animación al pulsar */
+.ctrl:active {
+  transform: scale(0.85);
 }
 
 
