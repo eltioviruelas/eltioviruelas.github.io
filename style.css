@@ -285,9 +285,9 @@ header {
 }
 
 /* ================= SUBTÍTULOS ================= */
-.letra { color: #C88713; min-height: 3.4em; } 
-.sub-previa { color: #ffffff; opacity: 0.5; } 
-.sub-actual { color: #C88713; font-size: 1.2rem;
+.letra { color: #C88713; min-height: 3.4em;font-family: 'Rock Salt', cursive; } 
+.sub-previa { color: #ffffff; opacity: 0.5;font-family: 'Rock Salt', cursive; } 
+.sub-actual { color: #C88713; font-size: 1.2rem;font-family: 'Rock Salt', cursive;
             animation: fadeIn 0.4s ease;
             }
 
