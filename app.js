@@ -15,7 +15,6 @@ let pitchTarget = 1;
 
 /* ===== ELEMENTOS ===== */
 const audio = document.getElementById('audio');
-//const needle = document.getElementById('needle');
 const vinilo = document.getElementById('vinilo');
 const wrapper = document.getElementById('viniloWrapper');
 const brazo = document.getElementById('brazo');
@@ -40,7 +39,6 @@ async function init() {
   crearBotones();
   seleccionarVol(0);
 
-  // Potenciómetro según volumen real
   const angInicial = -120 + audio.volume * 240;
   marca.style.transform = `translateX(-50%) rotate(${angInicial}deg)`;
 
@@ -119,8 +117,6 @@ audio.onplay = () => {
   vinilo.className = 'vinilo rapido';
   wrapper.className = 'vinilo-wrapper rapido';
   brazo.style.transform = 'rotate(-10deg)';
-  //needle.currentTime = 0;
-  //needle.play();
 };
 
 audio.onpause = () => {
@@ -164,9 +160,11 @@ audio.ontimeupdate = () => {
 
 function parseLRC(texto) {
   return texto.split(/\r?\n/).map(l => {
-      const m = l.match(/\[(\d+):(\d+(\.\d+)?)\](.*)/);
+    const m = l.match(/
 
+\[(\d+):(\d+(\.\d+)?)\]
 
+(.*)/);
     if (!m) return null;
     return {
       tiempo: parseInt(m[1]) * 60 + parseFloat(m[2]),
@@ -224,13 +222,15 @@ function moverScratch(e) {
 
 function finScratch() {
   scratching = false;
-  vinilo.style.transition = 'transform 0.4s ease-out';
-  vinilo.style.transform = 'rotate(0deg)';
-  setTimeout(() => vinilo.style.transition = '', 400);
+
+  vinilo.style.transition = '';
+  vinilo.style.animation = '';
+  wrapper.style.animation = '';
 
   pitchTarget = 1;
 
-  audio.paused ? audio.onpause() : audio.onplay();
+  if (audio.paused) audio.onpause();
+  else audio.onplay();
 }
 
 /* Eventos */
@@ -280,6 +280,3 @@ function moverPot(e) {
   marca.style.transform = `translateX(-50%) rotate(${limitado}deg)`;
   audio.volume = (limitado + 120) / 240;
 }
-
-
-
