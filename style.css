@@ -279,28 +279,20 @@ header {
 /* ================= SUBTÍTULOS ================= */
 /* ================= SUBTÍTULOS ================= */
 .letra {
-  max-width: 700px;
-  margin: 20px auto;
-  padding: 10px 15px;
-  font-family: 'Rock Salt', cursive;
-  text-align: center;
-  height: 3.4em;
-  line-height: 1.7em;
-  overflow: hidden;
-  position: relative;
+  color: #C88713;
+  min-height: 3.4em;
 }
 
 .sub-previa {
   color: #ffffff;
-  opacity: 0.6;
-  font-size: 1.1rem;
+  opacity: 0.5;
 }
 
 .sub-actual {
   color: #C88713;
   font-size: 1.2rem;
-  animation: subtitulo 0.5s ease;
 }
+
 
 @keyframes subtitulo {
   from { opacity: 0; transform: translateY(10px); }
