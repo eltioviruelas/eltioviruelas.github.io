@@ -209,6 +209,7 @@ header {
   border: 2px solid #C88713;
   color: #C88713;
   cursor: pointer;
+  font-family: 'Rock Salt', cursive;
   transition: transform 0.12s ease, box-shadow 0.12s ease;
 }
 
