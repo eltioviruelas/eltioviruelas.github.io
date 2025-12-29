@@ -12,19 +12,14 @@
 
 <main class="escenario">
 
-  <!-- ================= HEADER ================= -->
   <header>
     <img src="img/logo.jpeg" class="logo" draggable="false">
     <h1>El Tío Viruelas</h1>
   </header>
 
-  <!-- ================= TOCADISCOS ================= -->
   <div class="tocadiscos">
-
-    <!-- Brazo -->
     <img src="img/tocadiscos/brazo1.png" id="brazo" class="brazo" draggable="false">
 
-    <!-- Vinilo -->
     <div class="vinilo-wrapper lento" id="viniloWrapper">
       <div class="vinilo" id="vinilo">
         <img src="img/logo.jpeg" id="galleta" class="galleta" draggable="false">
@@ -32,23 +27,18 @@
       </div>
     </div>
 
-    <!-- ================= CONTROLES ================= -->
     <div class="controles">
       <button id="playpause" class="ctrl">▶</button>
-
       <div class="potenciometro" id="potenciometro">
         <div class="marca"></div>
         <span class="min">MIN</span>
         <span class="max">MAX</span>
       </div>
     </div>
-
   </div>
 
-  <!-- ================= VOLUMENES ================= -->
   <div id="volumenes-container" class="volumenes-scroll"></div>
 
-  <!-- ================= VU METER ================= -->
   <div class="vu-meter">
     <div class="vu-caja">
       <img src="img/vu/vu.png" class="vu-img" draggable="false">
@@ -56,16 +46,10 @@
     </div>
   </div>
 
-  <!-- ================= PORTADAS ================= -->
   <div class="portadas" id="portadas"></div>
 
-  <!-- AUDIO PRINCIPAL -->
   <audio id="audio" preload="auto"></audio>
 
-  <!-- AUDIO AGUJA (desactivado) -->
-  <!-- <audio id="needle" src="audio/needle.mp3" preload="auto"></audio> -->
-
-  <!-- ================= LETRA Y EXTRA ================= -->
   <div class="letra"><pre id="letra-texto"></pre></div>
   <div class="extra"><pre id="extra-texto"></pre></div>
 
@@ -73,7 +57,7 @@
 
 <script src="app.js"></script>
 
- <footer style="margin-top: 40px; padding: 20px; background: #111; color: #C88713; text-align: center;">
+<footer style="margin-top: 40px; padding: 20px; background: #111; color: #C88713; text-align: center;">
   <h2 style="font-family: 'Rock Salt', cursive; margin-bottom: 15px;">Contacto</h2>
   <form id="contact-footer" class="footer-form" style="max-width: 500px; margin: auto;">
     <input 
@@ -99,8 +83,10 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+
 <script>
   (function() {
+    // Tu Public Key
     emailjs.init("xEdXF-K2sCKhWx4ZG");
   })();
 
@@ -108,29 +94,27 @@
     e.preventDefault();
 
     const form = this;
-    const email = form.querySelector("[name='user_email']").value;
-    const message = form.querySelector("[name='message']").value;
+    const emailCliente = form.querySelector("[name='user_email']").value;
+    const mensajeCliente = form.querySelector("[name='message']").value;
 
-emailjs.send("service_56aasda", "template_oi3yf6s", {
-    name: "Usuario Web", // Ya que no tienes campo 'nombre' en el HTML
-    email: email,        // Esto llenará {{email}}
-    message: message     // Esto llenará {{message}}
-})
+    // Estos nombres (name, user_email, message) deben estar en tu plantilla de EmailJS
+    const templateParams = {
+      name: "Visitante Web",
+      user_email: emailCliente, 
+      message: mensajeCliente
+    };
 
-    .then(() => {
-      alert("Mensaje enviado correctamente");
-      form.reset();
-    })
-    .catch(() => {
-      alert("Hubo un error al enviar el mensaje :)");
-    });
+    emailjs.send("service_56aasda", "template_oi3yf6s", templateParams)
+      .then(() => {
+        alert("Mensaje enviado correctamente a El Tío Viruelas");
+        form.reset();
+      })
+      .catch((error) => {
+        console.error("Error EmailJS:", error);
+        alert("Hubo un error al enviar el mensaje :(");
+      });
   });
 </script>
 
-
-
-
-  
 </body>
-
 </html>
