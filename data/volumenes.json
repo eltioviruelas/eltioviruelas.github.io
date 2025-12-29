@@ -7,7 +7,8 @@
         {
           "titulo": "El camino largo",
           "audio": "audio/vol1/el_camino_largo.mp3",
-          "letra": "letras/vol1/el_camino_largo.txt",
+          "letra": "https://eltioviruelas.github.io/letras/vol1/el_camino_largo.txt",
+
           "extra": "extras/vol1/el_camino_largo_extra.txt",
           "galleta": "img/portadas/vol1/el_camino_largo.jpg"
         },
