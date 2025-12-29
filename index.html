@@ -112,7 +112,7 @@
     const message = form.querySelector("[name='message']").value;
 
     emailjs.send("service_56aasda", "template_oi3yf6s", {
-      name: `Email: ${email}\nMensaje: ${message}`
+      message: `Email del usuario: ${email}\n\nMensaje:\n${message}`
     })
     .then(() => {
       alert("Mensaje enviado correctamente");
@@ -123,6 +123,7 @@
     });
   });
 </script>
+
 
 
 
