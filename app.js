@@ -1,4 +1,7 @@
 let data;
+let subtitulos = [];
+let subIndex = 0;
+
 const audio = document.getElementById('audio');
 const vinilo = document.getElementById('vinilo');
 const wrapper = document.getElementById('viniloWrapper');
@@ -8,14 +11,14 @@ const aguja = document.getElementById('aguja');
 const letraTexto = document.getElementById('letra-texto');
 const extraTexto = document.getElementById('extra-texto');
 const playpause = document.getElementById('playpause');
+const pot = document.getElementById('potenciometro');
+const marca = pot.querySelector('.marca');
 
-// ===============================
-// CARGAR JSON PRINCIPAL
-// ===============================
+/* ================= INIT ================= */
+
 async function init() {
   try {
     const res = await fetch('data/volumenes.json');
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
     data = await res.json();
 
     vinilo.classList.add('lento');
@@ -23,15 +26,14 @@ async function init() {
 
     crearBotones();
     seleccionarVol(0);
-  } catch (err) {
-    console.error('Error cargando volumenes.json', err);
+  } catch (e) {
+    console.error('Error cargando JSON', e);
   }
 }
 init();
 
-// ===============================
-// BOTONES DE VOLÚMENES
-// ===============================
+/* ================= VOLUMENES ================= */
+
 function crearBotones() {
   const cont = document.getElementById('volumenes-container');
   cont.innerHTML = '';
@@ -39,7 +41,7 @@ function crearBotones() {
   data.volumenes.forEach((v, i) => {
     const b = document.createElement('button');
     b.className = 'volumen-btn';
-    b.textContent = `Volumen ${i + 1}`;
+    b.textContent = v.titulo;
     b.onclick = () => seleccionarVol(i);
     cont.appendChild(b);
   });
@@ -49,17 +51,11 @@ function seleccionarVol(i) {
   document.querySelectorAll('.volumen-btn')
     .forEach((b, idx) => b.classList.toggle('activo', idx === i));
 
-  const min = -40, max = 40;
-  const base = min + (max - min) * (i / (data.volumenes.length - 1 || 1));
-  aguja.style.setProperty('--base-angle', base + 'deg');
-  aguja.style.transform = `rotate(${base}deg)`;
-
   mostrarPortadas(data.volumenes[i]);
 }
 
-// ===============================
-// PORTADAS
-// ===============================
+/* ================= PORTADAS ================= */
+
 function mostrarPortadas(vol) {
   const p = document.getElementById('portadas');
   p.innerHTML = '';
@@ -73,127 +69,105 @@ function mostrarPortadas(vol) {
   });
 }
 
-// ===============================
-// REPRODUCIR CANCIÓN
-// ===============================
-function reproducir(c) {
-  brazo.style.transform = 'rotate(-35deg)';
-  audio.src = c.audio;
-  audio.play();
+/* ================= REPRODUCCIÓN ================= */
 
+function reproducir(c) {
+  audio.pause();
+
+  audio.src = c.audio;
   galleta.src = c.galleta;
+
   vinilo.className = 'vinilo rapido';
   wrapper.className = 'vinilo-wrapper rapido';
-  brazo.style.transform = 'rotate(-10deg)';
+
+  brazo.style.transform = 'rotate(-35deg)';
 
   cargarLetra(c.letra);
   cargarExtra(c.extra);
+
+  audio.currentTime = 0;
+  audio.play();
 }
 
-// ===============================
-// CARGAR LETRA (SUBTÍTULOS)
-// ===============================
+/* ================= LETRAS ================= */
+
 function cargarLetra(url) {
-  fetch(url)
+  const raw = `https://raw.githubusercontent.com/eltioviruelas/eltioviruelas.github.io/main/${url}`;
+
+  fetch(raw)
     .then(r => r.text())
     .then(t => {
-      console.log("LETRA CARGADA:", t.slice(0,200));
       subtitulos = parseLRC(t);
       subIndex = 0;
       letraTexto.innerHTML = '';
     })
-    .catch(err => console.error('Error cargando letra', err));
+    .catch(e => console.error('Error letra', e));
 }
 
-// ===============================
-// CARGAR EXTRA
-// ===============================
+function parseLRC(texto) {
+  return texto
+    .split(/\r?\n/)
+    .map(l => {
+      const m = /\[(\d{2}):(\d{2}\.\d{2})\](.*)/.exec(l);
+      if (!m) return null;
+      return {
+        tiempo: parseInt(m[1]) * 60 + parseFloat(m[2]),
+        texto: m[3].trim()
+      };
+    })
+    .filter(Boolean);
+}
+
+/* ================= EXTRA ================= */
+
 function cargarExtra(url) {
-  fetch(url)
+  const raw = `https://raw.githubusercontent.com/eltioviruelas/eltioviruelas.github.io/main/${url}`;
+  fetch(raw)
     .then(r => r.text())
-    .then(t => extraTexto.textContent = t)
-    .catch(err => console.error('Error cargando extra', err));
+    .then(t => extraTexto.textContent = t);
 }
 
-// ===============================
-// SUBTÍTULOS SINCRONIZADOS
-// ===============================
-let subtitulos = [];
-let subIndex = 0;
+/* ================= SUBTÍTULOS ================= */
 
-audio.ontimeupdate = () => {
+audio.addEventListener('timeupdate', () => {
   if (!subtitulos.length) return;
 
   const t = audio.currentTime;
 
-  if (subIndex < subtitulos.length - 1 && t >= subtitulos[subIndex + 1].tiempo) {
+  if (subIndex < subtitulos.length - 1 &&
+      t >= subtitulos[subIndex + 1].tiempo) {
     subIndex++;
   }
 
-  const previa = subtitulos[subIndex - 1]?.texto || "";
-  const actual = subtitulos[subIndex]?.texto || "";
+  const prev = subtitulos[subIndex - 1]?.texto || '';
+  const cur = subtitulos[subIndex]?.texto || '';
 
   letraTexto.innerHTML = `
-    <div class="sub-previa">${previa}</div>
-    <div class="sub-actual">${actual}</div>
+    <div class="sub-previa">${prev}</div>
+    <div class="sub-actual">${cur}</div>
   `;
-};
+});
 
-// ===============================
-// PARSEADOR LRC
-// ===============================
-function parseLRC(texto) {
-  const lineas = texto.split(/\r?\n/);
-  const subs = [];
+/* ================= PLAY / PAUSE ================= */
 
-  lineas.forEach(l => {
-const match = /
-
-\[(\d{1,2}):(\d{2}(?:[.,]\d{1,3})?)\]
-
-(.*)/.exec(l);
-
-    if (match) {
-      const min = parseInt(match[1], 10);
-      const sec = parseFloat(match[2].replace(',', '.'));
-      const texto = match[3].trim();
-      const tiempo = min * 60 + sec;
-      subs.push({ tiempo, texto });
-    }
-  });
-
-  return subs.sort((a, b) => a.tiempo - b.tiempo);
-}
-
-
-// ===============================
-// PLAY / PAUSE
-// ===============================
 playpause.addEventListener('click', () => {
   if (audio.paused) audio.play();
   else audio.pause();
 });
 
-audio.onplay = () => {
+audio.addEventListener('play', () => {
   playpause.textContent = '⏸';
-  vinilo.className = 'vinilo rapido';
-  wrapper.className = 'vinilo-wrapper rapido';
   brazo.style.transform = 'rotate(-10deg)';
-};
+});
 
-audio.onpause = () => {
+audio.addEventListener('pause', () => {
   playpause.textContent = '▶';
-  vinilo.className = 'vinilo lento';
-  wrapper.className = 'vinilo-wrapper lento';
   brazo.style.transform = 'rotate(-35deg)';
-};
+});
 
-// ===============================
-// POTENCIÓMETRO
-// ===============================
+/* ================= POTENCIÓMETRO ================= */
+
 let girando = false;
-const pot = document.getElementById('potenciometro');
-const marca = pot.querySelector('.marca');
 
 pot.addEventListener('mousedown', () => girando = true);
 document.addEventListener('mouseup', () => girando = false);
@@ -203,15 +177,16 @@ pot.addEventListener('touchstart', e => {
   girando = true;
   moverPot(e);
 });
+
 document.addEventListener('touchend', () => girando = false);
 document.addEventListener('touchmove', moverPot, { passive: false });
 
 function moverPot(e) {
   if (!girando) return;
 
-  const rect = pot.getBoundingClientRect();
-  const cx = rect.left + rect.width / 2;
-  const cy = rect.top + rect.height / 2;
+  const r = pot.getBoundingClientRect();
+  const cx = r.left + r.width / 2;
+  const cy = r.top + r.height / 2;
 
   const x = e.touches ? e.touches[0].clientX : e.clientX;
   const y = e.touches ? e.touches[0].clientY : e.clientY;
@@ -222,5 +197,3 @@ function moverPot(e) {
   marca.style.transform = `translateX(-50%) rotate(${limitado}deg)`;
   audio.volume = (limitado + 120) / 240;
 }
-
-
