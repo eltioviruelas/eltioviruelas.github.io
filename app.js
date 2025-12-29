@@ -1,3 +1,6 @@
+/* ============================================
+   VARIABLES Y ELEMENTOS
+============================================ */
 let data;
 let subtitulos = [];
 let subIndex = 0;
@@ -6,8 +9,13 @@ let subIndex = 0;
 let scratching = false;
 let lastAngle = 0;
 
+/* ===== PITCH ===== */
+let pitch = 1;
+let pitchTarget = 1;
+
 /* ===== ELEMENTOS ===== */
 const audio = document.getElementById('audio');
+const needle = document.getElementById('needle');
 const vinilo = document.getElementById('vinilo');
 const wrapper = document.getElementById('viniloWrapper');
 const brazo = document.getElementById('brazo');
@@ -19,8 +27,9 @@ const playpause = document.getElementById('playpause');
 const pot = document.getElementById('potenciometro');
 const marca = pot.querySelector('.marca');
 
-/* ================= INIT ================= */
-
+/* ============================================
+   INIT
+============================================ */
 async function init() {
   const res = await fetch('data/volumenes.json');
   data = await res.json();
@@ -34,11 +43,14 @@ async function init() {
   // Potenciómetro según volumen real
   const angInicial = -120 + audio.volume * 240;
   marca.style.transform = `translateX(-50%) rotate(${angInicial}deg)`;
+
+  aplicarPitch();
 }
 init();
 
-/* ================= VOLUMENES ================= */
-
+/* ============================================
+   BOTONES DE VOLUMEN
+============================================ */
 function crearBotones() {
   const cont = document.getElementById('volumenes-container');
   cont.innerHTML = '';
@@ -62,8 +74,9 @@ function seleccionarVol(i) {
   aguja.style.setProperty('--base-angle', base + 'deg');
 }
 
-/* ================= PORTADAS ================= */
-
+/* ============================================
+   PORTADAS
+============================================ */
 function mostrarPortadas(vol) {
   const p = document.getElementById('portadas');
   p.innerHTML = '';
@@ -77,12 +90,12 @@ function mostrarPortadas(vol) {
   });
 }
 
-/* ================= REPRODUCIR ================= */
-
+/* ============================================
+   REPRODUCIR CANCIÓN
+============================================ */
 function reproducir(c) {
   audio.pause();
   audio.currentTime = 0;
-
   subtitulos = [];
   subIndex = 0;
   letraTexto.innerHTML = '';
@@ -96,8 +109,9 @@ function reproducir(c) {
   audio.onloadedmetadata = () => audio.play();
 }
 
-/* ================= PLAY / PAUSE ================= */
-
+/* ============================================
+   PLAY / PAUSE
+============================================ */
 playpause.onclick = () => audio.paused ? audio.play() : audio.pause();
 
 audio.onplay = () => {
@@ -105,6 +119,8 @@ audio.onplay = () => {
   vinilo.className = 'vinilo rapido';
   wrapper.className = 'vinilo-wrapper rapido';
   brazo.style.transform = 'rotate(-10deg)';
+  needle.currentTime = 0;
+  needle.play();
 };
 
 audio.onpause = () => {
@@ -114,8 +130,9 @@ audio.onpause = () => {
   brazo.style.transform = 'rotate(-35deg)';
 };
 
-/* ================= SUBTÍTULOS (KARAOKE) ================= */
-
+/* ============================================
+   SUBTÍTULOS (KARAOKE)
+============================================ */
 function cargarLetra(ruta) {
   const url = `https://raw.githubusercontent.com/eltioviruelas/eltioviruelas.github.io/main/${ruta}`;
   fetch(url)
@@ -147,7 +164,11 @@ audio.ontimeupdate = () => {
 
 function parseLRC(texto) {
   return texto.split(/\r?\n/).map(l => {
-    const m = l.match(/\[(\d+):(\d+(\.\d+)?)\](.*)/);
+    const m = l.match(/
+
+\[(\d+):(\d+(\.\d+)?)\]
+
+(.*)/);
     if (!m) return null;
     return {
       tiempo: parseInt(m[1]) * 60 + parseFloat(m[2]),
@@ -156,15 +177,17 @@ function parseLRC(texto) {
   }).filter(Boolean);
 }
 
-/* ================= EXTRA ================= */
-
+/* ============================================
+   EXTRA
+============================================ */
 function cargarExtra(ruta) {
   const url = `https://raw.githubusercontent.com/eltioviruelas/eltioviruelas.github.io/main/${ruta}`;
   fetch(url).then(r => r.text()).then(t => extraTexto.textContent = t);
 }
 
-/* ================= SCRATCH REAL ================= */
-
+/* ============================================
+   SCRATCH REAL + PITCH
+============================================ */
 function anguloDesdeCentro(x, y) {
   const r = vinilo.getBoundingClientRect();
   const cx = r.left + r.width / 2;
@@ -187,39 +210,57 @@ function moverScratch(e) {
 
   const p = e.touches ? e.touches[0] : e;
   const ang = anguloDesdeCentro(p.clientX, p.clientY);
-  let delta = ang - lastAngle;
 
+  let delta = ang - lastAngle;
   if (delta > 180) delta -= 360;
   if (delta < -180) delta += 360;
 
   audio.currentTime = Math.max(0, audio.currentTime + delta * 0.003);
-  vinilo.style.transform = `rotate(${ang}deg)`;
 
+  pitchTarget = 1 + (delta * 0.02);
+  pitchTarget = Math.max(0.5, Math.min(2.0, pitchTarget));
+
+  vinilo.style.transform = `rotate(${ang}deg)`;
   lastAngle = ang;
 }
 
 function finScratch() {
   scratching = false;
-  vinilo.style.transform = '';
+  vinilo.style.transition = 'transform 0.4s ease-out';
+  vinilo.style.transform = 'rotate(0deg)';
+  setTimeout(() => vinilo.style.transition = '', 400);
+
+  pitchTarget = 1;
+
   audio.paused ? audio.onpause() : audio.onplay();
 }
 
-/* MOUSE */
+/* Eventos */
 vinilo.addEventListener('mousedown', iniciarScratch);
 document.addEventListener('mousemove', moverScratch);
 document.addEventListener('mouseup', finScratch);
 
-/* TOUCH */
 vinilo.addEventListener('touchstart', iniciarScratch, { passive: false });
 document.addEventListener('touchmove', moverScratch, { passive: false });
 document.addEventListener('touchend', finScratch);
 
-/* ================= POTENCIÓMETRO ================= */
+/* ============================================
+   PITCH LOOP
+============================================ */
+function aplicarPitch() {
+  pitch += (pitchTarget - pitch) * 0.15;
+  audio.playbackRate = pitch;
+  requestAnimationFrame(aplicarPitch);
+}
 
+/* ============================================
+   POTENCIÓMETRO
+============================================ */
 let girando = false;
 
 pot.addEventListener('mousedown', () => girando = true);
 document.addEventListener('mouseup', () => girando = false);
+
 pot.addEventListener('touchstart', () => girando = true);
 document.addEventListener('touchend', () => girando = false);
 
@@ -235,6 +276,7 @@ function moverPot(e) {
 
   const p = e.touches ? e.touches[0] : e;
   const ang = Math.atan2(p.clientY - cy, p.clientX - cx) * 180 / Math.PI;
+
   const limitado = Math.max(-120, Math.min(120, ang));
 
   marca.style.transform = `translateX(-50%) rotate(${limitado}deg)`;
