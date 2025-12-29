@@ -147,11 +147,12 @@ function parseLRC(texto) {
   const subs = [];
 
   lineas.forEach(l => {
-    const match = /
+const match = /
 
 \[(\d{1,2}):(\d{2}(?:[.,]\d{1,3})?)\]
 
 (.*)/.exec(l);
+
     if (match) {
       const min = parseInt(match[1], 10);
       const sec = parseFloat(match[2].replace(',', '.'));
@@ -221,4 +222,5 @@ function moverPot(e) {
   marca.style.transform = `translateX(-50%) rotate(${limitado}deg)`;
   audio.volume = (limitado + 120) / 240;
 }
+
 
