@@ -2,8 +2,7 @@ let data;
 let subtitulos = [];
 let subIndex = 0;
 
-let scratching = false;
-let lastAngle = 0;
+/* ================= ELEMENTOS ================= */
 
 const audio = document.getElementById('audio');
 const vinilo = document.getElementById('vinilo');
@@ -18,19 +17,16 @@ const playpause = document.getElementById('playpause');
 /* ================= INIT ================= */
 
 async function init() {
-  try {
-    const res = await fetch('data/volumenes.json');
-    data = await res.json();
+  const res = await fetch('data/volumenes.json');
+  data = await res.json();
 
-    vinilo.className = 'vinilo lento';
-    wrapper.className = 'vinilo-wrapper lento';
+  vinilo.classList.add('lento');
+  wrapper.classList.add('lento');
 
-    crearBotones();
-    seleccionarVol(0);
-  } catch (e) {
-    console.error('ERROR INIT', e);
-  }
+  crearBotones();
+  seleccionarVol(0);
 }
+
 init();
 
 /* ================= VOLUMENES ================= */
@@ -52,10 +48,9 @@ function seleccionarVol(i) {
   document.querySelectorAll('.volumen-btn')
     .forEach((b, idx) => b.classList.toggle('activo', idx === i));
 
-  const vol = data.volumenes[i];
-  mostrarPortadas(vol);
+  mostrarPortadas(data.volumenes[i]);
 
-  const base = vol.vu || 0;
+  const base = data.volumenes[i].vu || 0;
   aguja.style.setProperty('--base-angle', base + 'deg');
 }
 
@@ -74,12 +69,13 @@ function mostrarPortadas(vol) {
   });
 }
 
-/* ================= REPRODUCCION ================= */
+/* ================= REPRODUCIR ================= */
 
 function reproducir(c) {
   audio.pause();
   audio.currentTime = 0;
   audio.src = c.audio;
+
   galleta.src = c.galleta;
 
   cargarLetra(c.letra);
@@ -128,110 +124,84 @@ audio.ontimeupdate = () => {
 
   const t = audio.currentTime;
 
-  while (
-    subIndex < subtitulos.length - 1 &&
-    t >= subtitulos[subIndex + 1].tiempo
-  ) {
+  while (subIndex < subtitulos.length - 1 && t >= subtitulos[subIndex + 1].tiempo) {
     subIndex++;
   }
 
-  const prev = subtitulos[subIndex - 1]?.texto || '';
-  const act = subtitulos[subIndex]?.texto || '';
-
   letraTexto.innerHTML = `
-    <div class="sub-previa">${prev}</div>
-    <div class="sub-actual">${act}</div>
+    <div class="sub-previa">${subtitulos[subIndex - 1]?.texto || ''}</div>
+    <div class="sub-actual">${subtitulos[subIndex]?.texto || ''}</div>
   `;
 };
 
 function parseLRC(texto) {
-  return texto
-    .split(/\r?\n/)
-    .map(l => {
-      const m = l.match(/\[(\d+):(\d+(\.\d+)?)\]\s*(.*)/);
-      if (!m) return null;
-      return {
-        tiempo: parseInt(m[1]) * 60 + parseFloat(m[2]),
-        texto: m[4]
-      };
-    })
-    .filter(Boolean)
-    .sort((a, b) => a.tiempo - b.tiempo);
+  return texto.split(/\r?\n/).map(l => {
+    const m = l.match(/\[(\d+):(\d+(\.\d+)?)\](.*)/);
+    if (!m) return null;
+    return {
+      tiempo: parseInt(m[1]) * 60 + parseFloat(m[2]),
+      texto: m[4]
+    };
+  }).filter(Boolean);
 }
 
 /* ================= EXTRA ================= */
 
 function cargarExtra(ruta) {
   const url = `https://raw.githubusercontent.com/eltioviruelas/eltioviruelas.github.io/main/${ruta}`;
-  fetch(url)
-    .then(r => r.text())
-    .then(t => extraTexto.textContent = t);
+  fetch(url).then(r => r.text()).then(t => extraTexto.textContent = t);
 }
 
-/* ================= SCRATCHING REAL ================= */
+/* ================= SCRATCH REAL ================= */
 
-function getAngle(e) {
-  const rect = vinilo.getBoundingClientRect();
-  const cx = rect.left + rect.width / 2;
-  const cy = rect.top + rect.height / 2;
+let scratching = false;
+let lastAngle = 0;
 
-  const x = e.touches ? e.touches[0].clientX : e.clientX;
-  const y = e.touches ? e.touches[0].clientY : e.clientY;
-
+function anguloDesdeCentro(x, y) {
+  const r = vinilo.getBoundingClientRect();
+  const cx = r.left + r.width / 2;
+  const cy = r.top + r.height / 2;
   return Math.atan2(y - cy, x - cx) * 180 / Math.PI;
 }
 
-vinilo.addEventListener('mousedown', e => {
+function iniciarScratch(e) {
   scratching = true;
-  lastAngle = getAngle(e);
-  audio.pause();
-});
+  vinilo.style.animation = 'none';
+  wrapper.style.animation = 'none';
 
-document.addEventListener('mousemove', e => {
-  if (!scratching) return;
+  const p = e.touches ? e.touches[0] : e;
+  lastAngle = anguloDesdeCentro(p.clientX, p.clientY);
+}
 
-  const ang = getAngle(e);
-  const delta = ang - lastAngle;
-  lastAngle = ang;
-
-  const t = audio.currentTime + delta * 0.005;
-  audio.currentTime = Math.max(0, Math.min(audio.duration || 0, t));
-
-  vinilo.style.transform = `rotate(${ang}deg)`;
-});
-
-document.addEventListener('mouseup', () => {
-  if (!scratching) return;
-  scratching = false;
-  vinilo.style.transform = '';
-  audio.play();
-});
-
-/* === TACTIL === */
-
-vinilo.addEventListener('touchstart', e => {
-  scratching = true;
-  lastAngle = getAngle(e);
-  audio.pause();
-});
-
-document.addEventListener('touchmove', e => {
+function moverScratch(e) {
   if (!scratching) return;
   e.preventDefault();
 
-  const ang = getAngle(e);
-  const delta = ang - lastAngle;
-  lastAngle = ang;
+  const p = e.touches ? e.touches[0] : e;
+  const ang = anguloDesdeCentro(p.clientX, p.clientY);
+  let delta = ang - lastAngle;
 
-  const t = audio.currentTime + delta * 0.005;
-  audio.currentTime = Math.max(0, Math.min(audio.duration || 0, t));
+  if (delta > 180) delta -= 360;
+  if (delta < -180) delta += 360;
 
+  audio.currentTime = Math.max(0, audio.currentTime + delta * 0.003);
   vinilo.style.transform = `rotate(${ang}deg)`;
-}, { passive: false });
 
-document.addEventListener('touchend', () => {
-  if (!scratching) return;
+  lastAngle = ang;
+}
+
+function finScratch() {
   scratching = false;
   vinilo.style.transform = '';
-  audio.play();
-});
+  audio.paused ? audio.onpause() : audio.onplay();
+}
+
+/* MOUSE */
+vinilo.addEventListener('mousedown', iniciarScratch);
+document.addEventListener('mousemove', moverScratch);
+document.addEventListener('mouseup', finScratch);
+
+/* TOUCH */
+vinilo.addEventListener('touchstart', iniciarScratch, { passive: false });
+document.addEventListener('touchmove', moverScratch, { passive: false });
+document.addEventListener('touchend', finScratch);
