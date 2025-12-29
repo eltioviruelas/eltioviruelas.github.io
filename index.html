@@ -107,19 +107,23 @@
   document.getElementById("contact-footer").addEventListener("submit", function(e) {
     e.preventDefault();
 
-emailjs.send("service_56aasda", "template_oi3yf6s", {
-  name: `Email: ${this.user_email.value}\nMensaje: ${this.message.value}`
-})
+    const form = this;
+    const email = form.querySelector("[name='user_email']").value;
+    const message = form.querySelector("[name='message']").value;
 
+    emailjs.send("service_56aasda", "template_oi3yf6s", {
+      name: `Email: ${email}\nMensaje: ${message}`
+    })
     .then(() => {
       alert("Mensaje enviado correctamente");
-      this.reset();
+      form.reset();
     })
     .catch(() => {
       alert("Hubo un error al enviar el mensaje");
     });
   });
 </script>
+
 
 
   
