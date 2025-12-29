@@ -164,11 +164,8 @@ audio.ontimeupdate = () => {
 
 function parseLRC(texto) {
   return texto.split(/\r?\n/).map(l => {
-const m = l.match(/
+      const m = l.match(/\[(\d+):(\d+(\.\d+)?)\](.*)/);
 
-\[(\d+):(\d+(\.\d+)?)\]
-
-(.*)/);
 
     if (!m) return null;
     return {
@@ -283,4 +280,5 @@ function moverPot(e) {
   marca.style.transform = `translateX(-50%) rotate(${limitado}deg)`;
   audio.volume = (limitado + 120) / 240;
 }
+
 
