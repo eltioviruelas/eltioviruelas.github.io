@@ -107,10 +107,10 @@
   document.getElementById("contact-footer").addEventListener("submit", function(e) {
     e.preventDefault();
 
-    emailjs.send("service_56aasda", "template_oi3yf6s", {
-      name: this.user_email.value,
-      message: this.message.value
-    })
+emailjs.send("service_56aasda", "template_oi3yf6s", {
+  name: `Email: ${this.user_email.value}\nMensaje: ${this.message.value}`
+})
+
     .then(() => {
       alert("Mensaje enviado correctamente");
       this.reset();
