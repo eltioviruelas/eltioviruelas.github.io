@@ -111,9 +111,10 @@
     const email = form.querySelector("[name='user_email']").value;
     const message = form.querySelector("[name='message']").value;
 
-    emailjs.send("service_56aasda", "template_oi3yf6s", {
-      message: `Email del usuario: ${email}\n\nMensaje:\n${message}`
-    })
+emailjs.send("service_56aasda", "template_oi3yf6s", {
+  message: `Email del usuario: ${email}\n\nMensaje:\n${message}`
+})
+
     .then(() => {
       alert("Mensaje enviado correctamente");
       form.reset();
