@@ -206,6 +206,7 @@ header {
 
 .volumen-btn.activo {
   box-shadow: 0 0 20px #C88713;
+  transform: scale(0.92);
 }
 
 /* ================= VU ================= */
