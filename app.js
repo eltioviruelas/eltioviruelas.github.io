@@ -2,11 +2,8 @@ let data;
 let subtitulos = [];
 let subIndex = 0;
 
-/* ================= SCRATCH ================= */
-let scratching = false;
-let lastAngle = 0;
-
 /* ================= ELEMENTOS ================= */
+
 const audio = document.getElementById('audio');
 const vinilo = document.getElementById('vinilo');
 const wrapper = document.getElementById('viniloWrapper');
@@ -16,8 +13,6 @@ const aguja = document.getElementById('aguja');
 const letraTexto = document.getElementById('letra-texto');
 const extraTexto = document.getElementById('extra-texto');
 const playpause = document.getElementById('playpause');
-const pot = document.getElementById('potenciometro');
-const marca = pot.querySelector('.marca');
 
 /* ================= INIT ================= */
 
@@ -30,15 +25,11 @@ async function init() {
 
   crearBotones();
   seleccionarVol(0);
-
-  // Volumen inicial real del navegador
-  const ang = audio.volume * 240 - 120;
-  marca.style.transform = `translateX(-50%) rotate(${ang}deg)`;
 }
 
 init();
 
-/* ================= BOTONES VOLUMEN ================= */
+/* ================= VOLUMENES ================= */
 
 function crearBotones() {
   const cont = document.getElementById('volumenes-container');
@@ -57,10 +48,9 @@ function seleccionarVol(i) {
   document.querySelectorAll('.volumen-btn')
     .forEach((b, idx) => b.classList.toggle('activo', idx === i));
 
-  const vol = data.volumenes[i];
-  mostrarPortadas(vol);
+  mostrarPortadas(data.volumenes[i]);
 
-  const base = vol.vu || 0;
+  const base = data.volumenes[i].vu || 0;
   aguja.style.setProperty('--base-angle', base + 'deg');
 }
 
@@ -84,23 +74,23 @@ function mostrarPortadas(vol) {
 function reproducir(c) {
   audio.pause();
   audio.currentTime = 0;
-
-  subtitulos = [];
-  subIndex = 0;
-  letraTexto.innerHTML = '';
-
   audio.src = c.audio;
+
   galleta.src = c.galleta;
 
   cargarLetra(c.letra);
   cargarExtra(c.extra);
 
-  audio.onloadedmetadata = () => audio.play();
+  audio.onloadedmetadata = () => {
+    audio.play();
+  };
 }
 
 /* ================= PLAY / PAUSE ================= */
 
-playpause.onclick = () => audio.paused ? audio.play() : audio.pause();
+playpause.onclick = () => {
+  audio.paused ? audio.play() : audio.pause();
+};
 
 audio.onplay = () => {
   playpause.textContent = '⏸';
@@ -116,14 +106,16 @@ audio.onpause = () => {
   brazo.style.transform = 'rotate(-35deg)';
 };
 
-/* ================= SUBTÍTULOS KARAOKE ================= */
+/* ================= SUBTITULOS ================= */
 
 function cargarLetra(ruta) {
-  fetch(`https://raw.githubusercontent.com/eltioviruelas/eltioviruelas.github.io/main/${ruta}`)
+  const url = `https://raw.githubusercontent.com/eltioviruelas/eltioviruelas.github.io/main/${ruta}`;
+  fetch(url)
     .then(r => r.text())
     .then(t => {
       subtitulos = parseLRC(t);
       subIndex = 0;
+      letraTexto.innerHTML = '';
     });
 }
 
@@ -132,85 +124,50 @@ audio.ontimeupdate = () => {
 
   const t = audio.currentTime;
 
-  while (
-    subIndex < subtitulos.length - 1 &&
-    t >= subtitulos[subIndex + 1].tiempo
-  ) subIndex++;
-
-  const actual = subtitulos[subIndex]?.texto || '';
-  const siguiente = subtitulos[subIndex + 1]?.texto || '';
+  while (subIndex < subtitulos.length - 1 && t >= subtitulos[subIndex + 1].tiempo) {
+    subIndex++;
+  }
 
   letraTexto.innerHTML = `
-    <div class="sub-actual">${actual}</div>
-    <div class="sub-previa">${siguiente}</div>
+    <div class="sub-previa">${subtitulos[subIndex - 1]?.texto || ''}</div>
+    <div class="sub-actual">${subtitulos[subIndex]?.texto || ''}</div>
   `;
 };
 
 function parseLRC(texto) {
-  return texto.split(/\r?\n/)
-    .map(l => {
-      const m = l.match(/\[(\d+):(\d+(\.\d+)?)\](.*)/);
-      if (!m) return null;
-      return {
-        tiempo: parseInt(m[1]) * 60 + parseFloat(m[2]),
-        texto: m[4]
-      };
-    })
-    .filter(Boolean);
+  return texto.split(/\r?\n/).map(l => {
+    const m = l.match(/\[(\d+):(\d+(\.\d+)?)\](.*)/);
+    if (!m) return null;
+    return {
+      tiempo: parseInt(m[1]) * 60 + parseFloat(m[2]),
+      texto: m[4]
+    };
+  }).filter(Boolean);
 }
 
 /* ================= EXTRA ================= */
 
 function cargarExtra(ruta) {
-  fetch(`https://raw.githubusercontent.com/eltioviruelas/eltioviruelas.github.io/main/${ruta}`)
-    .then(r => r.text())
-    .then(t => extraTexto.textContent = t);
+  const url = `https://raw.githubusercontent.com/eltioviruelas/eltioviruelas.github.io/main/${ruta}`;
+  fetch(url).then(r => r.text()).then(t => extraTexto.textContent = t);
 }
 
-/* ================= POTENCIÓMETRO ================= */
+/* ================= SCRATCH REAL ================= */
 
-let girando = false;
-
-pot.addEventListener('mousedown', () => girando = true);
-document.addEventListener('mouseup', () => girando = false);
-document.addEventListener('mousemove', moverPot);
-
-pot.addEventListener('touchstart', e => {
-  girando = true;
-  moverPot(e);
-}, { passive: false });
-
-document.addEventListener('touchend', () => girando = false);
-document.addEventListener('touchmove', moverPot, { passive: false });
-
-function moverPot(e) {
-  if (!girando) return;
-  e.preventDefault();
-
-  const r = pot.getBoundingClientRect();
-  const cx = r.left + r.width / 2;
-  const cy = r.top + r.height / 2;
-
-  const p = e.touches ? e.touches[0] : e;
-  const ang = Math.atan2(p.clientY - cy, p.clientX - cx) * 180 / Math.PI;
-  const limitado = Math.max(-120, Math.min(120, ang));
-
-  marca.style.transform = `translateX(-50%) rotate(${limitado}deg)`;
-  audio.volume = (limitado + 120) / 240;
-}
-
-/* ================= SCRATCH ANALÓGICO ================= */
+let scratching = false;
+let lastAngle = 0;
 
 function anguloDesdeCentro(x, y) {
   const r = vinilo.getBoundingClientRect();
-  return Math.atan2(y - (r.top + r.height / 2), x - (r.left + r.width / 2)) * 180 / Math.PI;
+  const cx = r.left + r.width / 2;
+  const cy = r.top + r.height / 2;
+  return Math.atan2(y - cy, x - cx) * 180 / Math.PI;
 }
 
 function iniciarScratch(e) {
   scratching = true;
   vinilo.style.animation = 'none';
   wrapper.style.animation = 'none';
-  audio.pause();
 
   const p = e.touches ? e.touches[0] : e;
   lastAngle = anguloDesdeCentro(p.clientX, p.clientY);
@@ -221,7 +178,7 @@ function moverScratch(e) {
   e.preventDefault();
 
   const p = e.touches ? e.touches[0] : e;
-  let ang = anguloDesdeCentro(p.clientX, p.clientY);
+  const ang = anguloDesdeCentro(p.clientX, p.clientY);
   let delta = ang - lastAngle;
 
   if (delta > 180) delta -= 360;
@@ -236,7 +193,7 @@ function moverScratch(e) {
 function finScratch() {
   scratching = false;
   vinilo.style.transform = '';
-  audio.play();
+  audio.paused ? audio.onpause() : audio.onplay();
 }
 
 /* MOUSE */
@@ -248,3 +205,4 @@ document.addEventListener('mouseup', finScratch);
 vinilo.addEventListener('touchstart', iniciarScratch, { passive: false });
 document.addEventListener('touchmove', moverScratch, { passive: false });
 document.addEventListener('touchend', finScratch);
+
