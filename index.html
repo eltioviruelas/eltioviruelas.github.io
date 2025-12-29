@@ -82,7 +82,6 @@
     placeholder="Tu correo" 
     required
   />
-
   <textarea 
     name="message" 
     placeholder="Escribe tu mensaje..." 
@@ -91,8 +90,31 @@
 
   <button type="submit">Enviar</button>
 </form>
-
 </footer>
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+    <script>
+      (function() {
+        emailjs.init("xEdXF-K2sCKhWx4ZG");
+      })();
+    
+      document.getElementById("contact-footer").addEventListener("submit", function(e) {
+        e.preventDefault();
+    
+        emailjs.send(
+          "service_56aasda",
+          "template_oi3yf6s",
+          {
+            user_email: this.user_email.value,
+            message: this.message.value
+          }
+        ).then(() => {
+          alert("Mensaje enviado correctamente");
+          this.reset();
+        }).catch(() => {
+          alert("Hubo un error al enviar el mensaje");
+        });
+      });
+    </script>
 
   
 </body>
