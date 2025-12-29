@@ -7,6 +7,8 @@ const galleta = document.getElementById('galleta');
 const aguja = document.getElementById('aguja');
 const letraTexto = document.getElementById('letra-texto');
 const extraTexto = document.getElementById('extra-texto');
+const playpause = document.getElementById('playpause');
+
 
 // Cargar JSON con async/await
 async function init() {
@@ -83,20 +85,22 @@ function reproducir(c) {
 
 // Cargar letra (subtítulos)
 function cargarLetra(url) {
-  const githubUrl = `https://raw.githubusercontent.com/ElTioViruelas/eltioviruelas.github.io/main/${url}`; // URL directo desde GitHub
+  const githubUrl = `https://raw.githubusercontent.com/eltioviruelas/eltioviruelas.github.io/main/${url}`; // URL directo desde GitHub
   fetch(githubUrl)
     .then(r => r.text())
     .then(t => {
+      console.log("LETRA CARGADA:", t.slice(0,200));
       subtitulos = parseLRC(t); // Parsear los subtítulos LRC
       subIndex = 0;
       letraTexto.innerHTML = '';
     })
     .catch(err => console.error('Error cargando letra', err));
+  
 }
 
 // Cargar extra
 function cargarExtra(url) {
-  const githubUrl = `https://raw.githubusercontent.com/ElTioViruelas/eltioviruelas.github.io/main/${url}`; // URL directo desde GitHub
+  const githubUrl = `https://raw.githubusercontent.com/eltioviruelas/eltioviruelas.github.io/main/${url}`; // URL directo desde GitHub
   fetch(githubUrl)
     .then(r => r.text())
     .then(t => extraTexto.textContent = t)
@@ -186,3 +190,4 @@ function moverPot(e) {
   marca.style.transform = `translateX(-50%) rotate(${limitado}deg)`;
   audio.volume = (limitado + 120) / 240;
 }
+
