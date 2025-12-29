@@ -5,7 +5,7 @@
 
 body {
   margin: 0;
-  background: #000;
+  background: radial-gradient(circle at center, #111 0%, #000 80%);
   color: #C88713;
   font-family: 'Rock Salt', cursive;
 }
@@ -31,6 +31,7 @@ header {
   height: 80px;
   border-radius: 50%;
   border: 3px solid #C88713;
+  filter: drop-shadow(0 0 8px #C88713);
 }
 
 /* ================= TOCADISCOS ================= */
@@ -46,6 +47,7 @@ header {
   width: 540px;
   height: 540px;
   margin: auto;
+  filter: drop-shadow(0 0 25px rgba(200,135,19,0.25));
 }
 
 .vinilo-wrapper.lento {
@@ -61,17 +63,12 @@ header {
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  background: repeating-radial-gradient(
-    circle,
-    #050505 0px,
-    #050505 2px,
-    #111 2px,
-    #111 5px
-  );
+  background: repeating-radial-gradient(circle, #050505 0px, #050505 2px, #111 2px, #111 5px);
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
+  box-shadow: inset 0 0 40px rgba(0,0,0,0.8);
 }
 
 .vinilo.lento {
@@ -103,6 +100,7 @@ header {
   animation: inherit;
   object-fit: cover;
   aspect-ratio: 1 / 1;
+  filter: drop-shadow(0 0 10px #C88713);
 }
 
 .agujero {
@@ -123,6 +121,8 @@ header {
   transform: rotate(-35deg);
   transition: transform 0.6s ease;
   z-index: 10;
+  filter: drop-shadow(0 0 6px rgba(0,0,0,0.6));
+  mix-blend-mode: screen;
 }
 
 /* ================= CONTROLES ================= */
@@ -148,7 +148,11 @@ header {
   justify-content: center;
   align-items: center;
   box-shadow: 0 0 12px #C88713;
-  transition: transform 0.15s ease;
+  transition: transform 0.15s ease, box-shadow 0.3s ease;
+}
+
+.ctrl:hover {
+  box-shadow: 0 0 18px #C88713;
 }
 
 .ctrl:active {
@@ -163,6 +167,7 @@ header {
   border-radius: 50%;
   background: radial-gradient(#333, #000);
   border: 1px solid #C88713;
+  box-shadow: 0 0 10px rgba(200,135,19,0.3);
 }
 
 .marca {
@@ -202,16 +207,12 @@ header {
   border: 2px solid #C88713;
   color: #C88713;
   cursor: pointer;
-  transition: 
-    transform 0.12s ease,
-    box-shadow 0.12s ease;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
 }
 
 .volumen-btn.activo {
   transform: translateY(2px);
-  box-shadow:
-    inset 0 3px 6px rgba(0,0,0,0.8),
-    0 0 12px #C88713;
+  box-shadow: inset 0 3px 6px rgba(0,0,0,0.8), 0 0 12px #C88713;
 }
 
 /* ================= VU ================= */
@@ -282,7 +283,7 @@ header {
   transform: scale(1.04) rotate(0deg);
   z-index: 5;
 }
-/* ================= SUBTÍTULOS ================= */
+
 /* ================= SUBTÍTULOS ================= */
 .letra {
   color: #C88713;
@@ -297,18 +298,15 @@ header {
 .sub-actual {
   color: #C88713;
   font-size: 1.2rem;
+  animation: fadeIn 0.4s ease;
 }
 
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
 
-/*@keyframes subtitulo {
-/*  from { opacity: 0; transform: translateY(10px); }
-/*  to   { opacity: 1; transform: translateY(0); }
-/*}
-
-
-
-
-/* EXTRA */
+/* ================= EXTRA ================= */
 .extra {
   max-width: 700px;
   margin: 20px auto;
