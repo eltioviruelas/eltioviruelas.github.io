@@ -108,7 +108,7 @@
     e.preventDefault();
 
     emailjs.send("service_56aasda", "template_oi3yf6s", {
-      user_email: this.user_email.value,
+      name: this.user_email.value,
       message: this.message.value
     })
     .then(() => {
