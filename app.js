@@ -164,6 +164,7 @@ function parseLRC(texto) {
   return subs.sort((a, b) => a.tiempo - b.tiempo);
 }
 
+
 // ===============================
 // PLAY / PAUSE
 // ===============================
@@ -220,3 +221,4 @@ function moverPot(e) {
   marca.style.transform = `translateX(-50%) rotate(${limitado}deg)`;
   audio.volume = (limitado + 120) / 240;
 }
+
