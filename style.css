@@ -316,4 +316,37 @@ header {
   white-space: pre-wrap;
   font-family: sans-serif;
   color: #eee;
+/* ================= FORM pie ================= */
+  
 }
+.footer-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 280px;
+  margin: 0 auto;
+  font-size: 14px;
+}
+
+.footer-form input,
+.footer-form textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: #f8f8f8;
+}
+
+.footer-form button {
+  padding: 8px;
+  border: none;
+  background: #333;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.footer-form button:hover {
+  background: #555;
+}
+
