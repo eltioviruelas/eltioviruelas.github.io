@@ -83,7 +83,7 @@ function reproducir(c) {
 
 // Cargar letra (subtítulos)
 function cargarLetra(url) {
-  const githubUrl = `https://raw.githubusercontent.com/eltioViruelas/eltioViruelas.github.io/main/${url}`; // URL directo desde GitHub
+  const githubUrl = `https://raw.githubusercontent.com/ElTioViruelas/eltioviruelas.github.io/main/${url}`; // URL directo desde GitHub
   fetch(githubUrl)
     .then(r => r.text())
     .then(t => {
@@ -96,7 +96,7 @@ function cargarLetra(url) {
 
 // Cargar extra
 function cargarExtra(url) {
-  const githubUrl = `https://raw.githubusercontent.com/eltioViruelas/eltioViruelas.github.io/main/${url}`; // URL directo desde GitHub
+  const githubUrl = `https://raw.githubusercontent.com/ElTioViruelas/eltioviruelas.github.io/main/${url}`; // URL directo desde GitHub
   fetch(githubUrl)
     .then(r => r.text())
     .then(t => extraTexto.textContent = t)
@@ -140,4 +140,49 @@ function parseLRC(texto) {
     }
   });
   return subs.sort((a, b) => a.tiempo - b.tiempo);
+}
+
+audio.onplay = () => {
+  playpause.textContent = '⏸';
+  vinilo.className = 'vinilo rapido';
+  wrapper.className = 'vinilo-wrapper rapido';
+  brazo.style.transform = 'rotate(-10deg)';
+};
+
+audio.onpause = () => {
+  playpause.textContent = '▶';
+  vinilo.className = 'vinilo lento';
+  wrapper.className = 'vinilo-wrapper lento';
+  brazo.style.transform = 'rotate(-35deg)';
+};
+let girando = false;
+const pot = document.getElementById('potenciometro');
+const marca = pot.querySelector('.marca');
+
+pot.addEventListener('mousedown', () => girando = true);
+document.addEventListener('mouseup', () => girando = false);
+document.addEventListener('mousemove', moverPot);
+
+pot.addEventListener('touchstart', e => {
+  girando = true;
+  moverPot(e);
+});
+document.addEventListener('touchend', () => girando = false);
+document.addEventListener('touchmove', moverPot, { passive: false });
+
+function moverPot(e) {
+  if (!girando) return;
+
+  const rect = pot.getBoundingClientRect();
+  const cx = rect.left + rect.width / 2;
+  const cy = rect.top + rect.height / 2;
+
+  const x = e.touches ? e.touches[0].clientX : e.clientX;
+  const y = e.touches ? e.touches[0].clientY : e.clientY;
+
+  const ang = Math.atan2(y - cy, x - cx) * 180 / Math.PI;
+  const limitado = Math.max(-120, Math.min(120, ang));
+
+  marca.style.transform = `translateX(-50%) rotate(${limitado}deg)`;
+  audio.volume = (limitado + 120) / 240;
 }
