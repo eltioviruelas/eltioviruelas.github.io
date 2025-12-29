@@ -15,7 +15,7 @@ let pitchTarget = 1;
 
 /* ===== ELEMENTOS ===== */
 const audio = document.getElementById('audio');
-const needle = document.getElementById('needle');
+//const needle = document.getElementById('needle');
 const vinilo = document.getElementById('vinilo');
 const wrapper = document.getElementById('viniloWrapper');
 const brazo = document.getElementById('brazo');
@@ -119,8 +119,8 @@ audio.onplay = () => {
   vinilo.className = 'vinilo rapido';
   wrapper.className = 'vinilo-wrapper rapido';
   brazo.style.transform = 'rotate(-10deg)';
-  needle.currentTime = 0;
-  needle.play();
+  //needle.currentTime = 0;
+  //needle.play();
 };
 
 audio.onpause = () => {
@@ -280,5 +280,6 @@ function moverPot(e) {
   marca.style.transform = `translateX(-50%) rotate(${limitado}deg)`;
   audio.volume = (limitado + 120) / 240;
 }
+
 
 
