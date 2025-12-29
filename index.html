@@ -112,7 +112,9 @@
     const message = form.querySelector("[name='message']").value;
 
 emailjs.send("service_56aasda", "template_oi3yf6s", {
-  message: `Email del usuario: ${email}\n\nMensaje:\n${message}`
+    name: "Usuario Web", // Ya que no tienes campo 'nombre' en el HTML
+    email: email,        // Esto llenará {{email}}
+    message: message     // Esto llenará {{message}}
 })
 
     .then(() => {
@@ -120,7 +122,7 @@ emailjs.send("service_56aasda", "template_oi3yf6s", {
       form.reset();
     })
     .catch(() => {
-      alert("Hubo un error al enviar el mensaje :(((");
+      alert("Hubo un error al enviar el mensaje :)");
     });
   });
 </script>
