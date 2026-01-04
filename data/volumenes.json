@@ -2,7 +2,8 @@
   "volumenes": [
     {
       "titulo": "VOLUMEN 1",
-      "label": "GRIS CLARO",
+      "hover": "GRIS CLARO",
+      "activoTexto": "GRIS CLARO",
       "vu": -10,
       "canciones": [
         {
@@ -23,7 +24,8 @@
     },
     {
       "titulo": "VOLUMEN 2",
-      "label": "ROJO OSCURO",
+      "hover": "ROJO OSCURO",
+      "activoTexto": "ROJO OSCURO",
       "vu": 10,
       "canciones": [
         {
@@ -37,43 +39,45 @@
     },
     {
       "titulo": "VOLUMEN 3",
-      "label": "AZUL NOCHE",
-      "vu": 0,
+      "hover": "AZUL NOCHE",
+      "activoTexto": "AZUL NOCHE",
+      "vu": -5,
       "canciones": [
         {
-          "titulo": "Sombras",
-          "audio": "audio/vol3/sombras.mp3",
-          "letra": "letras/vol3/sombras.txt",
-          "extra": "extras/vol3/sombras_extra.txt",
-          "galleta": "img/portadas/vol3/sombras.jpg"
+          "titulo": "Luces rotas",
+          "audio": "audio/vol3/luces_rotas.mp3",
+          "letra": "letras/vol3/luces_rotas.txt",
+          "extra": "extras/vol3/luces_rotas_extra.txt",
+          "galleta": "img/portadas/vol3/luces_rotas.jpg"
         },
         {
-          "titulo": "Luz Tardía",
-          "audio": "audio/vol3/luz_tardia.mp3",
-          "letra": "letras/vol3/luz_tardia.txt",
-          "extra": "extras/vol3/luz_tardia_extra.txt",
-          "galleta": "img/portadas/vol3/luz_tardia.jpg"
+          "titulo": "Ceniza",
+          "audio": "audio/vol3/ceniza.mp3",
+          "letra": "letras/vol3/ceniza.txt",
+          "extra": "extras/vol3/ceniza_extra.txt",
+          "galleta": "img/portadas/vol3/ceniza.jpg"
         }
       ]
     },
     {
       "titulo": "VOLUMEN 4",
-      "label": "VERDE HUMO",
+      "hover": "VERDE MUSGO",
+      "activoTexto": "VERDE MUSGO",
       "vu": 5,
       "canciones": [
         {
-          "titulo": "Deriva",
-          "audio": "audio/vol4/deriva.mp3",
-          "letra": "letras/vol4/deriva.txt",
-          "extra": "extras/vol4/deriva_extra.txt",
-          "galleta": "img/portadas/vol4/deriva.jpg"
+          "titulo": "Último tren",
+          "audio": "audio/vol4/ultimo_tren.mp3",
+          "letra": "letras/vol4/ultimo_tren.txt",
+          "extra": "extras/vol4/ultimo_tren_extra.txt",
+          "galleta": "img/portadas/vol4/ultimo_tren.jpg"
         },
         {
-          "titulo": "Último eco",
-          "audio": "audio/vol4/ultimo_eco.mp3",
-          "letra": "letras/vol4/ultimo_eco.txt",
-          "extra": "extras/vol4/ultimo_eco_extra.txt",
-          "galleta": "img/portadas/vol4/ultimo_eco.jpg"
+          "titulo": "Nada vuelve",
+          "audio": "audio/vol4/nada_vuelve.mp3",
+          "letra": "letras/vol4/nada_vuelve.txt",
+          "extra": "extras/vol4/nada_vuelve_extra.txt",
+          "galleta": "img/portadas/vol4/nada_vuelve.jpg"
         }
       ]
     }
