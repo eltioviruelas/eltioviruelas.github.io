@@ -1,19 +1,7 @@
-/* ============================================
-   VARIABLES Y ELEMENTOS
-============================================ */
 let data;
 let subtitulos = [];
 let subIndex = 0;
 
-/* ===== SCRATCH ===== */
-let scratching = false;
-let lastAngle = 0;
-
-/* ===== PITCH ===== */
-let pitch = 1;
-let pitchTarget = 1;
-
-/* ===== ELEMENTOS ===== */
 const audio = document.getElementById('audio');
 const vinilo = document.getElementById('vinilo');
 const wrapper = document.getElementById('viniloWrapper');
@@ -23,12 +11,7 @@ const aguja = document.getElementById('aguja');
 const letraTexto = document.getElementById('letra-texto');
 const extraTexto = document.getElementById('extra-texto');
 const playpause = document.getElementById('playpause');
-const pot = document.getElementById('potenciometro');
-const marca = pot.querySelector('.marca');
 
-/* ============================================
-   INIT
-============================================ */
 async function init() {
   const res = await fetch('data/volumenes.json');
   data = await res.json();
@@ -38,18 +21,10 @@ async function init() {
 
   crearBotones();
   seleccionarVol(0);
-
-  const angInicial = -120 + audio.volume * 240;
-  marca.style.transform = `translateX(-50%) rotate(${angInicial}deg)`;
-
-  aplicarPitch();
 }
 init();
 
-/* ============================================
-   BOTONES DE VOLUMEN
-============================================ */
-/* ===== BOTONES VOLUMEN ===== */
+/* BOTONES */
 function crearBotones() {
   const cont = document.getElementById('volumenes-container');
   cont.innerHTML = '';
@@ -59,10 +34,13 @@ function crearBotones() {
     b.className = 'volumen-btn';
     b.textContent = v.titulo;
 
-    b.onmouseenter = () => b.textContent = v.label;
-    b.onmouseleave = () => {
+    b.addEventListener('mouseenter', () => {
+      if (!b.classList.contains('activo')) b.textContent = v.label;
+    });
+
+    b.addEventListener('mouseleave', () => {
       if (!b.classList.contains('activo')) b.textContent = v.titulo;
-    };
+    });
 
     b.onclick = () => seleccionarVol(i);
     cont.appendChild(b);
@@ -70,17 +48,18 @@ function crearBotones() {
 }
 
 function seleccionarVol(i) {
-  document.querySelectorAll('.volumen-btn')
-    .forEach((b, idx) => {
-      b.classList.toggle('activo', idx === i);
-      b.textContent = idx === i ? data.volumenes[i].label : data.volumenes[idx].titulo;
-    });
+  document.querySelectorAll('.volumen-btn').forEach((b, idx) => {
+    b.classList.toggle('activo', idx === i);
+    b.textContent = idx === i
+      ? data.volumenes[i].label
+      : data.volumenes[idx].titulo;
+  });
 
   mostrarPortadas(data.volumenes[i]);
   aguja.style.setProperty('--base-angle', (data.volumenes[i].vu || 0) + 'deg');
 }
 
-/* ===== PORTADAS ===== */
+/* PORTADAS */
 function mostrarPortadas(vol) {
   const p = document.getElementById('portadas');
   p.innerHTML = '';
@@ -89,28 +68,24 @@ function mostrarPortadas(vol) {
     const d = document.createElement('div');
     d.className = 'portada';
 
-    const nombre = c.titulo || c.audio.split('/').pop().replace('.mp3','').replace(/_/g,' ');
+    const titulo = c.titulo;
 
     d.innerHTML = `
       <img src="${c.galleta}" draggable="false">
-      <span>${nombre}</span>
+      <div class="portada-titulo">${titulo}</div>
     `;
+
     d.onclick = () => reproducir(c);
     p.appendChild(d);
   });
 }
 
-/* ============================================
-   REPRODUCIR CANCIÓN
-============================================ */
+/* REPRODUCIR */
 function reproducir(c) {
   audio.pause();
   audio.currentTime = 0;
-  subtitulos = [];
-  subIndex = 0;
-  letraTexto.innerHTML = '';
-
   audio.src = c.audio;
+
   galleta.src = c.galleta;
 
   cargarLetra(c.letra);
@@ -119,28 +94,26 @@ function reproducir(c) {
   audio.onloadedmetadata = () => audio.play();
 }
 
-/* ============================================
-   PLAY / PAUSE
-============================================ */
+/* PLAY / PAUSE */
 playpause.onclick = () => audio.paused ? audio.play() : audio.pause();
-/* ===== PLAY / PAUSE VISUAL ===== */
+
 audio.onplay = () => {
-  playpause.classList.add('pause');
-  playpause.textContent = '';
+  playpause.textContent = '⏸';
+  vinilo.className = 'vinilo rapido';
+  wrapper.className = 'vinilo-wrapper rapido';
+  brazo.style.transform = 'rotate(-10deg)';
 };
 
 audio.onpause = () => {
-  playpause.classList.remove('pause');
   playpause.textContent = '▶';
+  vinilo.className = 'vinilo lento';
+  wrapper.className = 'vinilo-wrapper lento';
+  brazo.style.transform = 'rotate(-35deg)';
 };
 
-
-/* ============================================
-   SUBTÍTULOS (KARAOKE)
-============================================ */
+/* SUBTÍTULOS */
 function cargarLetra(ruta) {
-  const url = `https://raw.githubusercontent.com/eltioviruelas/eltioviruelas.github.io/main/${ruta}`;
-  fetch(url)
+  fetch(`https://raw.githubusercontent.com/eltioviruelas/eltioviruelas.github.io/main/${ruta}`)
     .then(r => r.text())
     .then(t => {
       subtitulos = parseLRC(t);
@@ -152,139 +125,29 @@ audio.ontimeupdate = () => {
   if (!subtitulos.length) return;
 
   const t = audio.currentTime;
-
-  while (subIndex < subtitulos.length - 1 &&
-         t >= subtitulos[subIndex + 1].tiempo) {
+  while (subIndex < subtitulos.length - 1 && t >= subtitulos[subIndex + 1].tiempo) {
     subIndex++;
   }
 
-  const actual = subtitulos[subIndex]?.texto || '';
-  const siguiente = subtitulos[subIndex + 1]?.texto || '';
-
   letraTexto.innerHTML = `
-    <div class="sub-actual">${actual}</div>
-    <div class="sub-previa">${siguiente}</div>
+    <div class="sub-actual">${subtitulos[subIndex]?.texto || ''}</div>
+    <div class="sub-previa">${subtitulos[subIndex + 1]?.texto || ''}</div>
   `;
 };
 
 function parseLRC(texto) {
-  return texto.split(/\r?\n/).map(l => {
+  return texto.split(/\r?\n/)
+    .map(l => {
       const m = l.match(/\[(\d+):(\d+(\.\d+)?)\](.*)/);
-
-    if (!m) return null;
-    return {
-      tiempo: parseInt(m[1]) * 60 + parseFloat(m[2]),
-      texto: m[4]
-    };
-  }).filter(Boolean);
+      if (!m) return null;
+      return { tiempo: parseInt(m[1]) * 60 + parseFloat(m[2]), texto: m[4] };
+    })
+    .filter(Boolean);
 }
 
-/* ============================================
-   EXTRA
-============================================ */
+/* EXTRA */
 function cargarExtra(ruta) {
-  const url = `https://raw.githubusercontent.com/eltioviruelas/eltioviruelas.github.io/main/${ruta}`;
-  fetch(url).then(r => r.text()).then(t => extraTexto.textContent = t);
+  fetch(`https://raw.githubusercontent.com/eltioviruelas/eltioviruelas.github.io/main/${ruta}`)
+    .then(r => r.text())
+    .then(t => extraTexto.textContent = t);
 }
-
-/* ============================================
-   SCRATCH REAL + PITCH
-============================================ */
-function anguloDesdeCentro(x, y) {
-  const r = vinilo.getBoundingClientRect();
-  const cx = r.left + r.width / 2;
-  const cy = r.top + r.height / 2;
-  return Math.atan2(y - cy, x - cx) * 180 / Math.PI;
-}
-
-function iniciarScratch(e) {
-  scratching = true;
-  vinilo.style.animation = 'none';
-  wrapper.style.animation = 'none';
-
-  const p = e.touches ? e.touches[0] : e;
-  lastAngle = anguloDesdeCentro(p.clientX, p.clientY);
-}
-
-function moverScratch(e) {
-  if (!scratching) return;
-  e.preventDefault();
-
-  const p = e.touches ? e.touches[0] : e;
-  const ang = anguloDesdeCentro(p.clientX, p.clientY);
-
-  let delta = ang - lastAngle;
-  if (delta > 180) delta -= 360;
-  if (delta < -180) delta += 360;
-
-  audio.currentTime = Math.max(0, audio.currentTime + delta * 0.003);
-
-  pitchTarget = 1 + (delta * 0.02);
-  pitchTarget = Math.max(0.5, Math.min(2.0, pitchTarget));
-
-  vinilo.style.transform = `rotate(${ang}deg)`;
-  lastAngle = ang;
-}
-
-function finScratch() {
-  scratching = false;
-
-  vinilo.style.transition = '';
-  vinilo.style.animation = '';
-  wrapper.style.animation = '';
-
-  pitchTarget = 1;
-
-  if (audio.paused) audio.onpause();
-  else audio.onplay();
-}
-
-/* Eventos */
-vinilo.addEventListener('mousedown', iniciarScratch);
-document.addEventListener('mousemove', moverScratch);
-document.addEventListener('mouseup', finScratch);
-
-vinilo.addEventListener('touchstart', iniciarScratch, { passive: false });
-document.addEventListener('touchmove', moverScratch, { passive: false });
-document.addEventListener('touchend', finScratch);
-
-/* ============================================
-   PITCH LOOP
-============================================ */
-function aplicarPitch() {
-  pitch += (pitchTarget - pitch) * 0.15;
-  audio.playbackRate = pitch;
-  requestAnimationFrame(aplicarPitch);
-}
-
-/* ============================================
-   POTENCIÓMETRO
-============================================ */
-let girando = false;
-
-pot.addEventListener('mousedown', () => girando = true);
-document.addEventListener('mouseup', () => girando = false);
-
-pot.addEventListener('touchstart', () => girando = true);
-document.addEventListener('touchend', () => girando = false);
-
-document.addEventListener('mousemove', moverPot);
-document.addEventListener('touchmove', moverPot, { passive: false });
-
-function moverPot(e) {
-  if (!girando) return;
-
-  const r = pot.getBoundingClientRect();
-  const cx = r.left + r.width / 2;
-  const cy = r.top + r.height / 2;
-
-  const p = e.touches ? e.touches[0] : e;
-  const ang = Math.atan2(p.clientY - cy, p.clientX - cx) * 180 / Math.PI;
-
-  const limitado = Math.max(-120, Math.min(120, ang));
-
-  marca.style.transform = `translateX(-50%) rotate(${limitado}deg)`;
-  audio.volume = (limitado + 120) / 240;
-}
-
-
