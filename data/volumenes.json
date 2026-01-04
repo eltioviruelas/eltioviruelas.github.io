@@ -38,42 +38,42 @@
     {
       "titulo": "VOLUMEN 3",
       "label": "AZUL NOCHE",
-      "vu": -5,
+      "vu": 0,
       "canciones": [
         {
-          "titulo": "Luces de sal",
-          "audio": "audio/vol3/luces_de_sal.mp3",
-          "letra": "letras/vol3/luces_de_sal.txt",
-          "extra": "extras/vol3/luces_de_sal_extra.txt",
-          "galleta": "img/portadas/vol3/luces_de_sal.jpg"
+          "titulo": "Sombras",
+          "audio": "audio/vol3/sombras.mp3",
+          "letra": "letras/vol3/sombras.txt",
+          "extra": "extras/vol3/sombras_extra.txt",
+          "galleta": "img/portadas/vol3/sombras.jpg"
         },
         {
-          "titulo": "Vértigo lento",
-          "audio": "audio/vol3/vertigo_lento.mp3",
-          "letra": "letras/vol3/vertigo_lento.txt",
-          "extra": "extras/vol3/vertigo_lento_extra.txt",
-          "galleta": "img/portadas/vol3/vertigo_lento.jpg"
+          "titulo": "Luz Tardía",
+          "audio": "audio/vol3/luz_tardia.mp3",
+          "letra": "letras/vol3/luz_tardia.txt",
+          "extra": "extras/vol3/luz_tardia_extra.txt",
+          "galleta": "img/portadas/vol3/luz_tardia.jpg"
         }
       ]
     },
     {
       "titulo": "VOLUMEN 4",
-      "label": "NEGRO CALIENTE",
+      "label": "VERDE HUMO",
       "vu": 5,
       "canciones": [
         {
-          "titulo": "Cables y humo",
-          "audio": "audio/vol4/cables_y_humo.mp3",
-          "letra": "letras/vol4/cables_y_humo.txt",
-          "extra": "extras/vol4/cables_y_humo_extra.txt",
-          "galleta": "img/portadas/vol4/cables_y_humo.jpg"
+          "titulo": "Deriva",
+          "audio": "audio/vol4/deriva.mp3",
+          "letra": "letras/vol4/deriva.txt",
+          "extra": "extras/vol4/deriva_extra.txt",
+          "galleta": "img/portadas/vol4/deriva.jpg"
         },
         {
-          "titulo": "Última aguja",
-          "audio": "audio/vol4/ultima_aguja.mp3",
-          "letra": "letras/vol4/ultima_aguja.txt",
-          "extra": "extras/vol4/ultima_aguja_extra.txt",
-          "galleta": "img/portadas/vol4/ultima_aguja.jpg"
+          "titulo": "Último eco",
+          "audio": "audio/vol4/ultimo_eco.mp3",
+          "letra": "letras/vol4/ultimo_eco.txt",
+          "extra": "extras/vol4/ultimo_eco_extra.txt",
+          "galleta": "img/portadas/vol4/ultimo_eco.jpg"
         }
       ]
     }
