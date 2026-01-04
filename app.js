@@ -15,16 +15,11 @@ const playpause = document.getElementById('playpause');
 async function init() {
   const res = await fetch('data/volumenes.json');
   data = await res.json();
-
-  vinilo.classList.add('lento');
-  wrapper.classList.add('lento');
-
   crearBotones();
   seleccionarVol(0);
 }
 init();
 
-/* BOTONES */
 function crearBotones() {
   const cont = document.getElementById('volumenes-container');
   cont.innerHTML = '';
@@ -34,13 +29,13 @@ function crearBotones() {
     b.className = 'volumen-btn';
     b.textContent = v.titulo;
 
-    b.addEventListener('mouseenter', () => {
-      if (!b.classList.contains('activo')) b.textContent = v.label;
-    });
+    b.onmouseenter = () => {
+      if (!b.classList.contains('activo')) b.textContent = v.hover;
+    };
 
-    b.addEventListener('mouseleave', () => {
+    b.onmouseleave = () => {
       if (!b.classList.contains('activo')) b.textContent = v.titulo;
-    });
+    };
 
     b.onclick = () => seleccionarVol(i);
     cont.appendChild(b);
@@ -49,17 +44,16 @@ function crearBotones() {
 
 function seleccionarVol(i) {
   document.querySelectorAll('.volumen-btn').forEach((b, idx) => {
-    b.classList.toggle('activo', idx === i);
-    b.textContent = idx === i
-      ? data.volumenes[i].label
-      : data.volumenes[idx].titulo;
+    const vol = data.volumenes[idx];
+    const activo = idx === i;
+    b.classList.toggle('activo', activo);
+    b.textContent = activo ? vol.activoTexto : vol.titulo;
   });
 
   mostrarPortadas(data.volumenes[i]);
-  aguja.style.setProperty('--base-angle', (data.volumenes[i].vu || 0) + 'deg');
+  aguja.style.setProperty('--base-angle', data.volumenes[i].vu + 'deg');
 }
 
-/* PORTADAS */
 function mostrarPortadas(vol) {
   const p = document.getElementById('portadas');
   p.innerHTML = '';
@@ -67,51 +61,29 @@ function mostrarPortadas(vol) {
   vol.canciones.forEach(c => {
     const d = document.createElement('div');
     d.className = 'portada';
-
-    const titulo = c.titulo;
-
     d.innerHTML = `
-      <img src="${c.galleta}" draggable="false">
-      <div class="portada-titulo">${titulo}</div>
+      <img src="${c.galleta}">
+      <span>${c.titulo}</span>
     `;
-
     d.onclick = () => reproducir(c);
     p.appendChild(d);
   });
 }
 
-/* REPRODUCIR */
 function reproducir(c) {
   audio.pause();
   audio.currentTime = 0;
   audio.src = c.audio;
-
   galleta.src = c.galleta;
-
   cargarLetra(c.letra);
   cargarExtra(c.extra);
-
   audio.onloadedmetadata = () => audio.play();
 }
 
-/* PLAY / PAUSE */
 playpause.onclick = () => audio.paused ? audio.play() : audio.pause();
+audio.onplay = () => playpause.textContent = '❚❚';
+audio.onpause = () => playpause.textContent = '▶';
 
-audio.onplay = () => {
-  playpause.textContent = '⏸';
-  vinilo.className = 'vinilo rapido';
-  wrapper.className = 'vinilo-wrapper rapido';
-  brazo.style.transform = 'rotate(-10deg)';
-};
-
-audio.onpause = () => {
-  playpause.textContent = '▶';
-  vinilo.className = 'vinilo lento';
-  wrapper.className = 'vinilo-wrapper lento';
-  brazo.style.transform = 'rotate(-35deg)';
-};
-
-/* SUBTÍTULOS */
 function cargarLetra(ruta) {
   fetch(`https://raw.githubusercontent.com/eltioviruelas/eltioviruelas.github.io/main/${ruta}`)
     .then(r => r.text())
@@ -123,9 +95,8 @@ function cargarLetra(ruta) {
 
 audio.ontimeupdate = () => {
   if (!subtitulos.length) return;
-
-  const t = audio.currentTime;
-  while (subIndex < subtitulos.length - 1 && t >= subtitulos[subIndex + 1].tiempo) {
+  while (subIndex < subtitulos.length - 1 &&
+         audio.currentTime >= subtitulos[subIndex + 1].tiempo) {
     subIndex++;
   }
 
@@ -136,16 +107,13 @@ audio.ontimeupdate = () => {
 };
 
 function parseLRC(texto) {
-  return texto.split(/\r?\n/)
-    .map(l => {
-      const m = l.match(/\[(\d+):(\d+(\.\d+)?)\](.*)/);
-      if (!m) return null;
-      return { tiempo: parseInt(m[1]) * 60 + parseFloat(m[2]), texto: m[4] };
-    })
-    .filter(Boolean);
+  return texto.split(/\r?\n/).map(l => {
+    const m = l.match(/\[(\d+):(\d+(\.\d+)?)\](.*)/);
+    if (!m) return null;
+    return { tiempo: +m[1] * 60 + +m[2], texto: m[4] };
+  }).filter(Boolean);
 }
 
-/* EXTRA */
 function cargarExtra(ruta) {
   fetch(`https://raw.githubusercontent.com/eltioviruelas/eltioviruelas.github.io/main/${ruta}`)
     .then(r => r.text())
