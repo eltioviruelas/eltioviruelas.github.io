@@ -1,40 +1,27 @@
-/* === TODO TU CSS ORIGINAL TAL CUAL === */
-/* (no lo repito aquí para no cometer errores, va EXACTAMENTE como el que enviaste) */
+/* === AÑADIDOS / AJUSTES PEDIDOS === */
 
-/* ================= AJUSTES AÑADIDOS ================= */
-
-/* BOTONES VOLUMEN – EFECTO ANALÓGICO */
-.volumen-btn {
-  box-shadow: 0 6px 0 #000;
-}
-
-.volumen-btn:hover {
-  transform: translateY(2px);
-  box-shadow: 0 4px 0 #000;
-}
-
+/* Botones volumen presionados */
 .volumen-btn.activo {
   transform: translateY(4px);
-  box-shadow:
-    inset 0 6px 8px rgba(0,0,0,0.8),
-    0 0 12px #C88713;
+  box-shadow: inset 0 4px 8px rgba(0,0,0,0.9);
 }
 
-/* PORTADAS + TÍTULO */
+/* Portadas +50% */
 .portada {
   width: 135px;
-  height: auto;
+  height: 160px;
 }
 
-.portada-titulo {
-  font-size: 0.55rem;
-  margin-top: 4px;
-  color: #C88713;
+/* Título de canción */
+.portada span {
+  display: block;
+  margin-top: 6px;
+  font-size: 0.65rem;
   text-align: center;
 }
 
-/* SUBTÍTULOS MÁS JUNTOS */
-.letra {
-  margin: 12px 0;
-  line-height: 1.15;
+/* Subtítulos más juntos */
+.sub-actual,
+.sub-previa {
+  line-height: 1.2;
 }
