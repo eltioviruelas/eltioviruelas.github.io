@@ -11,110 +11,51 @@
 <body>
 
 <main class="escenario">
-  <header>
-    <img src="img/logo.jpeg" class="logo" draggable="false">
-    <h1>El Tío Viruelas</h1>
-  </header>
 
-  <div class="tocadiscos">
-    <img src="img/tocadiscos/brazo1.png" id="brazo" class="brazo" draggable="false">
-    <div class="vinilo-wrapper lento" id="viniloWrapper">
-      <div class="vinilo" id="vinilo">
-        <img src="img/logo.jpeg" id="galleta" class="galleta" draggable="false">
-        <div class="agujero"></div>
-      </div>
-    </div>
-    <div class="controles">
-      <button id="playpause" class="ctrl">▶</button>
-      <div class="potenciometro" id="potenciometro">
-        <div class="marca"></div>
-        <span class="min">MIN</span>
-        <span class="max">MAX</span>
-      </div>
+<header>
+  <img src="img/logo.jpeg" class="logo" draggable="false">
+  <h1>El Tío Viruelas</h1>
+</header>
+
+<div class="tocadiscos">
+  <img src="img/tocadiscos/brazo1.png" id="brazo" class="brazo" draggable="false">
+  <div class="vinilo-wrapper lento" id="viniloWrapper">
+    <div class="vinilo" id="vinilo">
+      <img src="img/logo.jpeg" id="galleta" class="galleta" draggable="false">
+      <div class="agujero"></div>
     </div>
   </div>
 
-  <div id="volumenes-container" class="volumenes-scroll"></div>
-  <div class="vu-meter">
-    <div class="vu-caja">
-      <img src="img/vu/vu.png" class="vu-img" draggable="false">
-      <div class="aguja" id="aguja"></div>
+  <div class="controles">
+    <button id="playpause" class="ctrl">▶</button>
+    <div class="potenciometro" id="potenciometro">
+      <div class="marca"></div>
+      <span class="min">MIN</span>
+      <span class="max">MAX</span>
     </div>
   </div>
-  <div class="portadas" id="portadas"></div>
-  <audio id="audio" preload="auto"></audio>
-  <div class="letra"><pre id="letra-texto"></pre></div>
-  <div class="extra"><pre id="extra-texto"></pre></div>
+</div>
+
+<!-- SUBTÍTULOS AQUÍ -->
+<div class="letra"><pre id="letra-texto"></pre></div>
+
+<div id="volumenes-container" class="volumenes-scroll"></div>
+
+<div class="vu-meter">
+  <div class="vu-caja">
+    <img src="img/vu/vu.png" class="vu-img" draggable="false">
+    <div class="aguja" id="aguja"></div>
+  </div>
+</div>
+
+<div class="portadas" id="portadas"></div>
+
+<audio id="audio" preload="auto"></audio>
+
+<div class="extra"><pre id="extra-texto"></pre></div>
+
 </main>
 
 <script src="app.js"></script>
-
-<footer style="margin-top: 20px; padding: 15px; background: #0a0a0a; color: #C88713; text-align: center; border-top: 1px solid #C8871344;">
-  <p style="font-family: 'Rock Salt', cursive; font-size: 0.85rem; margin-bottom: 12px; opacity: 0.9;">eltioviruelas@gmail.com</p>
-  
-  <form id="contact-footer" style="max-width: 700px; margin: auto; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; align-items: center;">
-    
-    <input 
-      type="email" 
-      name="user_email" 
-      placeholder="Tu email" 
-      required
-      style="flex: 1; min-width: 180px; padding: 8px; border: 1px solid #C88713; background: #000; color: #C88713; font-size: 0.9rem;"
-    />
-
-    <textarea 
-      name="message" 
-      placeholder="Mensaje..." 
-      required
-      style="flex: 2; min-width: 220px; padding: 8px; height: 38px; border: 1px solid #C88713; background: #000; color: #C88713; font-size: 0.9rem; resize: none;"
-    ></textarea>
-
-    <button 
-      type="submit" 
-      style="padding: 8px 15px; border: 1px solid #C88713; background: #C88713; color: #000; font-family: 'Rock Salt', cursive; font-size: 0.75rem; cursor: pointer; transition: 0.2s;"
-      onmouseover="this.style.background='#000'; this.style.color='#C88713'"
-      onmouseout="this.style.background='#C88713'; this.style.color='#000'"
-    >
-      Enviar
-    </button>
-  </form>
-</footer>
-
-<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-
-<script>
-  (function() {
-    emailjs.init("xEdXF-K2sCKhWx4ZG");
-  })();
-
-  document.getElementById("contact-footer").addEventListener("submit", function(e) {
-    e.preventDefault();
-    const form = this;
-    const btn = form.querySelector("button");
-    btn.innerText = "..."; // Feedback visual corto
-    btn.disabled = true;
-
-    const templateParams = {
-      name: "Visitante Web",
-      user_email: form.querySelector("[name='user_email']").value, 
-      message: form.querySelector("[name='message']").value
-    };
-
-    emailjs.send("service_56aasda", "template_oi3yf6s", templateParams)
-      .then(() => {
-        alert("Mensaje enviado correctamente");
-        form.reset();
-        btn.innerText = "Enviar";
-        btn.disabled = false;
-      })
-      .catch((error) => {
-        console.error("Error EmailJS:", error);
-        alert("Error al enviar :(");
-        btn.innerText = "Enviar";
-        btn.disabled = false;
-      });
-  });
-</script>
-
 </body>
 </html>
