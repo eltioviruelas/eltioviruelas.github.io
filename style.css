@@ -1,352 +1,72 @@
-* {
-  box-sizing: border-box;
-  user-select: none;
-}
-
-body {
-  margin: 0;
-  background: radial-gradient(circle at center, #111 0%, #000 80%);
-  color: #C88713;
-  font-family: 'Rock Salt', cursive;
-}
-
-/* ================= ESCENARIO ================= */
-.escenario {
-  max-width: 900px;
-  margin: 0 auto;
-  text-align: center;
-}
-
-/* ================= HEADER ================= */
-header {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
-  padding: 25px 0;
-}
-
-.logo {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  border: 3px solid #C88713;
-  filter: drop-shadow(0 0 8px #C88713);
-}
-
-/* ================= TOCADISCOS ================= */
-.tocadiscos {
-  position: relative;
-  width: 600px;
-  height: 600px;
-  margin: 0 auto;
-}
-
-/* BAMBOLEO */
-.vinilo-wrapper {
-  width: 540px;
-  height: 540px;
-  margin: auto;
-  filter: drop-shadow(0 0 25px rgba(200,135,19,0.25));
-  transition: animation-duration 0.6s ease;
-}
-
-.vinilo-wrapper.lento {
-  animation: wobble 3s ease-in-out infinite;
-}
-
-.vinilo-wrapper.rapido {
-  animation: wobble 1.8s ease-in-out infinite;
-}
-
-/* GIRO */
-.vinilo {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  background: repeating-radial-gradient(circle, #050505 0px, #050505 2px, #111 2px, #111 5px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  box-shadow: inset 0 0 40px rgba(0,0,0,0.8);
-  transition: animation-duration 0.6s ease;
-}
-
-.vinilo.lento {
-  animation: girar 40s linear infinite;
-}
-
-.vinilo.rapido {
-  animation: girar 12s linear infinite;
-}
-
-@keyframes girar {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-@keyframes wobble {
-  0%   { transform: rotate(0deg); }
-  25%  { transform: rotate(0.6deg); }
-  50%  { transform: rotate(-0.6deg); }
-  75%  { transform: rotate(0.4deg); }
-  100% { transform: rotate(0deg); }
-}
-
-.galleta {
-  width: 30%;
-  height: 30%;
-  border-radius: 50%;
-  border: 4px solid #C88713;
-  animation: inherit;
-  object-fit: cover;
-  aspect-ratio: 1 / 1;
-  filter: drop-shadow(0 0 10px #C88713);
-}
-
-.agujero {
-  position: absolute;
-  width: 12px;
-  height: 12px;
-  background: #000;
-  border-radius: 50%;
-}
-
-/* BRAZO */
-.brazo {
-  position: absolute;
-  top: 0;
-  right: 110px;
-  width: 180px;
-  transform-origin: top right;
-  transform: rotate(-35deg);
-  transition: transform 0.6s ease;
-  z-index: 10;
-  filter: drop-shadow(0 0 6px rgba(0,0,0,0.6));
-  mix-blend-mode: screen;
-}
-
-/* ================= CONTROLES ================= */
-.controles {
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
-  display: flex;
-  flex-direction: row;
-  gap: 15px;
-  z-index: 20;
-}
-
-.ctrl {
-  width: 45px;
-  height: 45px;
-  border-radius: 50%;
-  border: 2px solid #C88713;
-  background: #111;
-  color: #C88713;
-  font-size: 1.1rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  box-shadow: 0 0 12px #C88713;
-  transition: transform 0.15s ease, box-shadow 0.3s ease;
-}
-
-.ctrl:hover {
-  box-shadow: 0 0 18px #C88713;
-}
-
-.ctrl:active {
-  transform: scale(0.85);
-}
-
-/* ================= POTENCIÓMETRO ================= */
-.potenciometro {
-  position: relative;
-  width: 45px;
-  height: 45px;
-  border-radius: 50%;
-  background: radial-gradient(#333, #000);
-  border: 1px solid #C88713;
-  box-shadow: 0 0 10px rgba(200,135,19,0.3);
-}
-
-.marca {
-  width: 4px;
-  height: 18px;
-  background: #C88713;
-  position: absolute;
-  top: 8px;
-  left: 50%;
-  transform-origin: bottom center;
-  transform: translateX(-50%) rotate(-120deg);
-}
-
-.potenciometro .min,
-.potenciometro .max {
-  position: absolute;
-  font-size: 0.45rem;
-  bottom: -14px;
-}
-
-.potenciometro .min { left: -6px; }
-.potenciometro .max { right: -6px; }
-
-/* ================= VOLUMENES ================= */
-.volumenes-scroll {
-  display: flex;
-  justify-content: center;
-  gap: 25px;
-  margin: 20px 0;
-}
-
+/* ===== BOTONES VOLUMEN ===== */
 .volumen-btn {
   width: 110px;
   height: 110px;
   border-radius: 50%;
-  background: transparent;
+  background: #000;
   border: 2px solid #C88713;
   color: #C88713;
   cursor: pointer;
   font-family: 'Rock Salt', cursive;
-  transition: transform 0.12s ease, box-shadow 0.12s ease;
+  box-shadow: 0 6px 0 #000;
+  transition: all 0.15s ease;
+}
+
+.volumen-btn:hover {
+  box-shadow: 0 3px 0 #000;
+  transform: translateY(3px);
 }
 
 .volumen-btn.activo {
-  transform: translateY(2px);
-  box-shadow: inset 0 3px 6px rgba(0,0,0,0.8), 0 0 12px #C88713;
+  box-shadow: inset 0 6px 8px rgba(0,0,0,0.8);
+  transform: translateY(4px);
 }
 
-/* ================= VU ================= */
-.vu-caja {
-  width: 200px;
-  margin: auto;
-  position: relative;
-  filter: drop-shadow(0 0 12px #C88713);
-}
-
-.vu-img {
-  width: 100%;
-  display: block;
-}
-
-.aguja {
-  position: absolute;
-  bottom: 22%;
-  left: 50%;
-  width: 3px;
-  height: 45px;
-  background: red;
-  transform-origin: bottom center;
-  transform: rotate(-40deg);
-  animation: agujaViva 1.5s ease-in-out infinite;
-  filter: drop-shadow(0 0 6px #C88713);
-}
-
-@keyframes agujaViva {
-  0%   { transform: rotate(var(--base-angle)); }
-  50%  { transform: rotate(calc(var(--base-angle) + 5deg)); }
-  100% { transform: rotate(var(--base-angle)); }
-}
-
-/* ================= PORTADAS ================= */
-.portadas {
-  display: flex;
-  justify-content: center;
-  margin-top: 25px;
-  padding: 10px;
-}
-
+/* ===== PORTADAS ===== */
 .portada {
-  width: 90px;
-  height: 105px;
-  margin-left: -14px;
-  transition: transform 0.3s ease;
-  filter: drop-shadow(0 0 6px #000);
+  width: 135px;
+  height: auto;
+  margin-left: -20px;
+  text-align: center;
 }
 
-.portada img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.portada span {
   display: block;
-  border-radius: 4px;
-}
-
-.portada:nth-child(odd) {
-  transform: rotate(-4deg);
-}
-
-.portada:nth-child(even) {
-  transform: rotate(3deg);
-}
-
-.portada:hover {
-  transform: scale(1.04) rotate(0deg);
-  z-index: 5;
-}
-
-/* ================= SUBTÍTULOS ================= */
-.letra {
+  font-size: 0.6rem;
+  margin-top: 6px;
   color: #C88713;
-  min-height: 3.4em;
-  font-family: 'Rock Salt', cursive;
 }
 
-.sub-previa {
-  color: #ffffff;
-  opacity: 0.5;
-  font-family: 'Rock Salt', cursive;
+/* ===== SUBTÍTULOS ===== */
+.letra {
+  margin: 15px 0;
+  line-height: 1.2;
 }
 
 .sub-actual {
-  color: #C88713;
-  font-size: 1.2rem;
-  font-family: 'Rock Salt', cursive;
+  font-size: 1.15rem;
 }
 
-/* ================= EXTRA ================= */
-.extra {
-  max-width: 700px;
-  margin: 20px auto;
-  background: #111;
-  padding: 15px;
-  border-radius: 10px;
-  white-space: pre-wrap;
-  font-family: sans-serif;
-  color: #eee;
-/* ================= FORM pie ================= */
-  
-}
-.footer-form {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  max-width: 280px;
-  margin: 0 auto;
-  font-size: 14px;
+.sub-previa {
+  font-size: 0.9rem;
+  opacity: 0.5;
 }
 
-.footer-form input,
-.footer-form textarea {
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background: #f8f8f8;
+/* ===== PLAY / PAUSE ===== */
+.ctrl.pause {
+  position: relative;
 }
 
-.footer-form button {
-  padding: 8px;
-  border: none;
-  background: #333;
-  color: white;
-  border-radius: 4px;
-  cursor: pointer;
+.ctrl.pause::before,
+.ctrl.pause::after {
+  content: '';
+  position: absolute;
+  width: 6px;
+  height: 18px;
+  background: #C88713;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
-.footer-form button:hover {
-  background: #555;
-}
-
+.ctrl.pause::before { left: 14px; }
+.ctrl.pause::after { right: 14px; }
