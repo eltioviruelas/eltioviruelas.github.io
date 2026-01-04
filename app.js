@@ -49,6 +49,7 @@ init();
 /* ============================================
    BOTONES DE VOLUMEN
 ============================================ */
+/* ===== BOTONES VOLUMEN ===== */
 function crearBotones() {
   const cont = document.getElementById('volumenes-container');
   cont.innerHTML = '';
@@ -57,6 +58,12 @@ function crearBotones() {
     const b = document.createElement('button');
     b.className = 'volumen-btn';
     b.textContent = v.titulo;
+
+    b.onmouseenter = () => b.textContent = v.label;
+    b.onmouseleave = () => {
+      if (!b.classList.contains('activo')) b.textContent = v.titulo;
+    };
+
     b.onclick = () => seleccionarVol(i);
     cont.appendChild(b);
   });
@@ -64,17 +71,16 @@ function crearBotones() {
 
 function seleccionarVol(i) {
   document.querySelectorAll('.volumen-btn')
-    .forEach((b, idx) => b.classList.toggle('activo', idx === i));
+    .forEach((b, idx) => {
+      b.classList.toggle('activo', idx === i);
+      b.textContent = idx === i ? data.volumenes[i].label : data.volumenes[idx].titulo;
+    });
 
   mostrarPortadas(data.volumenes[i]);
-
-  const base = data.volumenes[i].vu || 0;
-  aguja.style.setProperty('--base-angle', base + 'deg');
+  aguja.style.setProperty('--base-angle', (data.volumenes[i].vu || 0) + 'deg');
 }
 
-/* ============================================
-   PORTADAS
-============================================ */
+/* ===== PORTADAS ===== */
 function mostrarPortadas(vol) {
   const p = document.getElementById('portadas');
   p.innerHTML = '';
@@ -82,7 +88,13 @@ function mostrarPortadas(vol) {
   vol.canciones.forEach(c => {
     const d = document.createElement('div');
     d.className = 'portada';
-    d.innerHTML = `<img src="${c.galleta}" draggable="false">`;
+
+    const nombre = c.titulo || c.audio.split('/').pop().replace('.mp3','').replace(/_/g,' ');
+
+    d.innerHTML = `
+      <img src="${c.galleta}" draggable="false">
+      <span>${nombre}</span>
+    `;
     d.onclick = () => reproducir(c);
     p.appendChild(d);
   });
@@ -111,20 +123,17 @@ function reproducir(c) {
    PLAY / PAUSE
 ============================================ */
 playpause.onclick = () => audio.paused ? audio.play() : audio.pause();
-
+/* ===== PLAY / PAUSE VISUAL ===== */
 audio.onplay = () => {
-  playpause.textContent = '⏸';
-  vinilo.className = 'vinilo rapido';
-  wrapper.className = 'vinilo-wrapper rapido';
-  brazo.style.transform = 'rotate(-10deg)';
+  playpause.classList.add('pause');
+  playpause.textContent = '';
 };
 
 audio.onpause = () => {
+  playpause.classList.remove('pause');
   playpause.textContent = '▶';
-  vinilo.className = 'vinilo lento';
-  wrapper.className = 'vinilo-wrapper lento';
-  brazo.style.transform = 'rotate(-35deg)';
 };
+
 
 /* ============================================
    SUBTÍTULOS (KARAOKE)
@@ -277,4 +286,5 @@ function moverPot(e) {
   marca.style.transform = `translateX(-50%) rotate(${limitado}deg)`;
   audio.volume = (limitado + 120) / 240;
 }
+
 
