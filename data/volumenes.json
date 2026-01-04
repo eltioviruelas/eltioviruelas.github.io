@@ -2,13 +2,13 @@
   "volumenes": [
     {
       "titulo": "VOLUMEN 1",
+      "label": "GRIS CLARO",
       "vu": -10,
       "canciones": [
         {
           "titulo": "El camino largo",
           "audio": "audio/vol1/el_camino_largo.mp3",
           "letra": "letras/vol1/el_camino_largo.txt",
-
           "extra": "extras/vol1/el_camino_largo_extra.txt",
           "galleta": "img/portadas/vol1/el_camino_largo.jpg"
         },
@@ -23,6 +23,7 @@
     },
     {
       "titulo": "VOLUMEN 2",
+      "label": "ROJO OSCURO",
       "vu": 10,
       "canciones": [
         {
@@ -31,6 +32,48 @@
           "letra": "letras/vol2/nunca_estuve_lejos.txt",
           "extra": "extras/vol2/nunca_estuve_lejos_extra.txt",
           "galleta": "img/portadas/vol2/nunca_estuve_lejos.jpg"
+        }
+      ]
+    },
+    {
+      "titulo": "VOLUMEN 3",
+      "label": "AZUL NOCHE",
+      "vu": -5,
+      "canciones": [
+        {
+          "titulo": "Luces de sal",
+          "audio": "audio/vol3/luces_de_sal.mp3",
+          "letra": "letras/vol3/luces_de_sal.txt",
+          "extra": "extras/vol3/luces_de_sal_extra.txt",
+          "galleta": "img/portadas/vol3/luces_de_sal.jpg"
+        },
+        {
+          "titulo": "Vértigo lento",
+          "audio": "audio/vol3/vertigo_lento.mp3",
+          "letra": "letras/vol3/vertigo_lento.txt",
+          "extra": "extras/vol3/vertigo_lento_extra.txt",
+          "galleta": "img/portadas/vol3/vertigo_lento.jpg"
+        }
+      ]
+    },
+    {
+      "titulo": "VOLUMEN 4",
+      "label": "NEGRO CALIENTE",
+      "vu": 5,
+      "canciones": [
+        {
+          "titulo": "Cables y humo",
+          "audio": "audio/vol4/cables_y_humo.mp3",
+          "letra": "letras/vol4/cables_y_humo.txt",
+          "extra": "extras/vol4/cables_y_humo_extra.txt",
+          "galleta": "img/portadas/vol4/cables_y_humo.jpg"
+        },
+        {
+          "titulo": "Última aguja",
+          "audio": "audio/vol4/ultima_aguja.mp3",
+          "letra": "letras/vol4/ultima_aguja.txt",
+          "extra": "extras/vol4/ultima_aguja_extra.txt",
+          "galleta": "img/portadas/vol4/ultima_aguja.jpg"
         }
       ]
     }
