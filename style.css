@@ -405,11 +405,11 @@ header {
 }
 .spotify-sobre-vinilo {
   position: absolute;
-  bottom: 140px;
+  bottom: 40px;
   left: 50%;
   transform: translateX(-50%);
   width: 260px;
-  opacity: 0.85;
+  opacity: 0.5;
   z-index: 30;
   pointer-events: auto;
 }
