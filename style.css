@@ -368,32 +368,50 @@ header {
   pointer-events: none;
 }
 
-@media (max-width: 500px) {
+/* ================= MOBILE ================= */
+@media (max-width: 700px) {
+
   .tocadiscos {
-    width: 95vw;
-    height: 95vw;
+    width: 90vw;
+    height: 90vw;
   }
 
   .vinilo-wrapper {
-    width: 85vw;
-    height: 85vw;
+    width: 80vw;
+    height: 80vw;
   }
 
   .brazo {
-    right: 8vw;
-    width: 28vw;
+    width: 120px;
+    right: 40px;
   }
 
-  #spotify-player {
-    max-width: 90vw;
+  .volumenes-scroll {
+    flex-wrap: wrap;
+    gap: 12px;
   }
+
+  .volumen-btn {
+    width: 80px;
+    height: 80px;
+    font-size: 0.7rem;
+  }
+
+  .portada {
+    width: 70px;
+    height: 85px;
+  }
+
 }
 .spotify-sobre-vinilo {
   position: absolute;
-  bottom: 120px;
+  bottom: 140px;
   left: 50%;
   transform: translateX(-50%);
-  width: 320px;
+  width: 260px;
+  opacity: 0.85;
   z-index: 30;
+  pointer-events: auto;
 }
+
 
