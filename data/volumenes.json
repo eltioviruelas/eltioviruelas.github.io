@@ -4,7 +4,7 @@
       "titulo": "VOLUMEN 1",
       "hover": "GRIS CLARO",
       "activoTexto": "GRIS CLARO",
-      "vu": -10,
+      "vu": -30,
       "canciones": [
         {
           "titulo": "El camino largo",
@@ -27,7 +27,7 @@
       "titulo": "VOLUMEN 2",
       "hover": "ROJO OSCURO",
       "activoTexto": "ROJO OSCURO",
-      "vu": 10,
+      "vu": -10,
       "canciones": [
         {
           "titulo": "Nunca estuve lejos",
@@ -42,7 +42,7 @@
       "titulo": "VOLUMEN 3",
       "hover": "AZUL NOCHE",
       "activoTexto": "AZUL NOCHE",
-      "vu": -5,
+      "vu": 10,
       "canciones": [
         {
           "titulo": "Luces rotas",
@@ -64,7 +64,7 @@
       "titulo": "VOLUMEN 4",
       "hover": "VERDE MUSGO",
       "activoTexto": "VERDE MUSGO",
-      "vu": 5,
+      "vu": 30,
       "canciones": [
         {
           "titulo": "Último tren",
