@@ -108,18 +108,22 @@ function reproducir(c) {
 
   // Si la canción tiene Spotify → usar Spotify
   if (c.spotify) {
+    // Parar audio local
     audio.pause();
     audio.src = "";
 
+    // Inyectar Spotify
     spotifyDiv.innerHTML = `
       <iframe 
         src="https://open.spotify.com/embed/track/${c.spotify}?utm_source=generator&theme=0"
-        width="100%" height="80" frameborder="0"
+        width="100%" 
+        height="80" 
+        frameborder="0"
         allow="autoplay; encrypted-media">
       </iframe>
     `;
 
-    // Mantener animaciones del tocadiscos
+    // Forzar animación visual del tocadiscos
     playpause.textContent = '⏸';
     vinilo.className = 'vinilo rapido';
     wrapper.className = 'vinilo-wrapper rapido';
@@ -128,12 +132,12 @@ function reproducir(c) {
     return;
   }
 
-  // Si NO tiene Spotify → usar MP3 local
+  // Si NO tiene Spotify → usar MP3 normal
   spotifyDiv.innerHTML = "";
   audio.src = c.audio;
-
   audio.onloadedmetadata = () => audio.play();
 }
+
 
 
 /* ============================================
@@ -144,9 +148,9 @@ playpause.onclick = () => {
 
   // Si hay Spotify activo
   if (spotifyDiv.innerHTML.includes("spotify.com")) {
-    // Solo alternamos animación visual
     const isPlaying = vinilo.classList.contains("rapido");
 
+    // SOLO visual (Spotify no se puede controlar)
     if (isPlaying) {
       playpause.textContent = '▶';
       vinilo.className = 'vinilo lento';
@@ -162,9 +166,10 @@ playpause.onclick = () => {
     return;
   }
 
-  // Si NO es Spotify → comportamiento normal
+  // MP3 normal
   audio.paused ? audio.play() : audio.pause();
 };
+
 
 
 audio.onplay = () => {
@@ -334,6 +339,7 @@ function moverPot(e) {
   marca.style.transform = `translateX(-50%) rotate(${limitado}deg)`;
   audio.volume = (limitado + 120) / 240;
 }
+
 
 
 
