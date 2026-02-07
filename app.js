@@ -199,15 +199,21 @@ audio.onpause = () => {
    SUBTÍTULOS (KARAOKE)
 ============================================ */
 function cargarLetra(ruta) {
-  const url = ruta;
-
-  fetch(url)
+  fetch(ruta)
     .then(r => r.text())
     .then(t => {
-      subtitulos = parseLRC(t);
-      subIndex = 0;
+      // Si tiene timestamps tipo [00:00.00]
+      if (t.match(/\[\d+:\d+/)) {
+        subtitulos = parseLRC(t);
+        subIndex = 0;
+      } else {
+        // Texto plano → mostrar todo
+        subtitulos = [];
+        letraTexto.textContent = t;
+      }
     });
 }
+
 
 audio.ontimeupdate = () => {
   if (!subtitulos.length) return;
@@ -348,6 +354,7 @@ function moverPot(e) {
   marca.style.transform = `translateX(-50%) rotate(${limitado}deg)`;
   audio.volume = (limitado + 120) / 240;
 }
+
 
 
 
