@@ -368,7 +368,7 @@ header {
   pointer-events: none;
 }
 
-@media (max-width: 700px) {
+@media (max-width: 500px) {
   .tocadiscos {
     width: 95vw;
     height: 95vw;
