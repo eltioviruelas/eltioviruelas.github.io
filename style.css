@@ -449,4 +449,9 @@ header {
 .toggle-contenido.oculto {
   display: none;
 }
+.portada.activa {
+  transform: scale(1.5) rotate(0deg) !important;
+  z-index: 10;
+  box-shadow: 0 0 20px #C88713;
+}
 
