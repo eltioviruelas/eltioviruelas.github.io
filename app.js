@@ -377,6 +377,14 @@ function moverPot(e) {
 }
 
 
+document.getElementById('toggle-letra').onclick = () => {
+  document.getElementById('letra-texto').classList.toggle('oculto');
+};
+
+document.getElementById('toggle-extra').onclick = () => {
+  document.getElementById('extra-texto').classList.toggle('oculto');
+};
+
 
 
 
