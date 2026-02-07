@@ -202,21 +202,24 @@ function cargarLetra(ruta) {
   fetch(ruta)
     .then(r => r.text())
     .then(t => {
-      // Si tiene timestamps tipo [00:00.00]
+      // Detectar karaoke
       if (t.match(/\[\d+:\d+/)) {
         subtitulos = parseLRC(t);
         subIndex = 0;
+        letraTexto.innerHTML = '';
       } else {
-        // Texto plano → mostrar todo
-        subtitulos = [];
+        // Texto plano
+        subtitulos = null;
         letraTexto.textContent = t;
       }
     });
 }
 
 
+
 audio.ontimeupdate = () => {
-  if (!subtitulos.length) return;
+if (!Array.isArray(subtitulos) || !subtitulos.length) return;
+
 
   const t = audio.currentTime;
 
@@ -354,6 +357,7 @@ function moverPot(e) {
   marca.style.transform = `translateX(-50%) rotate(${limitado}deg)`;
   audio.volume = (limitado + 120) / 240;
 }
+
 
 
 
