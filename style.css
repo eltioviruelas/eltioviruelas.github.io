@@ -351,7 +351,7 @@ header {
 }
 
 #spotify-player {
-  margin-top: -200px; /* lo acerca al plato */;
+  margin-top: -40px; /* lo acerca al plato */;
   width: 70%;
   max-width: 300px;
   margin: 15px auto;
