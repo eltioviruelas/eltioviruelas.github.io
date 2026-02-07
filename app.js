@@ -108,36 +108,36 @@ function reproducir(c) {
 
   // ===== SI TIENE SPOTIFY =====
   if (c.spotify) {
-    // Parar MP3
-    audio.pause();
-    audio.src = "";
+  pot.style.display = 'none';
 
-    // Mostrar Spotify
-    spotifyDiv.classList.remove("oculto");
-    spotifyDiv.innerHTML = `
-      <iframe
-        src="https://open.spotify.com/embed/track/${c.spotify}?utm_source=generator&theme=0"
-        width="100%" height="152" frameborder="0"
-        allow="autoplay; encrypted-media">
-      </iframe>
-    `;
+  audio.pause();
+  audio.src = "";
 
-    // Ocultar botón play/pause
-    playpause.style.display = "none";
+  spotifyDiv.innerHTML = `
+    <iframe 
+      src="https://open.spotify.com/embed/track/${c.spotify}?utm_source=generator&theme=0"
+      width="100%" height="80" frameborder="0"
+      allow="autoplay; encrypted-media">
+    </iframe>
+  `;
 
-    // Animación visual
-    vinilo.className = 'vinilo rapido';
-    wrapper.className = 'vinilo-wrapper rapido';
-    brazo.style.transform = 'rotate(-10deg)';
+  playpause.style.display = 'none';
 
-    return;
-  }
+  vinilo.className = 'vinilo rapido';
+  wrapper.className = 'vinilo-wrapper rapido';
+  brazo.style.transform = 'rotate(-10deg)';
+
+  return;
+}
+
 
   // ===== SI NO TIENE SPOTIFY (MP3 NORMAL) =====
   spotifyDiv.classList.add("oculto");
   spotifyDiv.innerHTML = "";
 
   playpause.style.display = "flex";
+pot.style.display = '';
+playpause.style.display = '';
 
   audio.src = c.audio;
   audio.onloadedmetadata = () => audio.play();
@@ -357,6 +357,7 @@ function moverPot(e) {
   marca.style.transform = `translateX(-50%) rotate(${limitado}deg)`;
   audio.volume = (limitado + 120) / 240;
 }
+
 
 
 
