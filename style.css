@@ -351,9 +351,10 @@ header {
 }
 
 #spotify-player {
-  width: 1px;
-  height: 1px;
-  opacity: 0.01;
-  overflow: hidden;
-  pointer-events: none;
+  width: 300px;
+  height: 80px;
+  margin: 10px auto;
+  opacity: 0.15;
+  pointer-events: auto;
 }
+
