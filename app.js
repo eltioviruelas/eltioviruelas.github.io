@@ -102,36 +102,30 @@ function reproducir(c) {
   // Cambiar galleta
   galleta.src = c.galleta;
 
-  // Cargar letra y extra
+  // Cargar letra y extra (aunque no sincronicen)
   cargarLetra(c.letra);
   cargarExtra(c.extra);
 
-  // Si la canción tiene Spotify → usar Spotify
+  // ===== SI TIENE SPOTIFY =====
   if (c.spotify) {
-    // Parar audio local
+    // Parar MP3
     audio.pause();
-if (c.spotify) {
-  audio.src = c.audio;   // PARA KARAOKE
-  audio.volume = 0;     // Silenciado
-  audio.play().catch(()=>{});
-  
-  // Mostrar Spotify
-};
+    audio.src = "";
 
-
-    // Inyectar Spotify
+    // Mostrar Spotify
+    spotifyDiv.classList.remove("oculto");
     spotifyDiv.innerHTML = `
-      <iframe 
+      <iframe
         src="https://open.spotify.com/embed/track/${c.spotify}?utm_source=generator&theme=0"
-        width="100%" 
-        height="80" 
-        frameborder="0"
+        width="100%" height="152" frameborder="0"
         allow="autoplay; encrypted-media">
       </iframe>
     `;
 
-    // Forzar animación visual del tocadiscos
-    playpause.textContent = '⏸';
+    // Ocultar botón play/pause
+    playpause.style.display = "none";
+
+    // Animación visual
     vinilo.className = 'vinilo rapido';
     wrapper.className = 'vinilo-wrapper rapido';
     brazo.style.transform = 'rotate(-10deg)';
@@ -139,16 +133,14 @@ if (c.spotify) {
     return;
   }
 
-  // Si NO tiene Spotify → usar MP3 normal
-spotifyDiv.innerHTML = "";
+  // ===== SI NO TIENE SPOTIFY (MP3 NORMAL) =====
+  spotifyDiv.classList.add("oculto");
+  spotifyDiv.innerHTML = "";
 
-audio.pause();
-audio.currentTime = 0;
-audio.src = c.audio;
+  playpause.style.display = "flex";
 
-audio.load();
-audio.onloadedmetadata = () => audio.play();
-
+  audio.src = c.audio;
+  audio.onloadedmetadata = () => audio.play();
 }
 
 
@@ -157,7 +149,11 @@ audio.onloadedmetadata = () => audio.play();
    PLAY / PAUSE
 ============================================ */
 playpause.onclick = () => {
-  const spotifyDiv = document.getElementById("spotify-player");
+
+   const spotifyDiv = document.getElementById("spotify-player");
+if (!spotifyDiv.classList.contains("oculto")) {
+  return; // Si hay Spotify, el botón no hace nada
+}
 
   // Si hay Spotify activo
   if (spotifyDiv.innerHTML.includes("spotify.com")) {
@@ -352,6 +348,7 @@ function moverPot(e) {
   marca.style.transform = `translateX(-50%) rotate(${limitado}deg)`;
   audio.volume = (limitado + 120) / 240;
 }
+
 
 
 
