@@ -133,9 +133,15 @@ function reproducir(c) {
   }
 
   // Si NO tiene Spotify → usar MP3 normal
-  spotifyDiv.innerHTML = "";
-  audio.src = c.audio;
-  audio.onloadedmetadata = () => audio.play();
+spotifyDiv.innerHTML = "";
+
+audio.pause();
+audio.currentTime = 0;
+audio.src = c.audio;
+
+audio.load();
+audio.onloadedmetadata = () => audio.play();
+
 }
 
 
@@ -339,6 +345,7 @@ function moverPot(e) {
   marca.style.transform = `translateX(-50%) rotate(${limitado}deg)`;
   audio.volume = (limitado + 120) / 240;
 }
+
 
 
 
