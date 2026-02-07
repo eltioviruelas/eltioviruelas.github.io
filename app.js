@@ -57,20 +57,38 @@ function crearBotones() {
     const b = document.createElement('button');
     b.className = 'volumen-btn';
     b.textContent = v.titulo;
+
+    b.onmouseenter = () => b.textContent = v.hover || v.titulo;
+    b.onmouseleave = () => {
+      if (!b.classList.contains('activo')) {
+        b.textContent = v.titulo;
+      }
+    };
+
     b.onclick = () => seleccionarVol(i);
     cont.appendChild(b);
   });
 }
 
+
 function seleccionarVol(i) {
   document.querySelectorAll('.volumen-btn')
-    .forEach((b, idx) => b.classList.toggle('activo', idx === i));
+    .forEach((b, idx) => {
+      const vol = data.volumenes[idx];
+      const activo = idx === i;
+
+      b.classList.toggle('activo', activo);
+      b.textContent = activo
+        ? (vol.activoTexto || vol.titulo)
+        : vol.titulo;
+    });
 
   mostrarPortadas(data.volumenes[i]);
 
   const base = data.volumenes[i].vu || 0;
   aguja.style.setProperty('--base-angle', base + 'deg');
 }
+
 
 /* ============================================
    PORTADAS
@@ -357,6 +375,7 @@ function moverPot(e) {
   marca.style.transform = `translateX(-50%) rotate(${limitado}deg)`;
   audio.volume = (limitado + 120) / 240;
 }
+
 
 
 
