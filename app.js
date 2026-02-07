@@ -185,7 +185,8 @@ audio.onpause = () => {
    SUBTÍTULOS (KARAOKE)
 ============================================ */
 function cargarLetra(ruta) {
-  const url = `https://raw.githubusercontent.com/eltioviruelas/eltioviruelas.github.io/main/${ruta}`;
+  const url = ruta;
+
   fetch(url)
     .then(r => r.text())
     .then(t => {
@@ -229,7 +230,8 @@ function parseLRC(texto) {
    EXTRA
 ============================================ */
 function cargarExtra(ruta) {
-  const url = `https://raw.githubusercontent.com/eltioviruelas/eltioviruelas.github.io/main/${ruta}`;
+  const url = ruta;
+
   fetch(url).then(r => r.text()).then(t => extraTexto.textContent = t);
 }
 
@@ -332,5 +334,6 @@ function moverPot(e) {
   marca.style.transform = `translateX(-50%) rotate(${limitado}deg)`;
   audio.volume = (limitado + 120) / 240;
 }
+
 
 
