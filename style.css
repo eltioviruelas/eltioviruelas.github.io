@@ -436,4 +436,17 @@ header {
 #potenciometro {
   display: none !important;
 }
+.toggle-btn {
+  background: transparent;
+  border: 1px solid #C88713;
+  color: #C88713;
+  font-family: 'Rock Salt', cursive;
+  padding: 4px 10px;
+  cursor: pointer;
+  margin-bottom: 6px;
+}
+
+.toggle-contenido.oculto {
+  display: none;
+}
 
