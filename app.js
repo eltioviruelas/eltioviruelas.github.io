@@ -101,10 +101,19 @@ function mostrarPortadas(vol) {
     const d = document.createElement('div');
     d.className = 'portada';
     d.innerHTML = `<img src="${c.galleta}" draggable="false">`;
-    d.onclick = () => reproducir(c);
+
+    d.onclick = () => {
+      document.querySelectorAll('.portada')
+        .forEach(x => x.classList.remove('activa'));
+
+      d.classList.add('activa');
+      reproducir(c);
+    };
+
     p.appendChild(d);
   });
 }
+
 
 /* ============================================
    REPRODUCIR CANCIÓN
@@ -384,6 +393,7 @@ document.getElementById('toggle-letra').onclick = () => {
 document.getElementById('toggle-extra').onclick = () => {
   document.getElementById('extra-texto').classList.toggle('oculto');
 };
+
 
 
 
