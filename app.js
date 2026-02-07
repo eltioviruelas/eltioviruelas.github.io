@@ -92,25 +92,80 @@ function mostrarPortadas(vol) {
    REPRODUCIR CANCIÓN
 ============================================ */
 function reproducir(c) {
-  audio.pause();
-  audio.currentTime = 0;
+  const spotifyDiv = document.getElementById("spotify-player");
+
+  // Reset letra y extra
   subtitulos = [];
   subIndex = 0;
   letraTexto.innerHTML = '';
 
-  audio.src = c.audio;
+  // Cambiar galleta
   galleta.src = c.galleta;
 
+  // Cargar letra y extra
   cargarLetra(c.letra);
   cargarExtra(c.extra);
+
+  // Si la canción tiene Spotify → usar Spotify
+  if (c.spotify) {
+    audio.pause();
+    audio.src = "";
+
+    spotifyDiv.innerHTML = `
+      <iframe 
+        src="https://open.spotify.com/embed/track/${c.spotify}?utm_source=generator&theme=0"
+        width="100%" height="80" frameborder="0"
+        allow="autoplay; encrypted-media">
+      </iframe>
+    `;
+
+    // Mantener animaciones del tocadiscos
+    playpause.textContent = '⏸';
+    vinilo.className = 'vinilo rapido';
+    wrapper.className = 'vinilo-wrapper rapido';
+    brazo.style.transform = 'rotate(-10deg)';
+
+    return;
+  }
+
+  // Si NO tiene Spotify → usar MP3 local
+  spotifyDiv.innerHTML = "";
+  audio.src = c.audio;
 
   audio.onloadedmetadata = () => audio.play();
 }
 
+
 /* ============================================
    PLAY / PAUSE
 ============================================ */
-playpause.onclick = () => audio.paused ? audio.play() : audio.pause();
+playpause.onclick = () => {
+  const spotifyDiv = document.getElementById("spotify-player");
+
+  // Si hay Spotify activo
+  if (spotifyDiv.innerHTML.includes("spotify.com")) {
+    // Solo alternamos animación visual
+    const isPlaying = vinilo.classList.contains("rapido");
+
+    if (isPlaying) {
+      playpause.textContent = '▶';
+      vinilo.className = 'vinilo lento';
+      wrapper.className = 'vinilo-wrapper lento';
+      brazo.style.transform = 'rotate(-35deg)';
+    } else {
+      playpause.textContent = '⏸';
+      vinilo.className = 'vinilo rapido';
+      wrapper.className = 'vinilo-wrapper rapido';
+      brazo.style.transform = 'rotate(-10deg)';
+    }
+
+    return;
+  }
+
+  // Si NO es Spotify → comportamiento normal
+  audio.paused ? audio.play() : audio.pause();
+};
+
 
 audio.onplay = () => {
   playpause.textContent = '⏸';
@@ -277,4 +332,5 @@ function moverPot(e) {
   marca.style.transform = `translateX(-50%) rotate(${limitado}deg)`;
   audio.volume = (limitado + 120) / 240;
 }
+
 
