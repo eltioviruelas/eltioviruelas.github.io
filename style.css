@@ -351,10 +351,20 @@ header {
 }
 
 #spotify-player {
-  width: 300px;
-  height: 80px;
-  margin: 10px auto;
-  opacity: 0.15;
+  width: 100%;
+  max-width: 500px;
+  margin: 15px auto;
+  opacity: 1;
   pointer-events: auto;
+  transition: opacity 0.3s ease;
 }
+
+#spotify-player.oculto {
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
 
