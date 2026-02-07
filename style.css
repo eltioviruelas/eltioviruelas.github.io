@@ -368,4 +368,24 @@ header {
   pointer-events: none;
 }
 
+@media (max-width: 700px) {
+  .tocadiscos {
+    width: 95vw;
+    height: 95vw;
+  }
+
+  .vinilo-wrapper {
+    width: 85vw;
+    height: 85vw;
+  }
+
+  .brazo {
+    right: 8vw;
+    width: 28vw;
+  }
+
+  #spotify-player {
+    max-width: 90vw;
+  }
+}
 
