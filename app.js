@@ -110,7 +110,14 @@ function reproducir(c) {
   if (c.spotify) {
     // Parar audio local
     audio.pause();
-    audio.src = "";
+if (c.spotify) {
+  audio.src = c.audio;   // PARA KARAOKE
+  audio.volume = 0;     // Silenciado
+  audio.play().catch(()=>{});
+  
+  // Mostrar Spotify
+};
+
 
     // Inyectar Spotify
     spotifyDiv.innerHTML = `
@@ -345,6 +352,7 @@ function moverPot(e) {
   marca.style.transform = `translateX(-50%) rotate(${limitado}deg)`;
   audio.volume = (limitado + 120) / 240;
 }
+
 
 
 
